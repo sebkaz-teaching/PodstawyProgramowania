@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website: 
-  title: Wstęp do kwantowego uczenia maszynowego
+  title: Podstawy Programowania
   sidebar:
     style: "docked" 
     contents:
@@ -11,22 +11,8 @@ website:
       - section : "Wykłady"
         contents:
           - lectures/wyklad1.qmd
-          - lectures/wyklad2.qmd
-          - lectures/wyklad3.qmd
-          - lectures/wyklad4.qmd
-      - section: "Ćwiczenia"
-        contents:
-          - cwiczenia/cw1.ipynb
-          - cwiczenia/cw2.ipynb
-          - cwiczenia/cw3.ipynb
-          - cwiczenia/cw4.ipynb
-          - cwiczenia/cw5.ipynb
-          - cwiczenia/ml.ipynb
-          - cwiczenia/titanic.ipynb
   navbar:
     left:
-          - href: sylabus.qmd
-            text: Sylabus
           - href: ksiazki.qmd
             text: Książki
           
