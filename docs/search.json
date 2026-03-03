@@ -12,89 +12,11 @@
     ]
   },
   {
-    "objectID": "lectures/wyklad1.html#polecana-literatura",
-    "href": "lectures/wyklad1.html#polecana-literatura",
-    "title": "Fundamenty i Logika Programowania",
-    "section": "",
-    "text": "Grębosz J.: Symfonia C++ Standard. Edition 2000, 2009.\nPrata S.: Szkoła programowania. Język C. Helion.\nHarris S., Ross J.: Algorytmy od podstaw. Helion.\nWróblewski P.: Algorytmy, struktury danych i techniki programowania. Helion.\nProgramowanie w C. Wikibooks. http://upload.wikimedia.org/wikibooks/pl/6/6a/C.pdf\nPyszczuk A.: Programowanie w języku C. http://www.arturpyszczuk.pl/files/c/pwc.pdf",
-    "crumbs": [
-      "Książki",
-      "Wykłady",
-      "Fundamenty i Logika Programowania"
-    ]
-  },
-  {
-    "objectID": "lectures/wyklad1.html#podstawowe-definicje",
-    "href": "lectures/wyklad1.html#podstawowe-definicje",
-    "title": "Fundamenty programowania",
-    "section": "Podstawowe definicje",
-    "text": "Podstawowe definicje\n\nAlgorytm - zbiór dobrze zdefiniowanych kroków prowadzących do wykonania pewnego zadania - w matematyce skończony ciąg jasno zdefiniowanych czynności, koniecznych do wykonania pewnego rodzaju zadań - skończony ciąg/sekwencja reguł, które aplikuje się na skończonej liczbie danych, pozwalający rozwiązywać zbliżone do siebie klasy problemów - zespół reguł charakterystycznych dla pewnych obliczeń lub czynności informatycznych\n\nAlgorytm ma przeprowadzić system z pewnego stanu początkowego do pożądanego stanu końcowego. Badaniem algorytmów zajmuje się algorytmika. Algorytm może zostać zaimplementowany w postaci programu komputerowego.\nRanking popularności języków programowania można znaleźć tutaj\n\nAsembler\nsection .data\n    msg db 'Hello, World!', 0xa\n    len equ $ - msg\n\nsection .text\n    global _start\n\n_start:\n    mov edx, len    ; długość wiadomości\n    mov ecx, msg    ; adres wiadomości\n    mov ebx, 1      ; deskryptor pliku (stdout)\n    mov eax, 4      ; numer wywołania systemowego (sys_write)\n    int 0x80        ; przerwanie - wywołanie jądra\n\n    mov eax, 1      ; numer wywołania systemowego (sys_exit)\n    int 0x80\n\n\nPascal\nprogram HelloWorld;\nbegin\n  writeln('Hello, World!');\nend.\n\n\nCOBOL\nIDENTIFICATION DIVISION.\nPROGRAM-ID. HELLO-WORLD.\nPROCEDURE DIVISION.\n    DISPLAY 'Hello, World!'.\n    ST\n\n\nFortran\nprogram hello\n  print *, \"Hello, World!\"\nend program hello\n\n\ngo\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello, World!\")\n}\n\n\nC++\n#include &lt;iostream&gt;\n\nint main() {\n    std::cout &lt;&lt; \"Hello, World!\" &lt;&lt; std::endl;\n    return 0;\n}\nProgram komputerowy to sekwencja symboli opisująca obliczenia zgodnie z pewnymi regułami zwanymi językiem programowania. Program jest zazwyczaj wykonywany przez komputer, czasami bezpośrednio:\n\njeśli wyrażony jest w języku zrozumiałym dla danej maszyny lub pośrednio\ngdy jest kompilowany lub interpretowany przez inny program.\nFormalne wyrażenie metody obliczeniowej w postaci języka zrozumiałego dla człowieka nazywane jest kodem źródłowym, podczas gdy program wyrażony w postaci zrozumiałej dla maszyny (to jest za pomocą ciągu zer i jedynek) nazywany jest kodem maszynowym bądź postacią binarną (wykonywalną). Kompilator tłumaczy kod źródłowy zapisany w danym języku programowania na kod maszynowy, dzięki czemu możliwe staje się jego późniejsze uruchomienie. Interpreter natomiast odczytuje kod źródłowy na bieżąco, analizuje go i wykonuje kolejne porcje przetłumaczonego kodu. Programy przeznaczone do interpretacji często nazywane są skryptami.\n\nProgramy komputerowe można zaklasyfikować według ich zastosowań.\nWyróżnia się: aplikacje użytkowe, systemy operacyjne, gry wideo, kompilatory i inne. W najprostszym modelu wykonanie programu polega na umieszczeniu go w pamięci operacyjnej komputera i wskazaniu procesorowi adresu pierwszej instrukcji. Po tych czynnościach procesor będzie wykonywał kolejne instrukcje programu, aż do jego zakończenia. Program może zakończyć się w dwojaki sposób: poprawnie lub błędnie. Program komputerowy będący w trakcie wykonania nazywany jest procesem lub zadaniem.\nProgram można podzielić na dwie części (obszary): - część kodu (składającą się z instrukcji sterujących działaniem procesora), - część danych (składającą się z danych wykorzystywanych i opracowywanych przez program, np. adresów pamięci, stałych liczbowych, komunikatów tekstowych).",
-    "crumbs": [
-      "Książki",
-      "Wykłady",
-      "Fundamenty programowania"
-    ]
-  },
-  {
-    "objectID": "ksiazki.html",
-    "href": "ksiazki.html",
-    "title": "Książki i strony WWW",
-    "section": "",
-    "text": "Chris Bernhardt, Obliczenia kwantowe dla każdego. PWN 2020\n\n\nWyjaśnienie jak to działa w obliczeniach kwantowych.\n\n\nMichel Le Bellac, Wstęp do informatyki kwantowej. PWN 2011\n\n\nTrudniejsza, dużo matematyki i fizyki.\n\n\nThomas G. Wong, Introduction to Classical and Quantum Computing. Rooted Grove 2022.\n\n\nBardzo dobra!, dużo przykładów, dużo ciekawych informacji wyjaśnianych bardzo szczegółowo.\n\n\nA. Jacquier, O. Kondratyev, Quantum Machine Learning and Optimisation in Finance. On the Road to Quantum Advantage.\nP. Gawron, M. Cholewa, … Rewolucja stanu. Fantastyczne wprowadzenie do informatyki kwantowej. Quantumz.io 2021\nA. Saxena, J. Mancilla, I. Montalban, C. Pere, Financial Modeling Using Quantum Computing. Packt 2023\nM. Schuld, F. Petruccione, Machine Learning with Quantum Computers, Springer 2021.\n\n\n\n\n\n\n\nL. Moroney, Sztuczna inteligencja i uczenie maszynowe dla programistów. Praktyczny przewodnik po sztucznej inteligencji. Helion 2021. Zobacz opis lub Kup e-book\nBruce, Bruce, Gedeck, Statystyka praktyczna w data science. Wydanie II. Helion. 2021."
-  },
-  {
-    "objectID": "ksiazki.html#książki",
-    "href": "ksiazki.html#książki",
-    "title": "Książki i strony WWW",
-    "section": "",
-    "text": "Chris Bernhardt, Obliczenia kwantowe dla każdego. PWN 2020\n\n\nWyjaśnienie jak to działa w obliczeniach kwantowych.\n\n\nMichel Le Bellac, Wstęp do informatyki kwantowej. PWN 2011\n\n\nTrudniejsza, dużo matematyki i fizyki.\n\n\nThomas G. Wong, Introduction to Classical and Quantum Computing. Rooted Grove 2022.\n\n\nBardzo dobra!, dużo przykładów, dużo ciekawych informacji wyjaśnianych bardzo szczegółowo.\n\n\nA. Jacquier, O. Kondratyev, Quantum Machine Learning and Optimisation in Finance. On the Road to Quantum Advantage.\nP. Gawron, M. Cholewa, … Rewolucja stanu. Fantastyczne wprowadzenie do informatyki kwantowej. Quantumz.io 2021\nA. Saxena, J. Mancilla, I. Montalban, C. Pere, Financial Modeling Using Quantum Computing. Packt 2023\nM. Schuld, F. Petruccione, Machine Learning with Quantum Computers, Springer 2021.\n\n\n\n\n\n\n\nL. Moroney, Sztuczna inteligencja i uczenie maszynowe dla programistów. Praktyczny przewodnik po sztucznej inteligencji. Helion 2021. Zobacz opis lub Kup e-book\nBruce, Bruce, Gedeck, Statystyka praktyczna w data science. Wydanie II. Helion. 2021."
-  },
-  {
-    "objectID": "ksiazki.html#strony-www",
-    "href": "ksiazki.html#strony-www",
-    "title": "Książki i strony WWW",
-    "section": "Strony WWW",
-    "text": "Strony WWW\n\nPeter Shor Wykład\n\n\nPakiety Python\n\nQiskit\nPennyLane\n\n\n\nPakiety Julia\n\nYao\nQAOA\n\n\n\nEdytory tekstu\n\nNotepad++\nSublime Text\nVisual Studio Code\n\n\n\nMarkdown\n\nMD\n\n\n\nFilmy\n\nWprowadzenie do obliczeń kwantowych\nQPoland, Bronze, Warsztaty z programowania komputerów kwantowych 2023"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Informacje ogólne",
-    "section": "",
-    "text": "Semestr letni 2025/2026,\nWAT\nCiekawe książki i strony internetowe zamieszczone zostały w zakładce książki. Jeśli chciał(a)byś coś dodać prześlij informację przez MS teams.",
-    "crumbs": [
-      "Książki",
-      "Informacje ogólne"
-    ]
-  },
-  {
-    "objectID": "index.html#section",
-    "href": "index.html#section",
-    "title": "Informacje ogólne",
-    "section": "",
-    "text": "Semestr letni 2025/2026,\nWAT\nCiekawe książki i strony internetowe zamieszczone zostały w zakładce książki. Jeśli chciał(a)byś coś dodać prześlij informację przez MS teams.",
-    "crumbs": [
-      "Książki",
-      "Informacje ogólne"
-    ]
-  },
-  {
-    "objectID": "index.html#kalendarz",
-    "href": "index.html#kalendarz",
-    "title": "Informacje ogólne",
-    "section": "Kalendarz",
-    "text": "Kalendarz\n\nWykład\n\n03.03.2026 Wykład 1 3.8 75\n04.03.2026 Wykład 2 315 S\n24.03.2026 Wykład 3 315 S\n01.04.2026 Wykład 4 3.8 75\n09.04.2026 Wykład 5 315 S",
-    "crumbs": [
-      "Książki",
-      "Informacje ogólne"
-    ]
-  },
-  {
     "objectID": "lectures/wyklad1.html#algorytm-przepis-na-rozwiązanie-problemu",
     "href": "lectures/wyklad1.html#algorytm-przepis-na-rozwiązanie-problemu",
     "title": "Fundamenty i Logika Programowania",
-    "section": "1. Algorytm: Przepis na rozwiązanie problemu",
-    "text": "1. Algorytm: Przepis na rozwiązanie problemu\nAlgorytm to precyzyjna instrukcja krok po kroku, jak wykonać konkretne zadanie. To abstrakcyjny pomysł, który istnieje zanim jeszcze dotkniemy klawiatury.\n\nKluczowe cechy algorytmu:\n\nSkończoność: Musi mieć wyraźny początek i koniec.\nJasność: Każdy krok musi być jednoznaczny dla wykonawcy.\nEfektywność: Powinien rozwiązywać problem w optymalny sposób.\n\n\n\nSposoby zapisu algorytmu:\n\nOpis słowny (naturalny język).\nPseudokod (uproszczony zapis przypominający kod).\nSchemat blokowy (wizualna prezentacja logiki).\n\n\nZbiór dobrze zdefiniowanych kroków prowadzących do wykonania pewniego zadania\nMatematycznie - skończony ciąg jasno zdefiniowanych czynności, konieczny do wykonania określonych zadań.\n\nAlgorytm przeprowadza stan początkowy do określonego stanu końcowego.\nBadaniem algorytmów zajmuje się algorytmika.",
+    "section": "Algorytm: Przepis na rozwiązanie problemu",
+    "text": "Algorytm: Przepis na rozwiązanie problemu\nAlgorytm to precyzyjna instrukcja krok po kroku, jak wykonać konkretne zadanie. To abstrakcyjny pomysł, który istnieje zanim jeszcze dotkniemy klawiatury.\n\nKluczowe cechy algorytmu:\n\nSkończoność: Musi mieć wyraźny początek i koniec.\nJasność: Każdy krok musi być jednoznaczny dla wykonawcy.\nEfektywność: Powinien rozwiązywać problem w optymalny sposób.\n\n\n\nSposoby zapisu algorytmu:\n\nOpis słowny (naturalny język).\nPseudokod (uproszczony zapis przypominający kod).\nSchemat blokowy (wizualna prezentacja logiki).\n\n\nZbiór dobrze zdefiniowanych kroków prowadzących do wykonania pewniego zadania\nMatematycznie - skończony ciąg jasno zdefiniowanych czynności, konieczny do wykonania określonych zadań.\n\n\nAlgorytm przeprowadza stan początkowy do określonego stanu końcowego.\n\nBadaniem algorytmów zajmuje się algorytmika.",
     "crumbs": [
       "Książki",
       "Wykłady",
@@ -105,8 +27,8 @@
     "objectID": "lectures/wyklad1.html#program-algorytm-wcielony-w-życie",
     "href": "lectures/wyklad1.html#program-algorytm-wcielony-w-życie",
     "title": "Fundamenty i Logika Programowania",
-    "section": "2. Program: Algorytm wcielony w życie",
-    "text": "2. Program: Algorytm wcielony w życie\nProgram to algorytm zapisany w języku programowania. Język ten stanowi pomost między ludzkim myśleniem a binarną logiką procesora.\n\nPoziomy abstrakcji języków:\n\nNiskopoziomowe (np. Assembler): Bliskie sprzętowi, trudne dla człowieka, dają pełną kontrolę.\nWysokopoziomowe (np. C++, Python, Java): Bardziej zrozumiałe dla ludzi, ukrywają techniczne detale sprzętu.\n\n#include &lt;stdio.h&gt; \nmain ()\n{\n    int a = 4;\n    int b = 2;\n    if (a&gt;=b)\n    printf(\"a większe lub równe\");\n    else \n        print(\"a mniejsze lub równe\");\n    return 0;\n}\nWięcej o aktualnie używanych językach znajdziesz tutaj\n\n\nJak kod staje się działaniem?\n\nKod źródłowy: Plik tekstowy napisany przez programistę.\nKompilator (C++): Tłumaczy cały kod na raz do pliku wykonywalnego (szybkość).\nInterpreter (Python): Czyta i wykonuje kod linijka po linijce (elastyczność).",
+    "section": "Program: Algorytm wcielony w życie",
+    "text": "Program: Algorytm wcielony w życie\nProgram to algorytm zapisany w języku programowania. Język ten stanowi pomost między ludzkim myśleniem a binarną logiką procesora.\n\nPoziomy abstrakcji języków:\n\nNiskopoziomowe (np. Assembler): Bliskie sprzętowi, trudne dla człowieka, dają pełną kontrolę.\nWysokopoziomowe (np. C++, Python, Java): Bardziej zrozumiałe dla ludzi, ukrywają techniczne detale sprzętu.\n\n#include &lt;stdio.h&gt; \nmain ()\n{\n    int a = 4;\n    int b = 2;\n    if (a&gt;=b)\n    printf(\"a większe lub równe\");\n    else \n        print(\"a mniejsze lub równe\");\n    return 0;\n}\nWięcej o aktualnie używanych językach znajdziesz tutaj\nAlgorytm wygodnie jest wyrażać za pomocą schematu blokowego. Pokazuje czynności, działania, instrukcej i wzajemne relacje.\n\n\n\n\nJak kod staje się działaniem?\n\nKod źródłowy: Plik tekstowy napisany przez programistę.\nKompilator (C++): Tłumaczy cały kod na raz do pliku wykonywalnego (szybkość).\nInterpreter (Python): Czyta i wykonuje kod linijka po linijce (elastyczność).",
     "crumbs": [
       "Książki",
       "Wykłady",
@@ -117,8 +39,20 @@
     "objectID": "lectures/wyklad1.html#paradygmaty-jak-myślimy-o-programie",
     "href": "lectures/wyklad1.html#paradygmaty-jak-myślimy-o-programie",
     "title": "Fundamenty i Logika Programowania",
-    "section": "3. Paradygmaty: Jak myślimy o programie?",
-    "text": "3. Paradygmaty: Jak myślimy o programie?\nTo, jak podchodzimy do pisania programu, zależy od wybranego paradygmatu: - Programowanie proceduralne: Skupiamy się na funkcjach i czynnościach (“zrób to, potem tamto”). - Programowanie obiektowe (OOP): Skupiamy się na “bytach” (obiektach), które mają swoje dane i potrafią wykonywać operacje. To będzie główny temat naszego kursu.",
+    "section": "Paradygmaty: Jak myślimy o programie?",
+    "text": "Paradygmaty: Jak myślimy o programie?\nTo, jak podchodzimy do pisania programu, zależy od wybranego paradygmatu:\n\nProgramowanie proceduralne: Skupiamy się na funkcjach i czynnościach (“zrób to, potem tamto”).\nProgramowanie obiektowe (OOP): Skupiamy się na “bytach” (obiektach), które mają swoje dane i potrafią wykonywać operacje. To będzie główny temat naszego kursu.\n\nOprócz klasycznego podziału na procedury i obiekty, wyróżniamy podejścia, które całkowicie zmieniają sposób pracy z danymi:\n\nProgramowanie funkcyjne\n\nZamiast wydawać komputerowi instrukcje krok po kroku (“zmień tę zmienną”), traktujemy program jak rozwiązywanie funkcji matematycznych.\nKluczowe cechy:\n\nImmutability (Niezmienność): Dane raz stworzone nie mogą być zmienione. Zamiast zmieniać listę, tworzymy nową, zmodyfikowaną.\nPure Functions (Czyste funkcje): Funkcja dla tych samych danych zawsze zwraca ten sam wynik i nie zmienia nic “na zewnątrz” (brak efektów ubocznych).\nFirst-class functions: Funkcje można przekazywać jako argumenty do innych funkcji (tak jak liczby).\n\nPrzykłady: Haskell, Lisp, Elixir (oraz nowoczesne dodatki w C++, Java czy JavaScript).",
+    "crumbs": [
+      "Książki",
+      "Wykłady",
+      "Fundamenty i Logika Programowania"
+    ]
+  },
+  {
+    "objectID": "lectures/wyklad1.html#programowanie-różniczkowalne-differentiable-programming-autograd",
+    "href": "lectures/wyklad1.html#programowanie-różniczkowalne-differentiable-programming-autograd",
+    "title": "Fundamenty i Logika Programowania",
+    "section": "Programowanie różniczkowalne (Differentiable Programming) & Autograd",
+    "text": "Programowanie różniczkowalne (Differentiable Programming) & Autograd\nTo nowoczesny paradygmat, który stał się fundamentem współczesnej Sztucznej Inteligencji (Deep Learning).\nCzym jest Autograd? To mechanizm automatycznego różniczkowania (Automatic Differentiation). Pozwala on programowi na automatyczne obliczanie pochodnych funkcji, które sami napisaliśmy. Dzięki temu algorytm może sam “nauczyć się”, jak poprawić swoje parametry, aby zminimalizować błąd (np. w sieciach neuronowych).\nLogika: Program nie tylko wykonuje operacje, ale potrafi śledzić, jak każda operacja wpłynęła na wynik końcowy, co pozwala na “cofnięcie się” i optymalizację (tzw. backpropagation).\nPrzykłady: Biblioteki takie jak PyTorch, Pennylane, TensorFlow, JAX.\n\nProgramowanie deklaratywne (Declarative)\nOpisujesz co chcesz uzyskać, a nie jak ma to zrobić komputer.\nProgramowanie Logiczne: Definiujesz fakty i relacje, a komputer wyciąga wnioski (np. Prolog).\n% FAKTY (Facts)\n% rodzic(Kto, Kogo).\nrodzic(jan, anna).\nrodzic(jan, marek).\nrodzic(anna, piotr).\nrodzic(marek, kasia).\n\n% REGUŁY (Rules)\n% X jest dziadkiem Y, JEŻELI X jest rodzicem Z, ORAZ Z jest rodzicem Y.\ndziadek(X, Y) :-\n    rodzic(X, Z),\n    rodzic(Z, Y).\n\n% X i Y są rodzeństwem, JEŻELI mają tego samego rodzica Z,\n% ORAZ X i Y to nie ta sama osoba.\nrodzenstwo(X, Y) :-\n    rodzic(Z, X),\n    rodzic(Z, Y),\n    X \\= Y.\nZapytania (SQL): Nie piszesz pętli przeszukującej bazę danych, tylko prosisz: “Daj mi wszystkich użytkowników z Warszawy”.\nSELECT * FROM users WHERE city=\"Warszawa\"",
     "crumbs": [
       "Książki",
       "Wykłady",
@@ -129,12 +63,76 @@
     "objectID": "lectures/wyklad1.html#anatomia-działającego-programu",
     "href": "lectures/wyklad1.html#anatomia-działającego-programu",
     "title": "Fundamenty i Logika Programowania",
-    "section": "4. Anatomia działającego programu",
-    "text": "4. Anatomia działającego programu\nGdy uruchamiasz program, system operacyjny tworzy proces. To “żyjąca” instancja Twojego kodu w pamięci RAM.\n\n\n\n\n\n\n\n\nObszar\nCo zawiera?\nRola w programie\n\n\n\n\nSegment Kodu\nInstrukcje procesora\n“Co mam zrobić?” (np. dodaj, skocz, porównaj)\n\n\nSegment Danych\nZmienne, stałe, teksty\n“Na czym mam to zrobić?” (np. liczby, imiona, adresy)\n\n\n\nMechanizm działania: Procesor pobiera instrukcję z segmentu kodu, pobiera potrzebne dane z segmentu danych, wykonuje operację i zapisuje wynik. Jeśli proces przebiega zgodnie z algorytmem, program kończy się sukcesem. Błąd w logice lub naruszenie dostępu do pamięci skutkuje błędem (bugiem).",
+    "section": "Anatomia działającego programu",
+    "text": "Anatomia działającego programu\nGdy uruchamiasz program, system operacyjny tworzy proces. To “żyjąca” instancja Twojego kodu w pamięci RAM.\n\n\n\n\n\n\n\n\nObszar\nCo zawiera?\nRola w programie\n\n\n\n\nSegment Kodu\nInstrukcje procesora\n“Co mam zrobić?” (np. dodaj, skocz, porównaj)\n\n\nSegment Danych\nZmienne, stałe, teksty\n“Na czym mam to zrobić?” (np. liczby, imiona, adresy)\n\n\n\nMechanizm działania:\nProcesor pobiera instrukcję z segmentu kodu, pobiera potrzebne dane z segmentu danych, wykonuje operację i zapisuje wynik. Jeśli proces przebiega zgodnie z algorytmem, program kończy się sukcesem. Błąd w logice lub naruszenie dostępu do pamięci skutkuje błędem (bugiem).\nProgram komputerowy to sekwencja symboli opisująca obliczenia zgodnie z pewnymi regułami zwanymi językiem programowania.\nProgram jest zazwyczaj wykonywany przez komputer, czasami bezpośrednio – jeśli wyrażony jest w języku zrozumiałym dla danej maszyny lub pośrednio – gdy jest kompilowany lub interpretowany przez inny program.\nFormalne wyrażenie metody obliczeniowej w postaci języka zrozumiałego dla człowieka nazywane jest kodem źródłowym, podczas gdy program wyrażony w postaci zrozumiałej dla maszyny (to jest za pomocą ciągu zer i jedynek) nazywany jest kodem maszynowym bądź postacią binarną (wykonywalną).\nKompilator tłumaczy kod źródłowy zapisany w danym języku programowania na kod maszynowy, dzięki czemu możliwe staje się jego późniejsze uruchomienie.\nInterpreter natomiast odczytuje kod źródłowy na bieżąco, analizuje go i wykonuje kolejne porcje przetłumaczonego kodu. Programy przeznaczone do interpretacji często nazywane są skryptami.\nProgramy komputerowe można zaklasyfikować według ich zastosowań: aplikacje użytkowe, systemy operacyjne, gry wideo, kompilatory i inne.\nW najprostszym modelu wykonanie programu polega na umieszczeniu go w pamięci operacyjnej komputera i wskazaniu procesorowi adresu pierwszej instrukcji. Po tych czynnościach procesor będzie wykonywał kolejne instrukcje programu, aż do jego zakończenia.\nProgram może zakończyć się w dwojaki sposób: poprawnie lub błędnie.\nProgram komputerowy będący w trakcie wykonania nazywany jest procesem lub zadaniem.\nProgram można podzielić na dwie części (obszary):\n\nczęść kodu (składającą się z instrukcji sterujących działaniem procesora),\nczęść danych (składającą się z danych wykorzystywanych i opracowywanych przez program, np. adresów pamięci, stałych liczbowych, komunikatów tekstowych).\n\nProgramowanie jest procesem tworzenia programów. Jest to cykliczny proces polegający na:\n\nedycji kodu źródłowego (implementacja),\nuruchamianiu programu (kompilacja),\nanalizie działania,\npowrocie do edycji kodu źródłowego w celu poprawienia błędów lub dalszego posze- rania funkcjonalności.\n\nPrzed przystąpieniem do programowania należy określić cel programu i zaprojektować program (tu przydają się schematy blokowe). Kod źródłowy zapisuje się w pliku tekstowym (w języku C plik taki ma rozszerzenie .c lub .cpp)",
     "crumbs": [
       "Książki",
       "Wykłady",
       "Fundamenty i Logika Programowania"
     ]
+  },
+  {
+    "objectID": "lectures/wyklad1.html#proces-kompilacji",
+    "href": "lectures/wyklad1.html#proces-kompilacji",
+    "title": "Fundamenty i Logika Programowania",
+    "section": "Proces kompilacji",
+    "text": "Proces kompilacji\nKompilator to nic innego jak tłumacz. Jego zadaniem jest automatyczne przełożenie kodu napisanego w języku wysokiego poziomu (np. C++ czy Pascal), który rozumie człowiek, na język maszynowy, który rozumie procesor komputera. Ten cały proces nazywamy kompilacją.\nProces ten składa się z dwóch głównych etapów:\n\nAnaliza: Kompilator “czyta” Twój kod, sprawdza, czy jest on poprawnie napisany (nie ma błędów składniowych) i rozbija go na podstawowe, logiczne części, tworząc “wstępny plan” programu (reprezentację pośrednią).\nSynteza: Na podstawie tego “planu” kompilator buduje końcowy program, dostosowując go do konkretnego rodzaju procesora.\n\nZanim jednak program będzie gotowy do uruchomienia, do pracy włączają się inne ważne programy:\n\nPreprocesor: To “program przed programem”. Działa jeszcze przed właściwym kompilatorem. Jeśli Twój kod jest podzielony na kilka plików, preprocesor zbiera je w jedną całość. Zajmuje się też rozwijaniem tzw. makr, czyli skrótów, które programista napisał, zamieniając je na pełny kod języka źródłowego.\nAsembler: Często kompilator nie tłumaczy kodu źródłowego bezpośrednio na kod maszynowy, ale na język asemblera (język niskiego poziomu, który jest bardzo blisko sprzętu). Wtedy potrzebny jest program zwany asemblerem, który ostatecznie zamienia ten kod na czysty kod maszynowy.\nLinker (Program Łączący): To ostatni etap. Sam kod maszynowy Twojego programu rzadko wystarcza. Twój program często korzysta z gotowych funkcji bibliotecznych (np. do wyświetlania tekstu). Linker łączy kod maszynowy Twojego programu z tymi funkcjami w jeden, gotowy do uruchomienia plik wykonywalny (np. .exe).\n\nKompilatory, które produkują kod w asemblerze, przekazywany dalej do asemblera (jako programu), nazywane są kompilatorami pośrednimi.\nKod asemblera jest mnemonicznym zapisem kodu maszynowego, w którym używa się nazw zamiast binarnych kodów operacji i adresów pamięci. Typowa sekwencja rozkazów w asemblerze może mieć postać (jest to zapis instrukcji b = a + 2;): w asemblerze:\nMOV a, R1\nADD #2, R1\nMOV R1, b\nw kodzie maszynowym:\n(np.: „0001 01 00 00000000”)\n(np.: „0011 01 10 00000010”)\n(np.: „0010 01 00 00000100”)\n\nAnaliza programu źródłowego\nAnaliza kodu: Jak kompilator czyta Twój program?\nProces analizy to rozbieranie Twojego kodu na czynniki pierwsze. Dzieli się na trzy główne fazy:\n\nAnaliza Leksykalna (Skanowanie / “Dzielenie na słowa”)\n\nKompilator czyta Twój kod znak po znaku (od lewej do prawej) i łączy je w najmniejsze, sensowne “słowa” – nazywamy je tokenami (lub symbolami leksykalnymi). Zbędne spacje i entery są po prostu ignorowane i wyrzucane. Program wykonujący tę pracę to lekser (lub skaner).\nPrzykład:\nMamy instrukcję: pozycja := poczatek + tempo * 60\nLekser potnie ją na następujące klocki (tokeny):\nZmienna (identyfikator): pozycja\nZnak przypisania: :=\nZmienna: poczatek\nZnak plusa: +\nZmienna: tempo\nZnak mnożenia: *\nLiczba: 60\n\nAnaliza Składniowa (Syntaktyczna / “Sprawdzanie gramatyki”)\n\nSkoro kompilator ma już pojedyncze “słowa”, musi sprawdzić, czy ułożono je w poprawne “zdanie” zgodnie z regułami danego języka programowania. Z tych rozsypanych klocków buduje hierarchiczną strukturę, pokazującą relacje między nimi. Efektem tej pracy jest najczęściej tzw. drzewo składniowe (Abstract Syntax Tree - AST).\nDlaczego drzewo? Dzięki niemu kompilator wie, w jakiej kolejności wykonywać działania. Drzewo pokaże mu, że mnożenie (tempo * 60) jest zagnieżdżone głębiej i musi zostać wykonane przed dodaniem wyniku do zmiennej poczatek.\n\nAnaliza Semantyczna (“Sprawdzanie logiki i sensu”)\n\nZdanie może być poprawne gramatycznie, ale nie mieć żadnego sensu (np. “Kwadratowy dźwięk zjadł kolor”). Analiza semantyczna sprawdza, czy kod ma sens z punktu widzenia logiki programowania.\nKorzystając z drzewa zbudowanego w poprzednim kroku, kompilator wyszukuje błędy logiczne. Jego najważniejszym zadaniem tutaj jest kontrola typów.\nSprawdza np., czy nie próbujesz pomnożyć tekstu (“Jan Kowalski”) przez liczbę (60).\nUpewnia się, czy zmienne, których używasz, zostały wcześniej prawidłowo zadeklarowane.\nJeśli kod przejdzie pomyślnie przez te trzy filtry, kompilator “rozumie” już wszystko i może przejść do kolejnego wielkiego etapu – syntezy (czyli generowania faktycznego kodu maszynowego).\n\n\nFaza kompilatora\nKompilator to nie jest jeden wielki, niepodzielny program, ale raczej linia montażowa w fabryce. Kod przechodzi przez kolejne stanowiska:\nSkaner (Lekser): Pracownik od “wyłapywania słów”. Ignoruje spacje, entery i komentarze. Dzieli Twój tekst na najmniejsze elementy (tokeny), np. wyłapuje, że int to typ danych, a + to operator.\nParser (Analizator składniowy): Pracownik od gramatyki. Bierze słowa od skanera i układa z nich poprawne “zdania” (buduje wspomniane wcześniej drzewo składniowe). Sprawdza, czy nie zapomniałeś średnika na końcu linii.\nGenerator: Tłumacz właściwy. Bierze sprawdzone i poukładane klocki z poprzednich etapów i zamienia je na kod docelowy (często kod maszynowy lub asembler).\nOptymalizator: Redaktor, który “odchudza” program. Zmienia kod tak, aby komputer wykonywał go szybciej lub zużywał mniej pamięci RAM, nie zmieniając przy tym wyniku jego działania (np. usuwa kod, który i tak nigdy się nie wykona).\nKonsolidator (Linker): Introligator. Twój program rzadko jest jednym plikiem. Linker bierze wszystkie skompilowane kawałki (Twój kod + gotowe biblioteki, np. do wyświetlania grafiki) i skleja je w jeden ostateczny, działający plik wykonywalny (np. .exe).\n\nTablica symboli: “Notatnik kompilatora”\nKompilator podczas swojej pracy używa Tablicy symboli. Wyobraź to sobie jako notatnik lub książkę adresową, którą kompilator trzyma na biurku.\nGdy tylko w kodzie zadeklarujesz nową zmienną (np. int liczba_studentow;), kompilator zapisuje w notatniku:\nNazwa: liczba_studentow\nTyp: liczba całkowita (int)\nIle zajmuje miejsca: 4 bajty\nDzięki temu, gdy w kolejnych linijkach kodu użyjesz słowa liczba_studentow, kompilator szybko zagląda do notatnika i już wie, o czym mowa.\n\n\nKlasyfikacja błędów: Co może pójść nie tak?\n\nBłędy Leksykalne (Literówki w słowach kluczowych): Napisanie whille zamiast while, albo użycie nieznanego znaczka np. $. Skaner patrzy na to i mówi: “Nie znam takiego słowa”.\nBłędy Składniowe (Zła interpunkcja i gramatyka): Np. brakujący średnik ; na końcu instrukcji, albo zapomnienie o zamknięciu nawiasu (a + b. Parser krzyczy: “Zdanie nie jest dokończone!”.\nBłędy Semantyczne (Brak logiki typów): Składnia jest poprawna, ale operacja nie ma sensu w świecie programowania. Np. próba pomnożenia tekstu przez liczbę: \"Kasia\" * 5. Kompilator wie, że to bez sensu.\n\nBłędy Logiczne (Najgorszy koszmar programisty): Program kompiluje się bez ani jednego błędu, ale robi coś innego, niż chciałeś. Np. kazałeś mu szukać największej liczby, a on znajduje najmniejszą, albo wchodzi w tzw. nieskończoną pętlę i zawiesza komputer. Kompilator tych błędów nie wykryje, bo dla niego kod jest poprawny – komputer robi to, co mu kazałeś, a nie to, co miałeś na myśli. Tutaj właśnie na ratunek wkracza wspomniany wcześniej debugger.",
+    "crumbs": [
+      "Książki",
+      "Wykłady",
+      "Fundamenty i Logika Programowania"
+    ]
+  },
+  {
+    "objectID": "lectures/wyklad1.html#fazy-analizy-co-dzieje-się-pod-maską",
+    "href": "lectures/wyklad1.html#fazy-analizy-co-dzieje-się-pod-maską",
+    "title": "Fundamenty i Logika Programowania",
+    "section": "Fazy analizy – co dzieje się pod maską?",
+    "text": "Fazy analizy – co dzieje się pod maską?\nPodczas całego procesu translacji, Twój program nieustannie zmienia swoją postać. Zwykły tekst powoli staje się strukturą zrozumiałą dla maszyny.\nGłębsze spojrzenie na analizę leksykalną (Leksemy i Wartości):\n\nSkaner grupuje znaki w logiczne ciągi zwane leksemami. Niektóre z nich są wzbogacane o tzw. wartość leksykalną. Wyobraź sobie, że skaner napotyka słowo tempo. Zamiast pchać całe to słowo dalej, generuje krótki symbol, np. id (od identyfikatora), a samo słowo tempo zapisuje w naszej Tablicy Symboli (notatniku). Od tego momentu wartość leksykalna symbolu id to po prostu wskaźnik mówiący: “hej, szczegóły tej zmiennej znajdziesz w notatniku na stronie X”. To ogromna oszczędność pamięci.\n\n\nStruktura Węzłów:\nGdy parser buduje hierarchiczne drzewo składniowe z symboli podesłanych przez skaner, używa do tego rekordów:\n\nWęzły wewnętrzne (Gałęzie): Mają pole z operatorem (np. + lub *) oraz wskaźniki (ramiona) prowadzące do lewego i prawego “potomka” (czyli elementów, na których wykonujemy operację).\nLiście (Końcówki drzewa): Zawierają konkretne symbole leksykalne (np. liczby lub wskaźniki do Tablicy Symboli).\n\n\n\nGeneracja kodu pośredniego (Język uniwersalny)\nGdy kompilator skończy analizę i wie, że kod jest poprawny, nie rzuca się od razu do pisania czystego kodu maszynowego. Najpierw tworzy “brudnopis” – kod pośredni. Jest to uniwersalny kod dla wymyślonej, abstrakcyjnej maszyny. Łatwo go wygenerować z drzewa składniowego i równie łatwo przetłumaczyć później na język konkretnego procesora (np. Intela czy ARM).\nNajpopularniejszym formatem jest kod trójadresowy. Przypomina on prosty asembler, ale obowiązują w nim rygorystyczne zasady:\nKompilator sam musi tworzyć tymczasowe zmienne (zaczynające się np. od temp), aby zapamiętywać kroki pośrednie.\n\n\nOptymalizacja kodu (Odchudzanie programu)\nTen etap to czas dla “redaktora”. Jego zadaniem jest poprawienie brudnopisu (kodu pośredniego), aby gotowy program działał szybciej lub zajmował mniej miejsca, nie zmieniając oczywiście jego ostatecznego wyniku działania.\nSpójrzmy na poprzedni przykład kodu trójadresowego. Sprytny optymalizator zauważy, że liczba 60 jest stała i możemy pominąć jej konwersję w trakcie działania programu. Skróci więc cztery linijki do zaledwie dwóch!\n\n\nGeneracja kodu maszynowego\nTo ostatni przystanek. Zoptymalizowany brudnopis (kod pośredni) jest ostatecznie tłumaczony na przemieszczalny kod maszynowy (lub kod asemblera) dla konkretnego procesora. To tutaj dzieje się “fizyczna” magia:\n\nKażdej zmiennej z Tablicy Symboli zostaje przypisany konkretny adres w pamięci RAM.\nZmienne najczęściej używane są “promowane” i trafiają do najszybszej pamięci w komputerze – rejestrów procesora.",
+    "crumbs": [
+      "Książki",
+      "Wykłady",
+      "Fundamenty i Logika Programowania"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Informacje ogólne",
+    "section": "",
+    "text": "Semestr letni 2026,\nWAT\nCiekawe książki i strony internetowe zamieszczone zostały w zakładce książki. Jeśli chciał(a)byś coś dodać prześlij informację przez MS teams.",
+    "crumbs": [
+      "Książki",
+      "Informacje ogólne"
+    ]
+  },
+  {
+    "objectID": "index.html#section",
+    "href": "index.html#section",
+    "title": "Informacje ogólne",
+    "section": "",
+    "text": "Semestr letni 2026,\nWAT\nCiekawe książki i strony internetowe zamieszczone zostały w zakładce książki. Jeśli chciał(a)byś coś dodać prześlij informację przez MS teams.",
+    "crumbs": [
+      "Książki",
+      "Informacje ogólne"
+    ]
+  },
+  {
+    "objectID": "index.html#kalendarz",
+    "href": "index.html#kalendarz",
+    "title": "Informacje ogólne",
+    "section": "Kalendarz",
+    "text": "Kalendarz\n\nWykład\n\n03.03.2026 Wykład 1 3.8 75\n04.03.2026 Wykład 2 315 S\n24.03.2026 Wykład 3 315 S\n25.03.2026 Wykład 4 315 S\n01.04.2026 Wykład 4 3.8 75",
+    "crumbs": [
+      "Książki",
+      "Informacje ogólne"
+    ]
+  },
+  {
+    "objectID": "ksiazki.html",
+    "href": "ksiazki.html",
+    "title": "Książki",
+    "section": "",
+    "text": "Grębosz J.: Symfonia C++ Standard. Edition 2000, 2009.\nPrata S.: Szkoła programowania. Język C. Helion.\nHarris S., Ross J.: Algorytmy od podstaw. Helion.\nWróblewski P.: Algorytmy, struktury danych i techniki programowania. Helion.\nProgramowanie w C. Wikibooks. http://upload.wikimedia.org/wikibooks/pl/6/6a/C.pdf\nPyszczuk A.: Programowanie w języku C. http://www.arturpyszczuk.pl/files/c/pwc.pdf"
   }
 ]

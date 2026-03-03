@@ -10,7 +10,8 @@ website:
       - index.qmd
       - section : "Wykłady"
         contents:
-          - lectures/wyklad1.qmd
+          - lectures/wyklad1.md
+          - lectures/wyklad2.md
   navbar:
     left:
           - href: ksiazki.qmd
