@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>wyklad2 – Podstawy Programowania</title>
+<title>Kompilacja kodu – Podstawy Programowania</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad2.html">wyklad2.html</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad2.html">Kompilacja kodu</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -141,7 +141,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/wyklad2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">wyklad2.html</span></a>
+ <span class="menu-text">Kompilacja kodu</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reprezentacja informacji i wstęp do architektury komputerów</span></a>
   </div>
 </li>
       </ul>
@@ -151,17 +157,168 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#proces-kompilacji" id="toc-proces-kompilacji" class="nav-link active" data-scroll-target="#proces-kompilacji">Proces kompilacji</a>
+  <ul class="collapse">
+  <li><a href="#analiza-programu-źródłowego" id="toc-analiza-programu-źródłowego" class="nav-link" data-scroll-target="#analiza-programu-źródłowego">Analiza programu źródłowego</a></li>
+  <li><a href="#faza-kompilatora" id="toc-faza-kompilatora" class="nav-link" data-scroll-target="#faza-kompilatora">Faza kompilatora</a></li>
+  </ul></li>
+  <li><a href="#fazy-analizy-co-dzieje-się-pod-maską" id="toc-fazy-analizy-co-dzieje-się-pod-maską" class="nav-link" data-scroll-target="#fazy-analizy-co-dzieje-się-pod-maską">Fazy analizy – co dzieje się pod maską?</a>
+  <ul class="collapse">
+  <li><a href="#struktura-węzłów" id="toc-struktura-węzłów" class="nav-link" data-scroll-target="#struktura-węzłów">Struktura Węzłów:</a></li>
+  <li><a href="#generacja-kodu-pośredniego-język-uniwersalny" id="toc-generacja-kodu-pośredniego-język-uniwersalny" class="nav-link" data-scroll-target="#generacja-kodu-pośredniego-język-uniwersalny">Generacja kodu pośredniego (Język uniwersalny)</a></li>
+  <li><a href="#optymalizacja-kodu-odchudzanie-programu" id="toc-optymalizacja-kodu-odchudzanie-programu" class="nav-link" data-scroll-target="#optymalizacja-kodu-odchudzanie-programu">Optymalizacja kodu (Odchudzanie programu)</a></li>
+  <li><a href="#generacja-kodu-maszynowego" id="toc-generacja-kodu-maszynowego" class="nav-link" data-scroll-target="#generacja-kodu-maszynowego">Generacja kodu maszynowego</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad2.html">wyklad2.html</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad2.html">Kompilacja kodu</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Kompilacja kodu</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="proces-kompilacji" class="level2">
+<h2 class="anchored" data-anchor-id="proces-kompilacji">Proces kompilacji</h2>
+<p><strong>Kompilator</strong> to nic innego jak tłumacz. Jego zadaniem jest automatyczne przełożenie kodu napisanego w języku wysokiego poziomu (np. C++ czy Pascal), który rozumie człowiek, na język maszynowy, który rozumie procesor komputera. Ten cały proces nazywamy <strong>kompilacją</strong>.</p>
+<p>Proces ten składa się z dwóch głównych etapów:</p>
+<ol type="1">
+<li><strong>Analiza</strong>: Kompilator “czyta” Twój kod, sprawdza, czy jest on poprawnie napisany (nie ma błędów składniowych) i rozbija go na podstawowe, logiczne części, tworząc “wstępny plan” programu (reprezentację pośrednią).</li>
+<li><strong>Synteza</strong>: Na podstawie tego “planu” kompilator buduje końcowy program, dostosowując go do konkretnego rodzaju procesora.</li>
+</ol>
+<p>Zanim jednak program będzie gotowy do uruchomienia, do pracy włączają się inne ważne programy:</p>
+<ol type="1">
+<li><strong>Preprocesor</strong>: To “program przed programem”. Działa jeszcze przed właściwym kompilatorem. Jeśli Twój kod jest podzielony na kilka plików, preprocesor zbiera je w jedną całość. Zajmuje się też rozwijaniem tzw. makr, czyli skrótów, które programista napisał, zamieniając je na pełny kod języka źródłowego.</li>
+<li><strong>Asembler</strong>: Często kompilator nie tłumaczy kodu źródłowego bezpośrednio na kod maszynowy, ale na język asemblera (język niskiego poziomu, który jest bardzo blisko sprzętu). Wtedy potrzebny jest program zwany asemblerem, który ostatecznie zamienia ten kod na czysty kod maszynowy.</li>
+<li><strong>Linker</strong> (Program Łączący): To ostatni etap. Sam kod maszynowy Twojego programu rzadko wystarcza. Twój program często korzysta z gotowych funkcji bibliotecznych (np. do wyświetlania tekstu). Linker łączy kod maszynowy Twojego programu z tymi funkcjami w jeden, gotowy do uruchomienia plik wykonywalny (np. .exe).</li>
+</ol>
+<p>Kompilatory, które produkują kod w asemblerze, przekazywany dalej do asemblera (jako programu), nazywane są kompilatorami pośrednimi.</p>
+<p>Kod asemblera jest mnemonicznym zapisem kodu maszynowego, w którym używa się nazw zamiast binarnych kodów operacji i adresów pamięci. Typowa sekwencja rozkazów w asemblerze może mieć postać (jest to zapis instrukcji b = a + 2;): w asemblerze:</p>
+<pre><code>MOV a, R1
+ADD #2, R1
+MOV R1, b</code></pre>
+<p>w kodzie maszynowym:</p>
+<pre><code>(np.: „0001 01 00 00000000”)
+(np.: „0011 01 10 00000010”)
+(np.: „0010 01 00 00000100”)</code></pre>
+<section id="analiza-programu-źródłowego" class="level3">
+<h3 class="anchored" data-anchor-id="analiza-programu-źródłowego">Analiza programu źródłowego</h3>
+<p>Analiza kodu: Jak kompilator czyta Twój program?</p>
+<p>Proces analizy to rozbieranie Twojego kodu na czynniki pierwsze. Dzieli się na trzy główne fazy:</p>
+<ol type="1">
+<li>Analiza Leksykalna (Skanowanie / “Dzielenie na słowa”)</li>
+</ol>
+<p>Kompilator czyta Twój kod znak po znaku (od lewej do prawej) i łączy je w najmniejsze, sensowne “słowa” – nazywamy je tokenami (lub symbolami leksykalnymi). Zbędne spacje i entery są po prostu ignorowane i wyrzucane. Program wykonujący tę pracę to lekser (lub skaner).</p>
+<p>Przykład:</p>
+<p>Mamy instrukcję: <code>pozycja := poczatek + tempo * 60</code></p>
+<p>Lekser potnie ją na następujące klocki (tokeny):</p>
+<p>Zmienna (identyfikator): <code>pozycja</code></p>
+<p>Znak przypisania: <code>:=</code></p>
+<p>Zmienna: <code>poczatek</code></p>
+<p>Znak plusa: <code>+</code></p>
+<p>Zmienna: <code>tempo</code></p>
+<p>Znak mnożenia: <code>*</code></p>
+<p>Liczba: <code>60</code></p>
+<ol start="2" type="1">
+<li>Analiza Składniowa (Syntaktyczna / “Sprawdzanie gramatyki”)</li>
+</ol>
+<p>Skoro kompilator ma już pojedyncze “słowa”, musi sprawdzić, czy ułożono je w poprawne “zdanie” zgodnie z regułami danego języka programowania. Z tych rozsypanych klocków buduje hierarchiczną strukturę, pokazującą relacje między nimi. Efektem tej pracy jest najczęściej tzw. <strong>drzewo składniowe</strong> (Abstract Syntax Tree - AST).</p>
+<p>Dlaczego drzewo? Dzięki niemu kompilator wie, w jakiej kolejności wykonywać działania. Drzewo pokaże mu, że mnożenie (tempo * 60) jest zagnieżdżone głębiej i musi zostać wykonane przed dodaniem wyniku do zmiennej poczatek.</p>
+<ol start="3" type="1">
+<li>Analiza Semantyczna (“Sprawdzanie logiki i sensu”)</li>
+</ol>
+<p>Zdanie może być poprawne gramatycznie, ale nie mieć żadnego sensu (np. “Kwadratowy dźwięk zjadł kolor”). Analiza semantyczna sprawdza, czy kod ma sens z punktu widzenia logiki programowania.</p>
+<p>Korzystając z drzewa zbudowanego w poprzednim kroku, kompilator wyszukuje błędy logiczne. Jego najważniejszym zadaniem tutaj jest kontrola typów.</p>
+<p>Sprawdza np., czy nie próbujesz pomnożyć tekstu (“Jan Kowalski”) przez liczbę (60).</p>
+<p>Upewnia się, czy zmienne, których używasz, zostały wcześniej prawidłowo zadeklarowane.</p>
+<p>Jeśli kod przejdzie pomyślnie przez te trzy filtry, kompilator “rozumie” już wszystko i może przejść do kolejnego wielkiego etapu – syntezy (czyli generowania faktycznego kodu maszynowego).</p>
+</section>
+<section id="faza-kompilatora" class="level3">
+<h3 class="anchored" data-anchor-id="faza-kompilatora">Faza kompilatora</h3>
+<p>Kompilator to nie jest jeden wielki, niepodzielny program, ale raczej linia montażowa w fabryce. Kod przechodzi przez kolejne stanowiska:</p>
+<p><strong>Skaner</strong> (Lekser): Pracownik od “wyłapywania słów”. Ignoruje spacje, entery i komentarze. Dzieli Twój tekst na najmniejsze elementy (tokeny), np. wyłapuje, że int to typ danych, a + to operator.</p>
+<p><strong>Parser</strong> (Analizator składniowy): Pracownik od gramatyki. Bierze słowa od skanera i układa z nich poprawne “zdania” (buduje wspomniane wcześniej drzewo składniowe). Sprawdza, czy nie zapomniałeś średnika na końcu linii.</p>
+<p><strong>Generator</strong>: Tłumacz właściwy. Bierze sprawdzone i poukładane klocki z poprzednich etapów i zamienia je na kod docelowy (często kod maszynowy lub asembler).</p>
+<p><strong>Optymalizator</strong>: Redaktor, który “odchudza” program. Zmienia kod tak, aby komputer wykonywał go szybciej lub zużywał mniej pamięci RAM, nie zmieniając przy tym wyniku jego działania (np. usuwa kod, który i tak nigdy się nie wykona).</p>
+<p><strong>Konsolidator</strong> (Linker): Introligator. Twój program rzadko jest jednym plikiem. Linker bierze wszystkie skompilowane kawałki (Twój kod + gotowe biblioteki, np. do wyświetlania grafiki) i skleja je w jeden ostateczny, działający plik wykonywalny (np. .exe).</p>
+<section id="tablica-symboli-notatnik-kompilatora" class="level4">
+<h4 class="anchored" data-anchor-id="tablica-symboli-notatnik-kompilatora">Tablica symboli: “Notatnik kompilatora”</h4>
+<p>Kompilator podczas swojej pracy używa Tablicy symboli. Wyobraź to sobie jako notatnik lub książkę adresową, którą kompilator trzyma na biurku.</p>
+<p>Gdy tylko w kodzie zadeklarujesz nową zmienną (np. int liczba_studentow;), kompilator zapisuje w notatniku:</p>
+<p>Nazwa: liczba_studentow</p>
+<p>Typ: liczba całkowita (int)</p>
+<p>Ile zajmuje miejsca: 4 bajty</p>
+<p>Dzięki temu, gdy w kolejnych linijkach kodu użyjesz słowa liczba_studentow, kompilator szybko zagląda do notatnika i już wie, o czym mowa.</p>
+</section>
+<section id="klasyfikacja-błędów-co-może-pójść-nie-tak" class="level4">
+<h4 class="anchored" data-anchor-id="klasyfikacja-błędów-co-może-pójść-nie-tak">Klasyfikacja błędów: Co może pójść nie tak?</h4>
+<ol type="1">
+<li><p><strong>Błędy Leksykalne</strong> (Literówki w słowach kluczowych): Napisanie whille zamiast while, albo użycie nieznanego znaczka np. $. Skaner patrzy na to i mówi: “Nie znam takiego słowa”.</p></li>
+<li><p><strong>Błędy Składniowe</strong> (Zła interpunkcja i gramatyka): Np. brakujący średnik ; na końcu instrukcji, albo zapomnienie o zamknięciu nawiasu <code>(a + b</code>. Parser krzyczy: “Zdanie nie jest dokończone!”.</p></li>
+<li><p><strong>Błędy Semantyczne</strong> (Brak logiki typów): Składnia jest poprawna, ale operacja nie ma sensu w świecie programowania. Np. próba pomnożenia tekstu przez liczbę: <code>"Kasia" * 5</code>. Kompilator wie, że to bez sensu.</p></li>
+</ol>
+<p><strong>Błędy Logiczne</strong> (Najgorszy koszmar programisty): Program kompiluje się bez ani jednego błędu, ale robi coś innego, niż chciałeś. Np. kazałeś mu szukać największej liczby, a on znajduje najmniejszą, albo wchodzi w tzw. nieskończoną pętlę i zawiesza komputer. Kompilator tych błędów nie wykryje, bo dla niego kod jest poprawny – komputer robi to, co mu kazałeś, a nie to, co miałeś na myśli. Tutaj właśnie na ratunek wkracza wspomniany wcześniej debugger.</p>
+</section>
+</section>
+</section>
+<section id="fazy-analizy-co-dzieje-się-pod-maską" class="level2">
+<h2 class="anchored" data-anchor-id="fazy-analizy-co-dzieje-się-pod-maską">Fazy analizy – co dzieje się pod maską?</h2>
+<p>Podczas całego procesu translacji, Twój program nieustannie zmienia swoją postać. Zwykły tekst powoli staje się strukturą zrozumiałą dla maszyny.</p>
+<p>Głębsze spojrzenie na analizę leksykalną (Leksemy i Wartości):</p>
+<ul>
+<li>Skaner grupuje znaki w logiczne ciągi zwane leksemami. Niektóre z nich są wzbogacane o tzw. wartość leksykalną. Wyobraź sobie, że skaner napotyka słowo tempo. Zamiast pchać całe to słowo dalej, generuje krótki symbol, np. <code>id</code> (od identyfikatora), a samo słowo tempo zapisuje w naszej Tablicy Symboli (notatniku). Od tego momentu wartość leksykalna symbolu id to po prostu wskaźnik mówiący: “hej, szczegóły tej zmiennej znajdziesz w notatniku na stronie X”. To ogromna oszczędność pamięci.</li>
+</ul>
+<section id="struktura-węzłów" class="level3">
+<h3 class="anchored" data-anchor-id="struktura-węzłów">Struktura Węzłów:</h3>
+<p>Gdy parser buduje hierarchiczne drzewo składniowe z symboli podesłanych przez skaner, używa do tego rekordów:</p>
+<ol type="1">
+<li>Węzły wewnętrzne (Gałęzie): Mają pole z operatorem (np. + lub *) oraz wskaźniki (ramiona) prowadzące do lewego i prawego “potomka” (czyli elementów, na których wykonujemy operację).</li>
+<li>Liście (Końcówki drzewa): Zawierają konkretne symbole leksykalne (np. liczby lub wskaźniki do Tablicy Symboli).</li>
+</ol>
+</section>
+<section id="generacja-kodu-pośredniego-język-uniwersalny" class="level3">
+<h3 class="anchored" data-anchor-id="generacja-kodu-pośredniego-język-uniwersalny">Generacja kodu pośredniego (Język uniwersalny)</h3>
+<p>Gdy kompilator skończy analizę i wie, że kod jest poprawny, nie rzuca się od razu do pisania czystego kodu maszynowego. Najpierw tworzy “brudnopis” – <strong>kod pośredni</strong>. Jest to uniwersalny kod dla wymyślonej, abstrakcyjnej maszyny. Łatwo go wygenerować z drzewa składniowego i równie łatwo przetłumaczyć później na język konkretnego procesora (np. Intela czy ARM).</p>
+<p>Najpopularniejszym formatem jest kod trójadresowy. Przypomina on prosty asembler, ale obowiązują w nim rygorystyczne zasady:</p>
+<p>Kompilator sam musi tworzyć tymczasowe zmienne (zaczynające się np. od temp), aby zapamiętywać kroki pośrednie.</p>
+</section>
+<section id="optymalizacja-kodu-odchudzanie-programu" class="level3">
+<h3 class="anchored" data-anchor-id="optymalizacja-kodu-odchudzanie-programu">Optymalizacja kodu (Odchudzanie programu)</h3>
+<p>Ten etap to czas dla “redaktora”. Jego zadaniem jest poprawienie brudnopisu (kodu pośredniego), aby gotowy program działał szybciej lub zajmował mniej miejsca, nie zmieniając oczywiście jego ostatecznego wyniku działania.</p>
+<p>Spójrzmy na poprzedni przykład kodu trójadresowego. Sprytny optymalizator zauważy, że liczba 60 jest stała i możemy pominąć jej konwersję w trakcie działania programu. Skróci więc cztery linijki do zaledwie dwóch!</p>
+</section>
+<section id="generacja-kodu-maszynowego" class="level3">
+<h3 class="anchored" data-anchor-id="generacja-kodu-maszynowego">Generacja kodu maszynowego</h3>
+<p>To ostatni przystanek. Zoptymalizowany brudnopis (kod pośredni) jest ostatecznie tłumaczony na przemieszczalny kod maszynowy (lub kod asemblera) dla konkretnego procesora. To tutaj dzieje się “fizyczna” magia:</p>
+<ul>
+<li>Każdej zmiennej z Tablicy Symboli zostaje przypisany konkretny adres w pamięci RAM.</li>
+<li>Zmienne najczęściej używane są “promowane” i trafiają do najszybszej pamięci w komputerze – <strong>rejestrów procesora</strong>.</li>
+</ul>
+
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

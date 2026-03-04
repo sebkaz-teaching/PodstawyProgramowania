@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Fundamenty i Logika Programowania – Podstawy Programowania</title>
+<title>Reprezentacja informacji i wstęp do architektury komputerów – Podstawy Programowania</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -104,6 +69,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -140,7 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Fundamenty i Logika Programowania</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad3.html">Reprezentacja informacji i wstęp do architektury komputerów</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -169,7 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/wyklad1.html" class="sidebar-item-text sidebar-link active">
+  <a href="../lectures/wyklad1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fundamenty i Logika Programowania</span></a>
   </div>
 </li>
@@ -181,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/wyklad3.html" class="sidebar-item-text sidebar-link">
+  <a href="../lectures/wyklad3.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Reprezentacja informacji i wstęp do architektury komputerów</span></a>
   </div>
 </li>
@@ -197,32 +191,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#polecana-literatura" id="toc-polecana-literatura" class="nav-link active" data-scroll-target="#polecana-literatura">Polecana literatura</a></li>
-  <li><a href="#algorytm-przepis-na-rozwiązanie-problemu" id="toc-algorytm-przepis-na-rozwiązanie-problemu" class="nav-link" data-scroll-target="#algorytm-przepis-na-rozwiązanie-problemu">Algorytm: Przepis na rozwiązanie problemu</a>
+  <li><a href="#bit" id="toc-bit" class="nav-link active" data-scroll-target="#bit">Bit</a></li>
+  <li><a href="#systemy-liczbowe-w-informatyce" id="toc-systemy-liczbowe-w-informatyce" class="nav-link" data-scroll-target="#systemy-liczbowe-w-informatyce">Systemy liczbowe w informatyce</a>
   <ul class="collapse">
-  <li><a href="#kluczowe-cechy-algorytmu" id="toc-kluczowe-cechy-algorytmu" class="nav-link" data-scroll-target="#kluczowe-cechy-algorytmu">Kluczowe cechy algorytmu:</a></li>
-  <li><a href="#sposoby-zapisu-algorytmu" id="toc-sposoby-zapisu-algorytmu" class="nav-link" data-scroll-target="#sposoby-zapisu-algorytmu">Sposoby zapisu algorytmu:</a></li>
+  <li><a href="#system-binarny-dwójkowy" id="toc-system-binarny-dwójkowy" class="nav-link" data-scroll-target="#system-binarny-dwójkowy">System Binarny (Dwójkowy)</a></li>
+  <li><a href="#system-heksadecymalny-szesnastkowy---hex" id="toc-system-heksadecymalny-szesnastkowy---hex" class="nav-link" data-scroll-target="#system-heksadecymalny-szesnastkowy---hex">System Heksadecymalny (Szesnastkowy - HEX)</a></li>
   </ul></li>
-  <li><a href="#program-algorytm-wcielony-w-życie" id="toc-program-algorytm-wcielony-w-życie" class="nav-link" data-scroll-target="#program-algorytm-wcielony-w-życie">Program: Algorytm wcielony w życie</a>
+  <li><a href="#jak-komputer-zapisuje-tekst-kod-ascii" id="toc-jak-komputer-zapisuje-tekst-kod-ascii" class="nav-link" data-scroll-target="#jak-komputer-zapisuje-tekst-kod-ascii">Jak komputer zapisuje tekst? (Kod ASCII)</a></li>
+  <li><a href="#problem-liczb-ujemnych-jak-zapisać-minus" id="toc-problem-liczb-ujemnych-jak-zapisać-minus" class="nav-link" data-scroll-target="#problem-liczb-ujemnych-jak-zapisać-minus">Problem liczb ujemnych: Jak zapisać minus?</a>
   <ul class="collapse">
-  <li><a href="#poziomy-abstrakcji-języków" id="toc-poziomy-abstrakcji-języków" class="nav-link" data-scroll-target="#poziomy-abstrakcji-języków">Poziomy abstrakcji języków:</a></li>
-  <li><a href="#jak-kod-staje-się-działaniem" id="toc-jak-kod-staje-się-działaniem" class="nav-link" data-scroll-target="#jak-kod-staje-się-działaniem">Jak kod staje się działaniem?</a></li>
+  <li><a href="#krok-1-kod-znak-moduł-zm" id="toc-krok-1-kod-znak-moduł-zm" class="nav-link" data-scroll-target="#krok-1-kod-znak-moduł-zm">Krok 1: Kod Znak-Moduł (ZM)</a></li>
+  <li><a href="#krok-2-kod-u1-uzupełnień-do-jedności" id="toc-krok-2-kod-u1-uzupełnień-do-jedności" class="nav-link" data-scroll-target="#krok-2-kod-u1-uzupełnień-do-jedności">Krok 2: Kod U1 (Uzupełnień do jedności)</a></li>
+  <li><a href="#krok-3-kod-u2-uzupełnień-do-dwóch" id="toc-krok-3-kod-u2-uzupełnień-do-dwóch" class="nav-link" data-scroll-target="#krok-3-kod-u2-uzupełnień-do-dwóch">Krok 3: Kod U2 (Uzupełnień do dwóch)</a></li>
   </ul></li>
-  <li><a href="#paradygmaty-jak-myślimy-o-programie" id="toc-paradygmaty-jak-myślimy-o-programie" class="nav-link" data-scroll-target="#paradygmaty-jak-myślimy-o-programie">Paradygmaty: Jak myślimy o programie?</a></li>
-  <li><a href="#programowanie-różniczkowalne-differentiable-programming-autograd" id="toc-programowanie-różniczkowalne-differentiable-programming-autograd" class="nav-link" data-scroll-target="#programowanie-różniczkowalne-differentiable-programming-autograd">Programowanie różniczkowalne (Differentiable Programming) &amp; Autograd</a>
-  <ul class="collapse">
-  <li><a href="#programowanie-deklaratywne-declarative" id="toc-programowanie-deklaratywne-declarative" class="nav-link" data-scroll-target="#programowanie-deklaratywne-declarative">Programowanie deklaratywne (Declarative)</a></li>
-  </ul></li>
-  <li><a href="#anatomia-działającego-programu" id="toc-anatomia-działającego-programu" class="nav-link" data-scroll-target="#anatomia-działającego-programu">Anatomia działającego programu</a></li>
+  <li><a href="#zjawisko-przepełnienia-overflow" id="toc-zjawisko-przepełnienia-overflow" class="nav-link" data-scroll-target="#zjawisko-przepełnienia-overflow">Zjawisko Przepełnienia (Overflow)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Fundamenty i Logika Programowania</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad3.html">Reprezentacja informacji i wstęp do architektury komputerów</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Fundamenty i Logika Programowania</h1>
+<h1 class="title">Reprezentacja informacji i wstęp do architektury komputerów</h1>
 </div>
 
 
@@ -239,186 +230,106 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="polecana-literatura" class="level3">
-<h3 class="anchored" data-anchor-id="polecana-literatura">Polecana literatura</h3>
+<p>Wykład 1:</p>
+<section id="bit" class="level2">
+<h2 class="anchored" data-anchor-id="bit">Bit</h2>
 <ol type="1">
-<li>Grębosz J.: Symfonia C++ Standard. Edition 2000, 2009.</li>
-<li>Prata S.: Szkoła programowania. Język C. Helion.</li>
-<li>Harris S., Ross J.: Algorytmy od podstaw. Helion.</li>
-<li>Wróblewski P.: Algorytmy, struktury danych i techniki programowania. Helion.</li>
-<li>Programowanie w C. Wikibooks. http://upload.wikimedia.org/wikibooks/pl/6/6a/C.pdf</li>
-<li>Pyszczuk A.: Programowanie w języku C. http://www.arturpyszczuk.pl/files/c/pwc.pdf</li>
+<li>Dlaczego komputer rozumie tylko zera i jedynki?</li>
 </ol>
-<hr>
-</section>
-<section id="algorytm-przepis-na-rozwiązanie-problemu" class="level2">
-<h2 class="anchored" data-anchor-id="algorytm-przepis-na-rozwiązanie-problemu">Algorytm: Przepis na rozwiązanie problemu</h2>
-<p>Algorytm to precyzyjna instrukcja krok po kroku, jak wykonać konkretne zadanie. To abstrakcyjny pomysł, który istnieje zanim jeszcze dotkniemy klawiatury.</p>
-<section id="kluczowe-cechy-algorytmu" class="level3">
-<h3 class="anchored" data-anchor-id="kluczowe-cechy-algorytmu">Kluczowe cechy algorytmu:</h3>
-<ul>
-<li><strong>Skończoność:</strong> Musi mieć wyraźny początek i koniec.</li>
-<li><strong>Jasność:</strong> Każdy krok musi być jednoznaczny dla wykonawcy.</li>
-<li><strong>Efektywność:</strong> Powinien rozwiązywać problem w optymalny sposób.</li>
-</ul>
-</section>
-<section id="sposoby-zapisu-algorytmu" class="level3">
-<h3 class="anchored" data-anchor-id="sposoby-zapisu-algorytmu">Sposoby zapisu algorytmu:</h3>
+<p>Zanim napiszemy pierwszą linijkę kodu w C/C++, musimy zrozumieć, na czym ten kod będzie działał. Komputer to urządzenie elektroniczne, a jego “mózg” (procesor) składa się z miliardów mikroskopijnych przełączników – <strong>tranzystorów</strong>.</p>
+<p>Tranzystor działa jak włącznik światła, ma tylko dwa stany fizyczne:</p>
 <ol type="1">
-<li><strong>Opis słowny</strong> (naturalny język).</li>
-<li><strong>Pseudokod</strong> (uproszczony zapis przypominający kod).</li>
-<li><strong>Schemat blokowy</strong> (wizualna prezentacja logiki).</li>
+<li>Brak napięcia (wyłączony) – co w logice zapisujemy jako 0.</li>
+<li>Jest napięcie (włączony) – co w logice zapisujemy jako 1.</li>
 </ol>
-<blockquote class="blockquote">
-<p>Zbiór dobrze zdefiniowanych kroków prowadzących do wykonania pewniego zadania</p>
-<p>Matematycznie - skończony ciąg jasno zdefiniowanych czynności, konieczny do wykonania określonych zadań.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>Algorytm przeprowadza <strong>stan początkowy</strong> do określonego <strong>stanu końcowego</strong>.</p>
-</blockquote>
-<p>Badaniem algorytmów zajmuje się algorytmika.</p>
+<p>Pojedyncze zero lub jedynka to <strong>Bit</strong> (ang. <em>binary digit</em>). To najmniejsza możliwa porcja informacji.</p>
+<p>Ponieważ jeden bit to za mało, by przekazać sensowną informację, komputery grupują je w paczki. Standardową paczką jest <strong>Bajt</strong> (<em>Byte</em>), który składa się z 8 bitów.</p>
+<p>Jeden bajt pozwala na zapisanie <span class="math inline">\(2^8=256\)</span> unikalnych kombinacji.</p>
+</section>
+<section id="systemy-liczbowe-w-informatyce" class="level2">
+<h2 class="anchored" data-anchor-id="systemy-liczbowe-w-informatyce">Systemy liczbowe w informatyce</h2>
+<p>My, ludzie, używamy systemu dziesiętnego (DEC), bo mamy 10 palców. Komputery używają systemu dwójkowego (BIN).</p>
+<section id="system-binarny-dwójkowy" class="level3">
+<h3 class="anchored" data-anchor-id="system-binarny-dwójkowy">System Binarny (Dwójkowy)</h3>
+<p>Każda pozycja w liczbie binarnej to kolejna potęga liczby 2 (zaczynając od prawej strony, od <span class="math inline">\(2^0\)</span>).</p>
+<p>Przykład: Jak komputer widzi liczbę 13?</p>
+<p>W systemie binarnym to 1101. Dlaczego? <span class="math display">\[
+1⋅2^3 + 1⋅2^2 + 0⋅2^1 +1⋅2^0 = 8+4+0+1 = 13
+\]</span></p>
+</section>
+<section id="system-heksadecymalny-szesnastkowy---hex" class="level3">
+<h3 class="anchored" data-anchor-id="system-heksadecymalny-szesnastkowy---hex">System Heksadecymalny (Szesnastkowy - HEX)</h3>
+<p>Zapisywanie długich ciągów zer i jedynek jest dla programisty niewygodne i łatwo o błąd. Dlatego inżynierowie wymyślili system szesnastkowy.</p>
+<p>Dlaczego akurat 16? Ponieważ <span class="math inline">\(16=2^4\)</span></p>
+<p>Oznacza to, że dokładnie 4 bity (pół bajta) można zastąpić jednym znakiem w systemie HEX. To idealny kompromis między maszyną a człowiekiem.</p>
+<p>Do zapisu używamy cyfr <code>0-9</code> oraz liter <code>A-F</code> (gdzie A=10, B=11, …, F=15).</p>
+<section id="przykład" class="level4">
+<h4 class="anchored" data-anchor-id="przykład">Przykład:</h4>
+<p>Binarnie: <code>1010 1111</code> (8 bitów)</p>
+<p>Dzielimy na pół: <code>1010</code> (dziesiętne 10, czyli A) oraz <code>1111</code> (dziesiętne 15, czyli F).</p>
+<p>Zapis HEX: <code>AF</code> lub <code>0xAF</code> (w C/C++ przedrostek 0x oznacza system szesnastkowy).</p>
 </section>
 </section>
-<section id="program-algorytm-wcielony-w-życie" class="level2">
-<h2 class="anchored" data-anchor-id="program-algorytm-wcielony-w-życie">Program: Algorytm wcielony w życie</h2>
-<p>Program to algorytm zapisany w <strong>języku programowania</strong>. Język ten stanowi pomost między ludzkim myśleniem a binarną logiką procesora.</p>
-<section id="poziomy-abstrakcji-języków" class="level3">
-<h3 class="anchored" data-anchor-id="poziomy-abstrakcji-języków">Poziomy abstrakcji języków:</h3>
+</section>
+<section id="jak-komputer-zapisuje-tekst-kod-ascii" class="level2">
+<h2 class="anchored" data-anchor-id="jak-komputer-zapisuje-tekst-kod-ascii">Jak komputer zapisuje tekst? (Kod ASCII)</h2>
+<p>Komputer nie “widzi” liter. Zna tylko liczby. Aby wyświetlić tekst, inżynierowie stworzyli tabelę kodową – swego rodzaju słownik. Najbardziej podstawowym standardem jest ASCII (<em>American Standard Code for Information Interchange</em>).</p>
+<p>Każdemu znakowi przypisano konkretną wartość liczbową. Na przykład:</p>
+<p>Litera ‘A’ to dziesiętnie 65 (binarnie 01000001).</p>
+<p>Litera ‘B’ to 66.</p>
+<p>Litera ‘a’ to 97.</p>
+<p>Spacja to 32.</p>
+<p>Wskazówka inżynierska: W języku C litera to pod spodem po prostu liczba (typ char to w rzeczywistości mała liczba całkowita). Możemy więc wykonać operację matematyczną: ‘A’ + 1 i otrzymamy ‘B’!</p>
+</section>
+<section id="problem-liczb-ujemnych-jak-zapisać-minus" class="level2">
+<h2 class="anchored" data-anchor-id="problem-liczb-ujemnych-jak-zapisać-minus">Problem liczb ujemnych: Jak zapisać minus?</h2>
+<p>Zapisywanie liczb dodatnich jest proste. Ale co z ujemnymi?</p>
+<p>Komputer nie ma fizycznego znaku “minus” (−) w pamięci RAM. Ma tylko zera i jedynki.</p>
+<section id="krok-1-kod-znak-moduł-zm" class="level3">
+<h3 class="anchored" data-anchor-id="krok-1-kod-znak-moduł-zm">Krok 1: Kod Znak-Moduł (ZM)</h3>
+<p>Pierwszy, najprostszy pomysł inżynierów. Zarezerwujmy najstarszy bit (ten najbardziej po lewej, tzw. MSB - <em>Most Significant Bit</em>) jako znak.</p>
+<p><code>0 = plus</code></p>
+<p><code>1 = minus</code></p>
+<p>Przykład dla 8 bitów:</p>
+<pre><code>0000 0101 = +5
+
+1000 0101 = −5</code></pre>
+<p>Problem z ZM: Mamy dwie reprezentacje zera: 0000 0000 (+0) oraz 1000 0000 (-0).</p>
+<p>Dla procesora to koszmar logiczny.</p>
+<p>Musiałby sprawdzać każdy znak osobno przed wykonaniem dodawania, co wymaga skomplikowanych i wolnych układów scalonych.</p>
+</section>
+<section id="krok-2-kod-u1-uzupełnień-do-jedności" class="level3">
+<h3 class="anchored" data-anchor-id="krok-2-kod-u1-uzupełnień-do-jedności">Krok 2: Kod U1 (Uzupełnień do jedności)</h3>
+<p>Aby uzyskać liczbę ujemną, negujemy wszystkie bity liczby dodatniej (zamieniamy 1→0, 0→1).</p>
+<p>Ten system był lepszy matematycznie, ale nadal miał problem “podwójnego zera” i wymagał korekt przy dodawaniu.</p>
+</section>
+<section id="krok-3-kod-u2-uzupełnień-do-dwóch" class="level3">
+<h3 class="anchored" data-anchor-id="krok-3-kod-u2-uzupełnień-do-dwóch">Krok 3: Kod U2 (Uzupełnień do dwóch)</h3>
+<p>To system, którego używają dzisiaj absolutnie wszystkie procesory (i z którego będziecie korzystać w C/C++).</p>
+<p>Aby uzyskać ujemną reprezentację liczby w U2:</p>
 <ul>
-<li><strong>Niskopoziomowe (np. Assembler):</strong> Bliskie sprzętowi, trudne dla człowieka, dają pełną kontrolę.</li>
-<li><strong>Wysokopoziomowe (np. C++, Python, Java):</strong> Bardziej zrozumiałe dla ludzi, ukrywają techniczne detale sprzętu.</li>
+<li>Weź liczbę dodatnią.</li>
+<li>Zaneguj wszystkie bity (jak w U1).</li>
+<li>Dodaj 1 do wyniku.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp"> </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>main <span class="op">()</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> b <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>a<span class="op">&gt;=</span>b<span class="op">)</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"a większe lub równe"</span><span class="op">);</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        print<span class="op">(</span><span class="st">"a mniejsze lub równe"</span><span class="op">);</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Więcej o aktualnie używanych językach znajdziesz <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">tutaj</a></p>
-<p>Algorytm wygodnie jest wyrażać za pomocą schematu blokowego. Pokazuje czynności, działania, instrukcej i wzajemne relacje.</p>
-<p><img src="../img/rys0.png" class="center"></p>
-<p><img src="../img/rys1.png" class="center"></p>
-</section>
-<section id="jak-kod-staje-się-działaniem" class="level3">
-<h3 class="anchored" data-anchor-id="jak-kod-staje-się-działaniem">Jak kod staje się działaniem?</h3>
-<ul>
-<li><strong>Kod źródłowy:</strong> Plik tekstowy napisany przez programistę.</li>
-<li><strong>Kompilator (C++):</strong> Tłumaczy cały kod na raz do pliku wykonywalnego (szybkość).</li>
-<li><strong>Interpreter (Python):</strong> Czyta i wykonuje kod linijka po linijce (elastyczność).</li>
-</ul>
+<p><em>Przykład</em> dla +5 (na 8 bitach):</p>
+<pre><code>0000 0101 (+5)
+
+1111 1010 (negacja)
+
+1111 1011 (dodanie 1) → To jest -5 w U2!</code></pre>
+<p>Zapis matematyczny : W kodzie U2, najstarszy bit ma po prostu wagę ujemną. Całą resztę liczymy normalnie. Formalnie wartość liczby X na n bitach to: <span class="math display">\[
+X_{(U2)} = -x_{n-1} \dot 2^{n-1} + \sum_{i=0}^{n-2} x_i \dot 2^i
+\]</span></p>
+<p>Dlaczego U2 wygrało i zdominowało świat technologii?</p>
+<p>Geniusz U2 polega na tym, że dla procesora nie ma różnicy między dodawaniem a odejmowaniem. Procesor używa tego samego, prostego układu scalonego (sumatora) niezależnie od tego, czy liczby są dodatnie, czy ujemne. Kwestia znaku rozwiązuje się “sama” w bitach.</p>
 </section>
 </section>
-<section id="paradygmaty-jak-myślimy-o-programie" class="level2">
-<h2 class="anchored" data-anchor-id="paradygmaty-jak-myślimy-o-programie">Paradygmaty: Jak myślimy o programie?</h2>
-<p>To, jak podchodzimy do pisania programu, zależy od wybranego paradygmatu:</p>
-<ul>
-<li><strong>Programowanie proceduralne:</strong> Skupiamy się na funkcjach i czynnościach (“zrób to, potem tamto”).</li>
-<li><strong>Programowanie obiektowe (OOP):</strong> Skupiamy się na “bytach” (obiektach), które mają swoje dane i potrafią wykonywać operacje. <strong>To będzie główny temat naszego kursu.</strong></li>
-</ul>
-<p>Oprócz klasycznego podziału na procedury i obiekty, wyróżniamy podejścia, które całkowicie zmieniają sposób pracy z danymi:</p>
-<ul>
-<li><strong>Programowanie funkcyjne</strong></li>
-</ul>
-<p>Zamiast wydawać komputerowi instrukcje krok po kroku (“zmień tę zmienną”), traktujemy program jak rozwiązywanie funkcji matematycznych.</p>
-<p>Kluczowe cechy:</p>
-<ol type="1">
-<li>Immutability (Niezmienność): Dane raz stworzone nie mogą być zmienione. Zamiast zmieniać listę, tworzymy nową, zmodyfikowaną.</li>
-<li>Pure Functions (Czyste funkcje): Funkcja dla tych samych danych zawsze zwraca ten sam wynik i nie zmienia nic “na zewnątrz” (brak efektów ubocznych).</li>
-<li>First-class functions: Funkcje można przekazywać jako argumenty do innych funkcji (tak jak liczby).</li>
-</ol>
-<p>Przykłady: Haskell, Lisp, Elixir (oraz nowoczesne dodatki w C++, Java czy JavaScript).</p>
-</section>
-<section id="programowanie-różniczkowalne-differentiable-programming-autograd" class="level2">
-<h2 class="anchored" data-anchor-id="programowanie-różniczkowalne-differentiable-programming-autograd">Programowanie różniczkowalne (Differentiable Programming) &amp; Autograd</h2>
-<p>To nowoczesny paradygmat, który stał się fundamentem współczesnej Sztucznej Inteligencji (Deep Learning).</p>
-<p>Czym jest Autograd? To mechanizm automatycznego różniczkowania (Automatic Differentiation). Pozwala on programowi na automatyczne obliczanie pochodnych funkcji, które sami napisaliśmy. Dzięki temu algorytm może sam “nauczyć się”, jak poprawić swoje parametry, aby zminimalizować błąd (np. w sieciach neuronowych).</p>
-<p><strong>Logika</strong>: Program nie tylko wykonuje operacje, ale potrafi śledzić, jak każda operacja wpłynęła na wynik końcowy, co pozwala na “cofnięcie się” i optymalizację (tzw. backpropagation).</p>
-<p><strong>Przykłady</strong>: Biblioteki takie jak PyTorch, Pennylane, TensorFlow, JAX.</p>
-<section id="programowanie-deklaratywne-declarative" class="level3">
-<h3 class="anchored" data-anchor-id="programowanie-deklaratywne-declarative">Programowanie deklaratywne (Declarative)</h3>
-<p>Opisujesz co chcesz uzyskać, a nie jak ma to zrobić komputer.</p>
-<p>Programowanie Logiczne: Definiujesz fakty i relacje, a komputer wyciąga wnioski (np. Prolog).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode prolog code-with-copy"><code class="sourceCode prolog"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% FAKTY (Facts)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">% rodzic(Kto, Kogo).</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>rodzic(jan<span class="kw">,</span> anna)<span class="kw">.</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>rodzic(jan<span class="kw">,</span> marek)<span class="kw">.</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>rodzic(anna<span class="kw">,</span> piotr)<span class="kw">.</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>rodzic(marek<span class="kw">,</span> kasia)<span class="kw">.</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">% REGUŁY (Rules)</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">% X jest dziadkiem Y, JEŻELI X jest rodzicem Z, ORAZ Z jest rodzicem Y.</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dziadek(<span class="dt">X</span><span class="kw">,</span> <span class="dt">Y</span>) <span class="kw">:-</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    rodzic(<span class="dt">X</span><span class="kw">,</span> <span class="dt">Z</span>)<span class="kw">,</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    rodzic(<span class="dt">Z</span><span class="kw">,</span> <span class="dt">Y</span>)<span class="kw">.</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">% X i Y są rodzeństwem, JEŻELI mają tego samego rodzica Z,</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">% ORAZ X i Y to nie ta sama osoba.</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>rodzenstwo(<span class="dt">X</span><span class="kw">,</span> <span class="dt">Y</span>) <span class="kw">:-</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    rodzic(<span class="dt">Z</span><span class="kw">,</span> <span class="dt">X</span>)<span class="kw">,</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    rodzic(<span class="dt">Z</span><span class="kw">,</span> <span class="dt">Y</span>)<span class="kw">,</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">X</span> <span class="kw">\=</span> <span class="dt">Y</span><span class="kw">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Zapytania (SQL): Nie piszesz pętli przeszukującej bazę danych, tylko prosisz: “Daj mi wszystkich użytkowników z Warszawy”.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> users <span class="kw">WHERE</span> city<span class="op">=</span><span class="ot">"Warszawa"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-<section id="anatomia-działającego-programu" class="level2">
-<h2 class="anchored" data-anchor-id="anatomia-działającego-programu">Anatomia działającego programu</h2>
-<p>Gdy uruchamiasz program, system operacyjny tworzy <strong>proces</strong>. To “żyjąca” instancja Twojego kodu w pamięci RAM.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Obszar</th>
-<th style="text-align: left;">Co zawiera?</th>
-<th style="text-align: left;">Rola w programie</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>Segment Kodu</strong></td>
-<td style="text-align: left;">Instrukcje procesora</td>
-<td style="text-align: left;">“Co mam zrobić?” (np. dodaj, skocz, porównaj)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Segment Danych</strong></td>
-<td style="text-align: left;">Zmienne, stałe, teksty</td>
-<td style="text-align: left;">“Na czym mam to zrobić?” (np. liczby, imiona, adresy)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Mechanizm działania:</strong></p>
-<p>Procesor pobiera instrukcję z segmentu kodu, pobiera potrzebne dane z segmentu danych, wykonuje operację i zapisuje wynik. Jeśli proces przebiega zgodnie z algorytmem, program kończy się sukcesem. Błąd w logice lub naruszenie dostępu do pamięci skutkuje błędem (bugiem).</p>
-<p><strong>Program komputerowy</strong> to sekwencja symboli opisująca obliczenia zgodnie z pewnymi regułami zwanymi językiem programowania.</p>
-<p>Program jest zazwyczaj wykonywany przez komputer, czasami bezpośrednio – jeśli wyrażony jest w języku zrozumiałym dla danej maszyny lub pośrednio – gdy jest kompilowany lub interpretowany przez inny program.</p>
-<p>Formalne wyrażenie metody obliczeniowej w postaci języka zrozumiałego dla człowieka nazywane jest <strong>kodem źródłowym</strong>, podczas gdy program wyrażony w postaci zrozumiałej dla maszyny (to jest za pomocą ciągu zer i jedynek) nazywany jest <strong>kodem maszynowym</strong> bądź postacią binarną (wykonywalną).</p>
-<p><strong>Kompilator</strong> tłumaczy kod źródłowy zapisany w danym języku programowania na kod maszynowy, dzięki czemu możliwe staje się jego późniejsze uruchomienie.</p>
-<p><strong>Interpreter</strong> natomiast odczytuje kod źródłowy na bieżąco, analizuje go i wykonuje kolejne porcje przetłumaczonego kodu. Programy przeznaczone do interpretacji często nazywane są <strong>skryptami</strong>.</p>
-<p>Programy komputerowe można zaklasyfikować według ich zastosowań: aplikacje użytkowe, systemy operacyjne, gry wideo, kompilatory i inne.</p>
-<p>W najprostszym modelu <strong>wykonanie programu</strong> polega na umieszczeniu go w pamięci operacyjnej komputera i wskazaniu procesorowi adresu pierwszej instrukcji. Po tych czynnościach procesor będzie wykonywał kolejne instrukcje programu, aż do jego zakończenia.</p>
-<p>Program może zakończyć się w dwojaki sposób: poprawnie lub błędnie.</p>
-<p>Program komputerowy będący w trakcie wykonania nazywany jest <strong>procesem</strong> lub <strong>zadaniem</strong>.</p>
-<p>Program można podzielić na dwie części (obszary):</p>
-<ul>
-<li>część kodu (składającą się z instrukcji sterujących działaniem procesora),</li>
-<li>część danych (składającą się z danych wykorzystywanych i opracowywanych przez program, np. adresów pamięci, stałych liczbowych, komunikatów tekstowych).</li>
-</ul>
-<p>Programowanie jest procesem tworzenia programów. Jest to cykliczny proces polegający na:</p>
-<ul>
-<li>edycji kodu źródłowego (implementacja),</li>
-<li>uruchamianiu programu (kompilacja),</li>
-<li>analizie działania,</li>
-<li>powrocie do edycji kodu źródłowego w celu poprawienia błędów lub dalszego posze- rania funkcjonalności.</li>
-</ul>
-<p>Przed przystąpieniem do programowania należy określić cel programu i zaprojektować program (tu przydają się schematy blokowe). Kod źródłowy zapisuje się w pliku tekstowym (w języku C plik taki ma rozszerzenie <em>.c lub </em>.cpp)</p>
+<section id="zjawisko-przepełnienia-overflow" class="level2">
+<h2 class="anchored" data-anchor-id="zjawisko-przepełnienia-overflow">Zjawisko Przepełnienia (Overflow)</h2>
+<p>Jeśli mamy zmienną 8-bitową ze znakiem, największa liczba, jaką zapiszemy, to <code>+127</code> <code>(0111 1111)</code>. &gt; Co się stanie, jeśli dodamy do niej 1? &gt; Otrzymamy <code>1000 0000</code>.</p>
+<p>Najstarszy bit stał się jedynką. Procesor uzna to za liczbę ujemną (dokładnie <code>−128</code>).</p>
+<p>Program nie wyrzuci błędu kompilacji! Po prostu nagle z wartości dodatniej zrobi się ujemna, co w wojskowych lub lotniczych systemach sterowania jest błędem krytycznym. To zjawisko nazywamy <strong>przepełnieniem całkowitoliczbowym</strong> (Integer Overflow) i jako programiści musicie zawsze dobierać odpowiednio duże typy zmiennych do Waszych problemów.</p>
 
 
 </section>
