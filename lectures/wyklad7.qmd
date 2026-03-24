@@ -1,0 +1,728 @@
+---
+title: "Tablice, Wskaźniki i Napisy"
+---
+
+Ten wykład to **fundament** programowania w C. Wskaźniki i ręczne zarządzanie pamięcią to cechy, które odróżniają C od języków wyższego poziomu (Python, Java) i jednocześnie dają programiście pełną kontrolę nad sprzętem — kluczową w systemach wbudowanych, sterownikach i aplikacjach czasu rzeczywistego.
+
+---
+
+## Tablice
+
+Tablica to **ciągły blok pamięci** przechowujący elementy tego samego typu, dostępne przez indeks.
+
+### Deklaracja i inicjalizacja
+
+```c
+int oceny[5];                          /* 5 elementów, nieokreślone wartości */
+int oceny[5] = {5, 4, 3, 5, 4};       /* pełna inicjalizacja */
+int oceny[5] = {5, 4};                /* reszta uzupełniona zerami: {5,4,0,0,0} */
+int oceny[] = {5, 4, 3, 5, 4};        /* rozmiar wyliczony automatycznie: 5 */
+int zera[100] = {0};                   /* wszystkie 100 elementów = 0 */
+```
+
+::: {.callout-important}
+## Indeksowanie od zera!
+Elementy tablicy `int t[5]` mają indeksy **od 0 do 4**, nie od 1 do 5:
+
+```c
+int t[5] = {10, 20, 30, 40, 50};
+/*  indeks:  0   1   2   3   4  */
+
+printf("%d\n", t[0]);   /* 10 — pierwszy element */
+printf("%d\n", t[4]);   /* 50 — ostatni element */
+/* t[5] — POZA TABLICĄ! Niezdefiniowane zachowanie! */
+```
+:::
+
+### Odczyt i zapis
+
+```c
+int t[5] = {0};
+
+t[0] = 42;
+t[3] = t[0] + 8;   /* t[3] = 50 */
+
+for (int i = 0; i < 5; ++i) {
+    printf("t[%d] = %d\n", i, t[i]);
+}
+```
+
+### Rozmiar tablicy
+
+```c
+int t[10];
+int rozmiar = sizeof(t) / sizeof(t[0]);  /* 10 */
+printf("Tablica ma %d elementów\n", rozmiar);
+```
+
+::: {.callout-warning}
+## `sizeof` a tablice w funkcjach
+
+Gdy tablica jest przekazana do funkcji, **degeneruje się do wskaźnika** — `sizeof` zwróci rozmiar wskaźnika (4 lub 8 bajtów), nie tablicy! Dlatego rozmiar tablicy zawsze przekazujemy jako osobny argument:
+
+```c
+void wypiszTablice(int t[], int n)   /* t[] = wskaźnik, nie tablica! */
+{
+    /* sizeof(t) tu da 4 lub 8, NIE rozmiar tablicy */
+    for (int i = 0; i < n; ++i) {
+        printf("%d ", t[i]);
+    }
+}
+```
+:::
+
+### Tablice wielowymiarowe
+
+Tablica dwuwymiarowa to "tablica tablic" — przechowywana w pamięci **wierszami** (row-major order):
+
+```c
+int macierz[3][4] = {
+    {1,  2,  3,  4},    /* wiersz 0 */
+    {5,  6,  7,  8},    /* wiersz 1 */
+    {9, 10, 11, 12}     /* wiersz 2 */
+};
+
+printf("%d\n", macierz[1][2]);  /* 7 (wiersz 1, kolumna 2) */
+```
+
+Iteracja po macierzy:
+
+```c
+for (int w = 0; w < 3; ++w) {
+    for (int k = 0; k < 4; ++k) {
+        printf("%4d", macierz[w][k]);
+    }
+    printf("\n");
+}
+```
+
+Układ w pamięci (`macierz[3][4]`):
+
+```
+Adres:  [0]  [1]  [2]  [3]  [4]  [5]  [6]  [7]  [8]  [9]  [10] [11]
+Dane:    1    2    3    4    5    6    7    8    9   10   11   12
+        |--- wiersz 0 ---| |--- wiersz 1 ---| |--- wiersz 2 ---|
+```
+
+### Ograniczenia tablic w C
+
+1. **Brak sprawdzania granic** — zapis poza tablicą to niezdefiniowane zachowanie (może nadpisać inne zmienne, spowodować segfault, lub "działać" pozornie poprawnie).
+2. **Stały rozmiar** (w C89) — rozmiar tablicy musi być znany w czasie kompilacji. C99 wprowadził VLA (*Variable Length Arrays*), ale są kontrowersyjne i opcjonalne od C11.
+3. **Brak przypisania** — nie można `t1 = t2` dla tablic (trzeba kopiować element po elemencie lub użyć `memcpy`).
+
+---
+
+## Wskaźniki
+
+Wskaźnik to **zmienna przechowująca adres** innej zmiennej w pamięci. To najważniejszy i jednocześnie najtrudniejszy koncept w C.
+
+### Deklaracja wskaźnika
+
+```c
+int *p;        /* p jest wskaźnikiem na int */
+double *q;     /* q jest wskaźnikiem na double */
+char *s;       /* s jest wskaźnikiem na char */
+void *v;       /* v jest wskaźnikiem na "cokolwiek" */
+```
+
+Gwiazdka `*` jest częścią deklaracji typu. Uwaga na deklarację wielu zmiennych:
+
+```c
+int *a, b;     /* a jest wskaźnikiem, ale b jest zwykłym int! */
+int *a, *b;    /* oba są wskaźnikami */
+```
+
+### Operatory `&` i `*`
+
+| Operator | Nazwa | Działanie |
+|:--------:|-------|-----------|
+| `&` | Adres (address-of) | Zwraca adres zmiennej |
+| `*` | Dereferencja (indirection) | Zwraca wartość pod adresem |
+
+```c
+int a = 42;
+int *p = &a;       /* p przechowuje adres zmiennej a */
+
+printf("a  = %d\n", a);     /* 42 */
+printf("&a = %p\n", &a);    /* np. 0x7ffd1234 (adres a w pamięci) */
+printf("p  = %p\n", p);     /* ten sam adres co &a */
+printf("*p = %d\n", *p);    /* 42 — wartość "pod wskaźnikiem" */
+
+*p = 100;                    /* modyfikujemy wartość pod adresem p */
+printf("a  = %d\n", a);     /* 100 — a się zmieniło! */
+```
+
+Wizualizacja:
+
+```
+Pamięć:
+  Adres        Zmienna    Wartość
+  0x1000       a          42       (potem 100)
+  0x1008       p          0x1000   (adres zmiennej a)
+```
+
+### Wskaźnik jako argument funkcji
+
+To sposób na **symulację przekazywania przez referencję** w C:
+
+```c
+void zamien(int *a, int *b)
+{
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+int main(void)
+{
+    int x = 5, y = 10;
+    zamien(&x, &y);
+    printf("x=%d, y=%d\n", x, y);  /* x=10, y=5 */
+    return 0;
+}
+```
+
+Gdybyśmy przekazali `int a, int b` (przez wartość), funkcja zamieniłaby **kopie** — oryginały pozostałyby nienaruszone.
+
+### Arytmetyka wskaźników
+
+Wskaźniki można inkrementować, dekrementować i odejmować. Jednostką jest **rozmiar wskazywanego typu**:
+
+```c
+int t[5] = {10, 20, 30, 40, 50};
+int *p = t;       /* p wskazuje na t[0] */
+
+printf("%d\n", *p);       /* 10 (t[0]) */
+printf("%d\n", *(p+1));   /* 20 (t[1]) */
+printf("%d\n", *(p+3));   /* 40 (t[3]) */
+
+p += 2;                   /* p wskazuje teraz na t[2] */
+printf("%d\n", *p);       /* 30 */
+```
+
+Jeśli `int` zajmuje 4 bajty, to `p+1` przesuwa adres o **4 bajty** (nie o 1!):
+
+```
+p      → adres 0x1000 → t[0] = 10
+p + 1  → adres 0x1004 → t[1] = 20
+p + 2  → adres 0x1008 → t[2] = 30
+```
+
+Odejmowanie dwóch wskaźników daje **liczbę elementów** między nimi:
+
+```c
+int *start = &t[0];
+int *koniec = &t[4];
+printf("Odległość: %ld\n", koniec - start);  /* 4 */
+```
+
+### Tablice a wskaźniki — ścisły związek
+
+W C **nazwa tablicy jest w większości kontekstów traktowana jak wskaźnik** na jej pierwszy element:
+
+```c
+int t[5] = {10, 20, 30, 40, 50};
+
+/* Te zapisy są RÓWNOWAŻNE: */
+printf("%d\n", t[2]);      /* notacja tablicowa */
+printf("%d\n", *(t + 2));  /* notacja wskaźnikowa */
+
+/* Adres pierwszego elementu: */
+printf("%p\n", t);         /* to samo co &t[0] */
+```
+
+Generalnie: `t[i]` to cukier składniowy (syntax sugar) dla `*(t + i)`.
+
+Ale tablice i wskaźniki **nie są tym samym**:
+
+| Cecha | Tablica `int t[5]` | Wskaźnik `int *p` |
+|-------|:------------------:|:-----------------:|
+| `sizeof` | rozmiar całej tablicy (20 B) | rozmiar wskaźnika (4/8 B) |
+| Zmiana adresu | NIE (`t = p` jest błędem) | TAK (`p = t` jest OK) |
+| Alokacja | automatyczna (stos) | może wskazywać na stos lub stertę |
+
+### `NULL` — wskaźnik na nic
+
+`NULL` to specjalna wartość wskaźnika oznaczająca "nie wskazuje na nic":
+
+```c
+int *p = NULL;
+
+if (p != NULL) {
+    printf("%d\n", *p);  /* bezpieczne — wiemy, że p wskazuje na coś */
+} else {
+    printf("Wskaźnik jest pusty!\n");
+}
+```
+
+Dereferencja `NULL` (`*p` gdy `p == NULL`) to **niezdefiniowane zachowanie** — najczęściej powoduje crash programu (*segmentation fault*).
+
+::: {.callout-tip}
+## Dobra praktyka
+Zawsze inicjalizuj wskaźniki — albo adresem, albo `NULL`:
+
+```c
+int *p = NULL;    /* jawnie "pusty" */
+int *q = &jakas_zmienna;  /* wskazuje na coś konkretnego */
+```
+
+Niezainicjalizowany wskaźnik (*wild pointer*) zawiera losowy adres — użycie go to proszenie się o katastrofę.
+:::
+
+### Stałe wskaźniki
+
+Istnieją dwa rodzaje "stałości":
+
+```c
+const int *p;        /* wskaźnik na stały int — nie można zmienić *p */
+int *const q = &a;   /* stały wskaźnik — nie można zmienić q (adresu) */
+const int *const r = &a;  /* oba stałe */
+```
+
+Czytamy **od prawej do lewej**: `const int *p` = "p jest wskaźnikiem na (const int)".
+
+```c
+int a = 5, b = 10;
+const int *p = &a;
+
+*p = 42;    /* BŁĄD — nie można modyfikować wartości przez p */
+p = &b;     /* OK — można zmienić na co wskazuje p */
+
+int *const q = &a;
+*q = 42;    /* OK — wartość można zmieniać */
+q = &b;     /* BŁĄD — nie można zmienić adresu w q */
+```
+
+---
+
+## Dynamiczna alokacja pamięci
+
+Tablice na stosie mają **stały rozmiar** ustalony w czasie kompilacji. Aby alokować pamięć w czasie działania programu, korzystamy z **sterty** (*heap*) za pomocą funkcji z `<stdlib.h>`:
+
+| Funkcja | Działanie |
+|---------|-----------|
+| `malloc(n)` | Alokuje `n` bajtów, zwraca wskaźnik (niezainicjalizowane) |
+| `calloc(k, n)` | Alokuje `k` elementów po `n` bajtów, **zeruje** pamięć |
+| `realloc(p, n)` | Zmienia rozmiar bloku wskazywanego przez `p` na `n` bajtów |
+| `free(p)` | Zwalnia blok pamięci wskazywany przez `p` |
+
+### `malloc` i `free`
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    int n;
+    printf("Ile liczb? ");
+    scanf("%d", &n);
+
+    /* Alokacja tablicy n elementów int na stercie */
+    int *tab = (int *)malloc(n * sizeof(int));
+
+    if (tab == NULL) {
+        fprintf(stderr, "Błąd alokacji pamięci!\n");
+        return 1;
+    }
+
+    /* Wypełnienie */
+    for (int i = 0; i < n; ++i) {
+        tab[i] = i * i;   /* notacja tablicowa działa na wskaźnikach */
+    }
+
+    /* Wypisanie */
+    for (int i = 0; i < n; ++i) {
+        printf("tab[%d] = %d\n", i, tab[i]);
+    }
+
+    /* OBOWIĄZKOWE zwolnienie pamięci */
+    free(tab);
+    tab = NULL;   /* dobra praktyka — zerujemy wskaźnik po free */
+
+    return 0;
+}
+```
+
+::: {.callout-important}
+## Zasada: każdy `malloc` musi mieć swój `free`!
+
+Niezwolniona pamięć to **wyciek pamięci** (*memory leak*) — program zjada coraz więcej RAM-u. W programach krótkotrwałych system odzyska pamięć po zakończeniu, ale w serwerach, systemach wbudowanych czy demonach, wycieki pamięci prowadzą do stopniowej degradacji i crash-u.
+:::
+
+### `calloc` — alokacja z zerowaniem
+
+```c
+/* Alokuje 100 int-ów, wszystkie zainicjalizowane na 0 */
+int *tab = (int *)calloc(100, sizeof(int));
+```
+
+Różnica: `malloc(100 * sizeof(int))` daje **śmieci** w pamięci, `calloc(100, sizeof(int))` daje **zera**.
+
+### `realloc` — zmiana rozmiaru
+
+```c
+int *tab = (int *)malloc(5 * sizeof(int));
+/* ... używamy 5 elementów ... */
+
+/* Potrzebujemy więcej miejsca */
+int *nowy = (int *)realloc(tab, 10 * sizeof(int));
+if (nowy == NULL) {
+    /* realloc zawiódł — tab nadal jest ważny! */
+    free(tab);
+    return 1;
+}
+tab = nowy;  /* bezpieczne przypisanie */
+```
+
+::: {.callout-warning}
+## Pułapka `realloc`
+
+Nigdy nie pisz `tab = realloc(tab, ...)` bezpośrednio! Jeśli `realloc` zwróci `NULL`, stracisz oryginalny wskaźnik i nie będziesz mógł zwolnić pamięci. Zawsze używaj zmiennej pośredniej.
+:::
+
+---
+
+## Typowe pułapki wskaźników
+
+### 1. Dangling pointer — wskaźnik na zwolnioną pamięć
+
+```c
+int *p = (int *)malloc(sizeof(int));
+*p = 42;
+free(p);
+printf("%d\n", *p);  /* NIEZDEFINIOWANE — pamięć już zwolniona! */
+```
+
+**Rozwiązanie:** po `free(p)` zawsze `p = NULL;`.
+
+### 2. Memory leak — wyciek pamięci
+
+```c
+void wyciek(void)
+{
+    int *p = (int *)malloc(1000 * sizeof(int));
+    /* ... praca z p ... */
+    /* BRAK free(p)! Pamięć utracona na zawsze. */
+}
+```
+
+### 3. Double free — podwójne zwolnienie
+
+```c
+int *p = (int *)malloc(sizeof(int));
+free(p);
+free(p);  /* NIEZDEFINIOWANE! Może spowodować crash. */
+```
+
+### 4. Zapis poza alokacją (buffer overflow)
+
+```c
+int *tab = (int *)malloc(5 * sizeof(int));
+tab[10] = 99;  /* POZA ALOKACJĄ — nadpisuje losową pamięć! */
+```
+
+To klasyczny wektor ataku bezpieczeństwa (*buffer overflow exploit*).
+
+### Wskaźniki na funkcje
+
+Wskaźnik może przechowywać adres **funkcji** — przydatne np. do implementacji callbacków:
+
+```c
+#include <stdio.h>
+
+int dodaj(int a, int b) { return a + b; }
+int odejmij(int a, int b) { return a - b; }
+
+int oblicz(int a, int b, int (*operacja)(int, int))
+{
+    return operacja(a, b);
+}
+
+int main(void)
+{
+    printf("%d\n", oblicz(10, 3, dodaj));    /* 13 */
+    printf("%d\n", oblicz(10, 3, odejmij));  /* 7  */
+    return 0;
+}
+```
+
+Deklaracja `int (*operacja)(int, int)` — wskaźnik na funkcję przyjmującą dwa `int` i zwracającą `int`.
+
+---
+
+## Napisy (łańcuchy znaków)
+
+W C **nie istnieje** osobny typ "string". Napis to po prostu **tablica znaków `char` zakończona bajtem `\0`** (null terminator):
+
+```c
+char powitanie[] = "Hej!";
+```
+
+W pamięci wygląda to tak:
+
+```
+Indeks:  [0]  [1]  [2]  [3]  [4]
+Dane:    'H'  'e'  'j'  '!'  '\0'
+```
+
+`sizeof(powitanie)` = 5 (4 znaki + null), ale `strlen(powitanie)` = 4 (bez nulla).
+
+### Sposoby tworzenia napisów
+
+```c
+/* 1. Tablica znaków z inicjalizacją literałem */
+char s1[] = "Hello";              /* tablica 6 znaków (5 + '\0') */
+
+/* 2. Tablica z jawnym rozmiarem */
+char s2[20] = "Hello";            /* 20 bajtów, 5 znaków + '\0', reszta = '\0' */
+
+/* 3. Wskaźnik na literał */
+const char *s3 = "Hello";         /* wskazuje na stały literał w pamięci */
+
+/* 4. Tablica znaków, ręczna inicjalizacja */
+char s4[] = {'H', 'e', 'l', 'l', 'o', '\0'};  /* nie zapomnij '\0'! */
+```
+
+::: {.callout-caution}
+## Tablica vs wskaźnik na literał
+
+```c
+char s1[] = "Hello";        /* KOPIA — można modyfikować */
+const char *s2 = "Hello";   /* WSKAŹNIK na stały literał — modyfikacja = UB */
+
+s1[0] = 'J';   /* OK → "Jello" */
+s2[0] = 'J';   /* NIEZDEFINIOWANE ZACHOWANIE! (potencjalnie segfault) */
+```
+
+Literały napisowe (`"Hello"`) są przechowywane w segmencie **tylko do odczytu** pamięci programu.
+:::
+
+### Operacje na napisach — `<string.h>`
+
+| Funkcja | Działanie | Przykład |
+|---------|-----------|---------|
+| `strlen(s)` | Długość (bez `\0`) | `strlen("abc")` → `3` |
+| `strcpy(dst, src)` | Kopiuje `src` do `dst` | `strcpy(buf, "Hello")` |
+| `strncpy(dst, src, n)` | Kopiuje max `n` znaków | bezpieczniejsze niż `strcpy` |
+| `strcat(dst, src)` | Dołącza `src` na koniec `dst` | `strcat(buf, " World")` |
+| `strncat(dst, src, n)` | Dołącza max `n` znaków | bezpieczniejsze |
+| `strcmp(s1, s2)` | Porównuje leksykograficznie | `0` jeśli równe |
+| `strncmp(s1, s2, n)` | Porównuje max `n` znaków | |
+| `strchr(s, c)` | Szuka znaku `c` w `s` | wskaźnik lub `NULL` |
+| `strstr(s, sub)` | Szuka podnapisu `sub` | wskaźnik lub `NULL` |
+
+#### Porównywanie napisów
+
+```c
+char a[] = "abc";
+char b[] = "abc";
+
+if (a == b) { ... }         /* ŹLE! Porównuje ADRESY, nie zawartość! */
+if (strcmp(a, b) == 0) { ... }  /* DOBRZE — porównuje zawartość */
+```
+
+`strcmp` zwraca:
+
+- `0` — napisy identyczne,
+- wartość ujemną — `s1` jest "mniejsze" (wcześniejsze w porządku leksykograficznym),
+- wartość dodatnią — `s1` jest "większe".
+
+#### Kopiowanie napisów
+
+```c
+char dest[20];
+strcpy(dest, "Hello");      /* NIEBEZPIECZNE — brak kontroli rozmiaru! */
+strncpy(dest, "Hello", sizeof(dest) - 1);  /* bezpieczniejsze */
+dest[sizeof(dest) - 1] = '\0';             /* strncpy nie gwarantuje '\0'! */
+```
+
+#### Łączenie napisów
+
+```c
+char buf[50] = "Witaj";
+strcat(buf, ", ");
+strcat(buf, "świecie!");
+printf("%s\n", buf);  /* "Witaj, świecie!" */
+```
+
+### Wczytywanie napisów od użytkownika
+
+```c
+char imie[50];
+
+/* NIGDY nie używaj gets()! — usunięte ze standardu C11 (buffer overflow) */
+/* gets(imie); */
+
+/* Bezpieczna alternatywa: fgets */
+printf("Podaj imię: ");
+fgets(imie, sizeof(imie), stdin);
+
+/* fgets zostawia '\n' na końcu — usuwamy go: */
+imie[strcspn(imie, "\n")] = '\0';
+
+printf("Cześć, %s!\n", imie);
+```
+
+::: {.callout-important}
+## Nigdy nie używaj `gets()`!
+
+Funkcja `gets()` nie sprawdza rozmiaru bufora — to klasyczny wektor ataku buffer overflow. Została **usunięta** ze standardu C11. Zawsze używaj `fgets()`.
+:::
+
+### Konwersje
+
+```c
+#include <stdlib.h>
+
+/* Napis → liczba */
+int n = atoi("42");           /* 42 */
+double d = atof("3.14");     /* 3.14 */
+long l = strtol("FF", NULL, 16);  /* 255 (hex → long) */
+
+/* Liczba → napis */
+char buf[20];
+sprintf(buf, "%d", 42);       /* "42" */
+snprintf(buf, sizeof(buf), "%.2f", 3.14159);  /* "3.14" — bezpieczne */
+```
+
+---
+
+## Kompletny przykład: Odwracanie napisu
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+void odwroc(char *s)
+{
+    int len = strlen(s);
+    for (int i = 0; i < len / 2; ++i) {
+        char tmp = s[i];
+        s[i] = s[len - 1 - i];
+        s[len - 1 - i] = tmp;
+    }
+}
+
+int main(void)
+{
+    char tekst[] = "Programowanie w C";
+    printf("Przed: %s\n", tekst);
+
+    odwroc(tekst);
+    printf("Po:    %s\n", tekst);
+
+    return 0;
+}
+```
+
+```
+Przed: Programowanie w C
+Po:    C w einawomargorP
+```
+
+## Kompletny przykład: Dynamiczna tablica z rozszerzaniem
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    int pojemnosc = 4;
+    int rozmiar = 0;
+    int *tab = (int *)malloc(pojemnosc * sizeof(int));
+
+    if (!tab) {
+        fprintf(stderr, "Błąd alokacji!\n");
+        return 1;
+    }
+
+    printf("Podawaj liczby (0 = koniec):\n");
+
+    int val;
+    while (scanf("%d", &val) == 1 && val != 0) {
+        /* Rozszerzenie tablicy gdy brak miejsca */
+        if (rozmiar >= pojemnosc) {
+            pojemnosc *= 2;  /* podwajamy pojemność */
+            int *nowy = (int *)realloc(tab, pojemnosc * sizeof(int));
+            if (!nowy) {
+                fprintf(stderr, "Błąd realloc!\n");
+                free(tab);
+                return 1;
+            }
+            tab = nowy;
+            printf("  (rozszerzono do %d elementów)\n", pojemnosc);
+        }
+        tab[rozmiar++] = val;
+    }
+
+    printf("\nWpisano %d liczb:\n", rozmiar);
+    for (int i = 0; i < rozmiar; ++i) {
+        printf("  [%d] = %d\n", i, tab[i]);
+    }
+
+    free(tab);
+    tab = NULL;
+    return 0;
+}
+```
+
+Ten wzorzec — **podwajanie pojemności** przy braku miejsca — to dokładnie to, co robi `std::vector` w C++ "pod maską". Złożoność zamortyzowana wstawiania to $O(1)$.
+
+---
+
+## Napisy w C++ — `std::string`
+
+C++ oferuje klasę `std::string`, która **automatycznie zarządza pamięcią** i eliminuje większość pułapek napisów w C:
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string s1 = "Hello";
+    std::string s2 = " World";
+
+    std::string s3 = s1 + s2;          /* łączenie operatorem + */
+    std::cout << s3 << std::endl;      /* "Hello World" */
+    std::cout << s3.length() << std::endl; /* 11 */
+
+    if (s1 == "Hello") {               /* porównanie operatorem == */
+        std::cout << "Równe!" << std::endl;
+    }
+
+    std::string imie;
+    std::cout << "Podaj imię: ";
+    std::getline(std::cin, imie);      /* wczytuje całą linię */
+    std::cout << "Cześć, " << imie << "!" << std::endl;
+
+    /* Dostęp do znaków: */
+    char pierwszy = s1[0];             /* 'H' */
+    s1[0] = 'J';                       /* "Jello" — modyfikacja OK */
+
+    /* Konwersja do C-stringa: */
+    const char *cstr = s1.c_str();     /* wskaźnik na wewnętrzną tablicę char */
+
+    return 0;
+}
+```
+
+W C++ **preferuj `std::string`** nad tablicami `char` — jest bezpieczniejszy, wygodniejszy i nie wymaga ręcznego `malloc`/`free`.
+
+---
+
+## Podsumowanie
+
+W tym wykładzie poznaliśmy:
+
+1. **Tablice** — deklaracja, inicjalizacja, indeksowanie od 0, tablice wielowymiarowe, układ w pamięci, ograniczenia.
+2. **Wskaźniki** — `&` (adres), `*` (dereferencja), arytmetyka wskaźników, relacja z tablicami, `NULL`, `const`.
+3. **Dynamiczna alokacja** — `malloc`, `calloc`, `realloc`, `free`, zasada "każdy malloc ma swój free".
+4. **Pułapki** — dangling pointer, memory leak, double free, buffer overflow.
+5. **Wskaźniki na funkcje** — callbacki.
+6. **Napisy** — tablice `char[]` z `\0`, `<string.h>`, `fgets` (nie `gets`!), konwersje.
+7. **C++ `std::string`** — bezpieczna alternatywa.
+
+Te koncepcje to fundament — bez zrozumienia wskaźników nie da się efektywnie programować w C ani rozumieć, jak działają systemy operacyjne i sprzęt.

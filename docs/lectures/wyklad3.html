@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -179,6 +214,30 @@ window.Quarto = {
  <span class="menu-text">Reprezentacja informacji i wstęp do architektury komputerów</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Język C – Pierwsze kroki</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operatory i Instrukcje sterujące</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Funkcje i Preprocesor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablice, Wskaźniki i Napisy</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -191,20 +250,26 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#bit" id="toc-bit" class="nav-link active" data-scroll-target="#bit">Bit</a></li>
-  <li><a href="#systemy-liczbowe-w-informatyce" id="toc-systemy-liczbowe-w-informatyce" class="nav-link" data-scroll-target="#systemy-liczbowe-w-informatyce">Systemy liczbowe w informatyce</a>
+  <li><a href="#reprezentacja-informacji-i-wstęp-do-architektury-komputerów" id="toc-reprezentacja-informacji-i-wstęp-do-architektury-komputerów" class="nav-link active" data-scroll-target="#reprezentacja-informacji-i-wstęp-do-architektury-komputerów">Reprezentacja informacji i wstęp do architektury komputerów</a>
   <ul class="collapse">
-  <li><a href="#system-binarny-dwójkowy" id="toc-system-binarny-dwójkowy" class="nav-link" data-scroll-target="#system-binarny-dwójkowy">System Binarny (Dwójkowy)</a></li>
-  <li><a href="#system-heksadecymalny-szesnastkowy---hex" id="toc-system-heksadecymalny-szesnastkowy---hex" class="nav-link" data-scroll-target="#system-heksadecymalny-szesnastkowy---hex">System Heksadecymalny (Szesnastkowy - HEX)</a></li>
-  </ul></li>
+  <li><a href="#część-i-reprezentacja-informacji" id="toc-część-i-reprezentacja-informacji" class="nav-link" data-scroll-target="#część-i-reprezentacja-informacji">Część I: Reprezentacja informacji</a>
+  <ul class="collapse">
+  <li><a href="#bit-atom-informacji" id="toc-bit-atom-informacji" class="nav-link" data-scroll-target="#bit-atom-informacji">Bit — atom informacji</a></li>
+  <li><a href="#systemy-liczbowe-w-informatyce" id="toc-systemy-liczbowe-w-informatyce" class="nav-link" data-scroll-target="#systemy-liczbowe-w-informatyce">Systemy liczbowe w informatyce</a></li>
   <li><a href="#jak-komputer-zapisuje-tekst-kod-ascii" id="toc-jak-komputer-zapisuje-tekst-kod-ascii" class="nav-link" data-scroll-target="#jak-komputer-zapisuje-tekst-kod-ascii">Jak komputer zapisuje tekst? (Kod ASCII)</a></li>
-  <li><a href="#problem-liczb-ujemnych-jak-zapisać-minus" id="toc-problem-liczb-ujemnych-jak-zapisać-minus" class="nav-link" data-scroll-target="#problem-liczb-ujemnych-jak-zapisać-minus">Problem liczb ujemnych: Jak zapisać minus?</a>
-  <ul class="collapse">
-  <li><a href="#krok-1-kod-znak-moduł-zm" id="toc-krok-1-kod-znak-moduł-zm" class="nav-link" data-scroll-target="#krok-1-kod-znak-moduł-zm">Krok 1: Kod Znak-Moduł (ZM)</a></li>
-  <li><a href="#krok-2-kod-u1-uzupełnień-do-jedności" id="toc-krok-2-kod-u1-uzupełnień-do-jedności" class="nav-link" data-scroll-target="#krok-2-kod-u1-uzupełnień-do-jedności">Krok 2: Kod U1 (Uzupełnień do jedności)</a></li>
-  <li><a href="#krok-3-kod-u2-uzupełnień-do-dwóch" id="toc-krok-3-kod-u2-uzupełnień-do-dwóch" class="nav-link" data-scroll-target="#krok-3-kod-u2-uzupełnień-do-dwóch">Krok 3: Kod U2 (Uzupełnień do dwóch)</a></li>
+  <li><a href="#problem-liczb-ujemnych-jak-zapisać-minus" id="toc-problem-liczb-ujemnych-jak-zapisać-minus" class="nav-link" data-scroll-target="#problem-liczb-ujemnych-jak-zapisać-minus">Problem liczb ujemnych: Jak zapisać minus?</a></li>
+  <li><a href="#zjawisko-przepełnienia-overflow" id="toc-zjawisko-przepełnienia-overflow" class="nav-link" data-scroll-target="#zjawisko-przepełnienia-overflow">Zjawisko przepełnienia (Overflow)</a></li>
   </ul></li>
-  <li><a href="#zjawisko-przepełnienia-overflow" id="toc-zjawisko-przepełnienia-overflow" class="nav-link" data-scroll-target="#zjawisko-przepełnienia-overflow">Zjawisko Przepełnienia (Overflow)</a></li>
+  <li><a href="#część-ii-architektura-komputera" id="toc-część-ii-architektura-komputera" class="nav-link" data-scroll-target="#część-ii-architektura-komputera">Część II: Architektura komputera</a>
+  <ul class="collapse">
+  <li><a href="#model-von-neumanna" id="toc-model-von-neumanna" class="nav-link" data-scroll-target="#model-von-neumanna">Model Von Neumanna</a></li>
+  <li><a href="#cykl-rozkazowy-jak-procesor-wykonuje-program" id="toc-cykl-rozkazowy-jak-procesor-wykonuje-program" class="nav-link" data-scroll-target="#cykl-rozkazowy-jak-procesor-wykonuje-program">Cykl rozkazowy — jak procesor wykonuje program</a></li>
+  <li><a href="#hierarchia-pamięci" id="toc-hierarchia-pamięci" class="nav-link" data-scroll-target="#hierarchia-pamięci">Hierarchia pamięci</a></li>
+  <li><a href="#układ-pamięci-procesu-jak-program-żyje-w-ram" id="toc-układ-pamięci-procesu-jak-program-żyje-w-ram" class="nav-link" data-scroll-target="#układ-pamięci-procesu-jak-program-żyje-w-ram">Układ pamięci procesu — jak program żyje w RAM</a></li>
+  <li><a href="#architektura-von-neumanna-vs-harvard" id="toc-architektura-von-neumanna-vs-harvard" class="nav-link" data-scroll-target="#architektura-von-neumanna-vs-harvard">Architektura Von Neumanna vs Harvard</a></li>
+  </ul></li>
+  <li><a href="#podsumowanie" id="toc-podsumowanie" class="nav-link" data-scroll-target="#podsumowanie">Podsumowanie</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -230,108 +295,800 @@ window.Quarto = {
 </header>
 
 
-<p>Wykład 1:</p>
-<section id="bit" class="level2">
-<h2 class="anchored" data-anchor-id="bit">Bit</h2>
+<section id="reprezentacja-informacji-i-wstęp-do-architektury-komputerów" class="level1">
+<h1>Reprezentacja informacji i wstęp do architektury komputerów</h1>
+<p>Zanim napiszemy pierwszą linijkę kodu w C/C++, musimy zrozumieć dwie rzeczy: <strong>jak komputer przechowuje informację</strong> (bo mamy do dyspozycji wyłącznie zera i jedynki) oraz <strong>jak zbudowana jest maszyna</strong>, na której nasz kod będzie działał.</p>
+<hr>
+<section id="część-i-reprezentacja-informacji" class="level2">
+<h2 class="anchored" data-anchor-id="część-i-reprezentacja-informacji">Część I: Reprezentacja informacji</h2>
+<section id="bit-atom-informacji" class="level3">
+<h3 class="anchored" data-anchor-id="bit-atom-informacji">Bit — atom informacji</h3>
+<p>Komputer to urządzenie elektroniczne, a jego “mózg” (procesor) składa się z miliardów mikroskopijnych przełączników — <strong>tranzystorów</strong>. Tranzystor działa jak włącznik światła i ma tylko dwa stany fizyczne:</p>
 <ol type="1">
-<li>Dlaczego komputer rozumie tylko zera i jedynki?</li>
+<li><strong>Brak napięcia</strong> (wyłączony) — w logice zapisujemy jako <code>0</code>.</li>
+<li><strong>Jest napięcie</strong> (włączony) — w logice zapisujemy jako <code>1</code>.</li>
 </ol>
-<p>Zanim napiszemy pierwszą linijkę kodu w C/C++, musimy zrozumieć, na czym ten kod będzie działał. Komputer to urządzenie elektroniczne, a jego “mózg” (procesor) składa się z miliardów mikroskopijnych przełączników – <strong>tranzystorów</strong>.</p>
-<p>Tranzystor działa jak włącznik światła, ma tylko dwa stany fizyczne:</p>
-<ol type="1">
-<li>Brak napięcia (wyłączony) – co w logice zapisujemy jako 0.</li>
-<li>Jest napięcie (włączony) – co w logice zapisujemy jako 1.</li>
-</ol>
-<p>Pojedyncze zero lub jedynka to <strong>Bit</strong> (ang. <em>binary digit</em>). To najmniejsza możliwa porcja informacji.</p>
-<p>Ponieważ jeden bit to za mało, by przekazać sensowną informację, komputery grupują je w paczki. Standardową paczką jest <strong>Bajt</strong> (<em>Byte</em>), który składa się z 8 bitów.</p>
-<p>Jeden bajt pozwala na zapisanie <span class="math inline">\(2^8=256\)</span> unikalnych kombinacji.</p>
+<p>Pojedyncze zero lub jedynka to <strong>bit</strong> (ang. <em>binary digit</em>) — najmniejsza możliwa porcja informacji.</p>
+<p>Jeden bit to za mało, by przekazać sensowną informację, dlatego komputery grupują bity w paczki. Standardową paczką jest <strong>bajt</strong> (<em>byte</em>), który składa się z <strong>8 bitów</strong>.</p>
+<p>Jeden bajt pozwala na zapisanie <span class="math inline">\(2^8 = 256\)</span> unikalnych kombinacji (od <code>0000 0000</code> do <code>1111 1111</code>).</p>
+<p>Większe jednostki:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Jednostka</th>
+<th>Rozmiar</th>
+<th style="text-align: center;">Ile wartości?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 bit</td>
+<td>—</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td>1 bajt (B)</td>
+<td>8 bitów</td>
+<td style="text-align: center;">256</td>
+</tr>
+<tr class="odd">
+<td>1 kilobajt (KB)</td>
+<td>1 024 B</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="even">
+<td>1 megabajt (MB)</td>
+<td>1 024 KB</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="odd">
+<td>1 gigabajt (GB)</td>
+<td>1 024 MB</td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Kilo = 1024, nie 1000
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>W informatyce stosujemy potęgi dwójki: <span class="math inline">\(1 \text{ KB} = 2^{10} = 1024\)</span> bajtów. Aby uniknąć niejednoznaczności, IEC wprowadził przedrostki binarne: <strong>KiB</strong> (kibibajt), <strong>MiB</strong> (mebibajt), <strong>GiB</strong> (gibibajt). W praktyce oba systemy są używane zamiennie.</p>
+</div>
+</div>
+<hr>
 </section>
-<section id="systemy-liczbowe-w-informatyce" class="level2">
-<h2 class="anchored" data-anchor-id="systemy-liczbowe-w-informatyce">Systemy liczbowe w informatyce</h2>
-<p>My, ludzie, używamy systemu dziesiętnego (DEC), bo mamy 10 palców. Komputery używają systemu dwójkowego (BIN).</p>
-<section id="system-binarny-dwójkowy" class="level3">
-<h3 class="anchored" data-anchor-id="system-binarny-dwójkowy">System Binarny (Dwójkowy)</h3>
+<section id="systemy-liczbowe-w-informatyce" class="level3">
+<h3 class="anchored" data-anchor-id="systemy-liczbowe-w-informatyce">Systemy liczbowe w informatyce</h3>
+<p>My, ludzie, używamy systemu <strong>dziesiętnego</strong> (DEC), bo mamy 10 palców. Komputery używają systemu <strong>dwójkowego</strong> (BIN).</p>
+<section id="system-binarny-dwójkowy" class="level4">
+<h4 class="anchored" data-anchor-id="system-binarny-dwójkowy">System binarny (dwójkowy)</h4>
 <p>Każda pozycja w liczbie binarnej to kolejna potęga liczby 2 (zaczynając od prawej strony, od <span class="math inline">\(2^0\)</span>).</p>
-<p>Przykład: Jak komputer widzi liczbę 13?</p>
-<p>W systemie binarnym to 1101. Dlaczego? <span class="math display">\[
-1⋅2^3 + 1⋅2^2 + 0⋅2^1 +1⋅2^0 = 8+4+0+1 = 13
+<p><strong>Przykład:</strong> Jak komputer widzi liczbę 13?</p>
+<p>W systemie binarnym to <code>1101</code>. Dlaczego?</p>
+<p><span class="math display">\[
+\underbrace{1}_{2^3} \cdot 8 + \underbrace{1}_{2^2} \cdot 4 + \underbrace{0}_{2^1} \cdot 0 + \underbrace{1}_{2^0} \cdot 1 = 8 + 4 + 0 + 1 = 13
 \]</span></p>
+<p><strong>Konwersja DEC → BIN</strong> — metoda dzielenia przez 2:</p>
+<pre><code>13 ÷ 2 = 6  reszta 1  ↑
+ 6 ÷ 2 = 3  reszta 0  |  Czytamy reszty
+ 3 ÷ 2 = 1  reszta 1  |  od dołu do góry
+ 1 ÷ 2 = 0  reszta 1  |
+                       → 1101₂</code></pre>
+<p><strong>Konwersja BIN → DEC</strong> — sumowanie potęg:</p>
+<p><span class="math display">\[1101_2 = 1 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 8 + 4 + 0 + 1 = 13_{10}\]</span></p>
 </section>
-<section id="system-heksadecymalny-szesnastkowy---hex" class="level3">
-<h3 class="anchored" data-anchor-id="system-heksadecymalny-szesnastkowy---hex">System Heksadecymalny (Szesnastkowy - HEX)</h3>
-<p>Zapisywanie długich ciągów zer i jedynek jest dla programisty niewygodne i łatwo o błąd. Dlatego inżynierowie wymyślili system szesnastkowy.</p>
-<p>Dlaczego akurat 16? Ponieważ <span class="math inline">\(16=2^4\)</span></p>
-<p>Oznacza to, że dokładnie 4 bity (pół bajta) można zastąpić jednym znakiem w systemie HEX. To idealny kompromis między maszyną a człowiekiem.</p>
+<section id="dodawanie-binarne" class="level4">
+<h4 class="anchored" data-anchor-id="dodawanie-binarne">Dodawanie binarne</h4>
+<p>Działa identycznie jak dodawanie dziesiętne, tyle że “przenosimy” jedynkę już przy sumie 2 (bo <span class="math inline">\(10_2 = 2_{10}\)</span>):</p>
+<pre><code>  Przeniesienia:  1 1 1
+                  0 1 1 0 1   (13)
+                + 0 1 0 1 1   (11)
+                -----------
+                  1 1 0 0 0   (24) ✓</code></pre>
+</section>
+<section id="system-heksadecymalny-szesnastkowy-hex" class="level4">
+<h4 class="anchored" data-anchor-id="system-heksadecymalny-szesnastkowy-hex">System heksadecymalny (szesnastkowy — HEX)</h4>
+<p>Zapisywanie długich ciągów zer i jedynek jest niewygodne i łatwo o błąd. Dlatego inżynierowie wymyślili system szesnastkowy.</p>
+<p>Dlaczego akurat 16? Ponieważ <span class="math inline">\(16 = 2^4\)</span>, co oznacza, że dokładnie <strong>4 bity</strong> (pół bajta, tzw. <em>nibble</em>) odpowiadają jednemu znakowi HEX. To idealny kompromis między maszyną a człowiekiem.</p>
 <p>Do zapisu używamy cyfr <code>0-9</code> oraz liter <code>A-F</code> (gdzie A=10, B=11, …, F=15).</p>
-<section id="przykład" class="level4">
-<h4 class="anchored" data-anchor-id="przykład">Przykład:</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">DEC</th>
+<th style="text-align: center;">BIN</th>
+<th style="text-align: center;">HEX</th>
+<th></th>
+<th style="text-align: center;">DEC</th>
+<th style="text-align: center;">BIN</th>
+<th style="text-align: center;">HEX</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0000</td>
+<td style="text-align: center;">0</td>
+<td></td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0001</td>
+<td style="text-align: center;">1</td>
+<td></td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">1001</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0010</td>
+<td style="text-align: center;">2</td>
+<td></td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">1010</td>
+<td style="text-align: center;">A</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0011</td>
+<td style="text-align: center;">3</td>
+<td></td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">1011</td>
+<td style="text-align: center;">B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0100</td>
+<td style="text-align: center;">4</td>
+<td></td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">1100</td>
+<td style="text-align: center;">C</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0101</td>
+<td style="text-align: center;">5</td>
+<td></td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">1101</td>
+<td style="text-align: center;">D</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0110</td>
+<td style="text-align: center;">6</td>
+<td></td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">1110</td>
+<td style="text-align: center;">E</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0111</td>
+<td style="text-align: center;">7</td>
+<td></td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">1111</td>
+<td style="text-align: center;">F</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Przykład konwersji BIN → HEX:</strong></p>
 <p>Binarnie: <code>1010 1111</code> (8 bitów)</p>
-<p>Dzielimy na pół: <code>1010</code> (dziesiętne 10, czyli A) oraz <code>1111</code> (dziesiętne 15, czyli F).</p>
-<p>Zapis HEX: <code>AF</code> lub <code>0xAF</code> (w C/C++ przedrostek 0x oznacza system szesnastkowy).</p>
-</section>
-</section>
-</section>
-<section id="jak-komputer-zapisuje-tekst-kod-ascii" class="level2">
-<h2 class="anchored" data-anchor-id="jak-komputer-zapisuje-tekst-kod-ascii">Jak komputer zapisuje tekst? (Kod ASCII)</h2>
-<p>Komputer nie “widzi” liter. Zna tylko liczby. Aby wyświetlić tekst, inżynierowie stworzyli tabelę kodową – swego rodzaju słownik. Najbardziej podstawowym standardem jest ASCII (<em>American Standard Code for Information Interchange</em>).</p>
-<p>Każdemu znakowi przypisano konkretną wartość liczbową. Na przykład:</p>
-<p>Litera ‘A’ to dziesiętnie 65 (binarnie 01000001).</p>
-<p>Litera ‘B’ to 66.</p>
-<p>Litera ‘a’ to 97.</p>
-<p>Spacja to 32.</p>
-<p>Wskazówka inżynierska: W języku C litera to pod spodem po prostu liczba (typ char to w rzeczywistości mała liczba całkowita). Możemy więc wykonać operację matematyczną: ‘A’ + 1 i otrzymamy ‘B’!</p>
-</section>
-<section id="problem-liczb-ujemnych-jak-zapisać-minus" class="level2">
-<h2 class="anchored" data-anchor-id="problem-liczb-ujemnych-jak-zapisać-minus">Problem liczb ujemnych: Jak zapisać minus?</h2>
-<p>Zapisywanie liczb dodatnich jest proste. Ale co z ujemnymi?</p>
-<p>Komputer nie ma fizycznego znaku “minus” (−) w pamięci RAM. Ma tylko zera i jedynki.</p>
-<section id="krok-1-kod-znak-moduł-zm" class="level3">
-<h3 class="anchored" data-anchor-id="krok-1-kod-znak-moduł-zm">Krok 1: Kod Znak-Moduł (ZM)</h3>
-<p>Pierwszy, najprostszy pomysł inżynierów. Zarezerwujmy najstarszy bit (ten najbardziej po lewej, tzw. MSB - <em>Most Significant Bit</em>) jako znak.</p>
-<p><code>0 = plus</code></p>
-<p><code>1 = minus</code></p>
-<p>Przykład dla 8 bitów:</p>
-<pre><code>0000 0101 = +5
-
-1000 0101 = −5</code></pre>
-<p>Problem z ZM: Mamy dwie reprezentacje zera: 0000 0000 (+0) oraz 1000 0000 (-0).</p>
-<p>Dla procesora to koszmar logiczny.</p>
-<p>Musiałby sprawdzać każdy znak osobno przed wykonaniem dodawania, co wymaga skomplikowanych i wolnych układów scalonych.</p>
-</section>
-<section id="krok-2-kod-u1-uzupełnień-do-jedności" class="level3">
-<h3 class="anchored" data-anchor-id="krok-2-kod-u1-uzupełnień-do-jedności">Krok 2: Kod U1 (Uzupełnień do jedności)</h3>
-<p>Aby uzyskać liczbę ujemną, negujemy wszystkie bity liczby dodatniej (zamieniamy 1→0, 0→1).</p>
-<p>Ten system był lepszy matematycznie, ale nadal miał problem “podwójnego zera” i wymagał korekt przy dodawaniu.</p>
-</section>
-<section id="krok-3-kod-u2-uzupełnień-do-dwóch" class="level3">
-<h3 class="anchored" data-anchor-id="krok-3-kod-u2-uzupełnień-do-dwóch">Krok 3: Kod U2 (Uzupełnień do dwóch)</h3>
-<p>To system, którego używają dzisiaj absolutnie wszystkie procesory (i z którego będziecie korzystać w C/C++).</p>
-<p>Aby uzyskać ujemną reprezentację liczby w U2:</p>
+<p>Dzielimy na nibble’y: <code>1010</code> (dziesiętne 10, czyli <strong>A</strong>) oraz <code>1111</code> (dziesiętne 15, czyli <strong>F</strong>).</p>
+<p>Zapis HEX: <strong><code>AF</code></strong> lub <strong><code>0xAF</code></strong> (w C/C++ przedrostek <code>0x</code> oznacza system szesnastkowy).</p>
+<p><strong>Przykłady zastosowań HEX:</strong></p>
 <ul>
-<li>Weź liczbę dodatnią.</li>
-<li>Zaneguj wszystkie bity (jak w U1).</li>
-<li>Dodaj 1 do wyniku.</li>
+<li>Kolory w HTML/CSS: <code>#FF8800</code> = R=255, G=136, B=0</li>
+<li>Adresy pamięci: <code>0x7FFE1234</code></li>
+<li>Kody ASCII: litera <code>A</code> = <code>0x41</code></li>
+<li>Adresy MAC: <code>AA:BB:CC:DD:EE:FF</code></li>
 </ul>
-<p><em>Przykład</em> dla +5 (na 8 bitach):</p>
-<pre><code>0000 0101 (+5)
-
-1111 1010 (negacja)
-
-1111 1011 (dodanie 1) → To jest -5 w U2!</code></pre>
-<p>Zapis matematyczny : W kodzie U2, najstarszy bit ma po prostu wagę ujemną. Całą resztę liczymy normalnie. Formalnie wartość liczby X na n bitach to: <span class="math display">\[
-X_{(U2)} = -x_{n-1} \dot 2^{n-1} + \sum_{i=0}^{n-2} x_i \dot 2^i
+</section>
+<section id="system-ósemkowy-oktalny-oct" class="level4">
+<h4 class="anchored" data-anchor-id="system-ósemkowy-oktalny-oct">System ósemkowy (oktalny — OCT)</h4>
+<p>Mniej popularny, ale wciąż spotykany w UNIX-ach (np. uprawnienia plików <code>chmod 755</code>). Podstawa 8 = <span class="math inline">\(2^3\)</span>, więc <strong>3 bity</strong> = 1 cyfra ósemkowa. W C/C++ literały ósemkowe zaczynają się od <code>0</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="bn">010</span><span class="op">;</span>  <span class="co">/* ósemkowo → 8 dziesiętnie! Częsty błąd. */</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b <span class="op">=</span> <span class="bn">0x10</span><span class="op">;</span> <span class="co">/* szesnastkowo → 16 dziesiętnie */</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> c <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>   <span class="co">/* dziesiętnie → 10 */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="jak-komputer-zapisuje-tekst-kod-ascii" class="level3">
+<h3 class="anchored" data-anchor-id="jak-komputer-zapisuje-tekst-kod-ascii">Jak komputer zapisuje tekst? (Kod ASCII)</h3>
+<p>Komputer nie “widzi” liter — zna tylko liczby. Aby wyświetlić tekst, inżynierowie stworzyli <strong>tabelę kodową</strong>, swego rodzaju słownik. Najbardziej podstawowym standardem jest <strong>ASCII</strong> (<em>American Standard Code for Information Interchange</em>), definiujący 128 znaków (7 bitów):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Zakres</th>
+<th>Zawartość</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0–31</td>
+<td>Znaki sterujące (niewidzialne): <code>\n</code> (10), <code>\t</code> (9), <code>\0</code> (0)</td>
+</tr>
+<tr class="even">
+<td>32–47</td>
+<td>Spacja (32), znaki specjalne: <code>!</code>, <code>"</code>, <code>#</code>, <code>$</code>, …</td>
+</tr>
+<tr class="odd">
+<td>48–57</td>
+<td>Cyfry: <code>'0'</code>=48, <code>'1'</code>=49, …, <code>'9'</code>=57</td>
+</tr>
+<tr class="even">
+<td>65–90</td>
+<td>Wielkie litery: <code>'A'</code>=65, <code>'B'</code>=66, …, <code>'Z'</code>=90</td>
+</tr>
+<tr class="odd">
+<td>97–122</td>
+<td>Małe litery: <code>'a'</code>=97, <code>'b'</code>=98, …, <code>'z'</code>=122</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Wskazówka inżynierska:</strong> W języku C litera to pod spodem po prostu liczba (typ <code>char</code> to w rzeczywistości mała liczba całkowita). Możemy więc wykonać operacje arytmetyczne:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> c <span class="op">=</span> <span class="ch">'A'</span><span class="op">;</span>       <span class="co">/* c = 65 */</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> d <span class="op">=</span> c <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>     <span class="co">/* d = 66, czyli 'B' */</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> e <span class="op">=</span> <span class="ch">'a'</span> <span class="op">-</span> <span class="ch">'A'</span><span class="op">;</span> <span class="co">/* e = 32 (różnica między małą a wielką literą) */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Przydatne zależności ASCII
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Różnica między małą a wielką literą: <code>'a' - 'A' = 32</code></li>
+<li>Cyfra → wartość liczbowa: <code>'7' - '0' = 7</code></li>
+<li>Sprawdzenie, czy wielka litera: <code>c &gt;= 'A' &amp;&amp; c &lt;= 'Z'</code></li>
+</ul>
+</div>
+</div>
+<p>ASCII pokrywa tylko alfabet łaciński (128 znaków). Dla polskich znaków i innych alfabetów stosuje się rozszerzenia, z których najważniejszy jest <strong>Unicode</strong> (standard obejmujący ponad 150 000 znaków) z kodowaniem <strong>UTF-8</strong> (zmiennodługościowe, 1–4 bajty na znak, wstecznie kompatybilne z ASCII).</p>
+<hr>
+</section>
+<section id="problem-liczb-ujemnych-jak-zapisać-minus" class="level3">
+<h3 class="anchored" data-anchor-id="problem-liczb-ujemnych-jak-zapisać-minus">Problem liczb ujemnych: Jak zapisać minus?</h3>
+<p>Zapisywanie liczb dodatnich jest proste. Ale co z ujemnymi? Komputer nie ma fizycznego znaku “−” w pamięci RAM — ma tylko zera i jedynki.</p>
+<p>Inżynierowie opracowali trzy podejścia, z których jedno zdominowało świat.</p>
+<section id="krok-1-kod-znak-moduł-zm" class="level4">
+<h4 class="anchored" data-anchor-id="krok-1-kod-znak-moduł-zm">Krok 1: Kod Znak-Moduł (ZM)</h4>
+<p>Najprostszy pomysł: zarezerwujmy <strong>najstarszy bit</strong> (MSB — <em>Most Significant Bit</em>) jako znak: <code>0</code> = plus, <code>1</code> = minus.</p>
+<pre><code>0000 0101 = +5
+1000 0101 = −5</code></pre>
+<p><strong>Problem z ZM:</strong> Mamy dwie reprezentacje zera (<code>0000 0000</code> = +0 oraz <code>1000 0000</code> = −0). Dla procesora to koszmar logiczny — musiałby sprawdzać znak każdego argumentu osobno przed wykonaniem dodawania, co wymaga skomplikowanych i wolnych obwodów.</p>
+</section>
+<section id="krok-2-kod-u1-uzupełnień-do-jedności" class="level4">
+<h4 class="anchored" data-anchor-id="krok-2-kod-u1-uzupełnień-do-jedności">Krok 2: Kod U1 (uzupełnień do jedności)</h4>
+<p>Aby uzyskać liczbę ujemną, <strong>negujemy wszystkie bity</strong> (zamieniamy 1→0, 0→1):</p>
+<pre><code>+5:  0000 0101
+−5:  1111 1010  (negacja bitowa)</code></pre>
+<p>Lepszy matematycznie, ale nadal miał problem “podwójnego zera” (<code>0000 0000</code> ≠ <code>1111 1111</code>, a oba oznaczają zero) i wymagał korekcji przeniesienia przy dodawaniu.</p>
+</section>
+<section id="krok-3-kod-u2-uzupełnień-do-dwóch-standard" class="level4">
+<h4 class="anchored" data-anchor-id="krok-3-kod-u2-uzupełnień-do-dwóch-standard">Krok 3: Kod U2 (uzupełnień do dwóch) — standard</h4>
+<p>To system, którego używają <strong>absolutnie wszystkie współczesne procesory</strong> (i z którego będziecie korzystać w C/C++).</p>
+<p>Aby uzyskać ujemną reprezentację liczby w U2:</p>
+<ol type="1">
+<li>Weź liczbę dodatnią w postaci binarnej.</li>
+<li>Zaneguj wszystkie bity (jak w U1).</li>
+<li><strong>Dodaj 1</strong> do wyniku.</li>
+</ol>
+<p><em>Przykład</em> — kodowanie <span class="math inline">\(-5\)</span> na 8 bitach:</p>
+<pre><code>+5:        0000 0101
+Negacja:   1111 1010
+Dodaj 1:   1111 1011  → To jest −5 w U2!</code></pre>
+<p><strong>Sprawdzenie:</strong> <span class="math inline">\(-5 + 5\)</span> powinno dać <span class="math inline">\(0\)</span>:</p>
+<pre><code>  1111 1011  (−5)
++ 0000 0101  (+5)
+-----------
+ 10000 0000  → przepełnienie 9. bitu, 8 bitów = 0000 0000 = 0 ✓</code></pre>
+<p><strong>Zapis formalny:</strong> W kodzie U2 najstarszy bit ma <strong>wagę ujemną</strong>. Wartość liczby <span class="math inline">\(X\)</span> na <span class="math inline">\(n\)</span> bitach:</p>
+<p><span class="math display">\[
+X_{(U2)} = -x_{n-1} \cdot 2^{n-1} + \sum_{i=0}^{n-2} x_i \cdot 2^i
 \]</span></p>
-<p>Dlaczego U2 wygrało i zdominowało świat technologii?</p>
-<p>Geniusz U2 polega na tym, że dla procesora nie ma różnicy między dodawaniem a odejmowaniem. Procesor używa tego samego, prostego układu scalonego (sumatora) niezależnie od tego, czy liczby są dodatnie, czy ujemne. Kwestia znaku rozwiązuje się “sama” w bitach.</p>
+<p><strong>Przykład:</strong> <code>1110 1101</code> na 8 bitach:</p>
+<p><span class="math display">\[-1 \cdot 2^7 + 1 \cdot 2^6 + 1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0\]</span> <span class="math display">\[= -128 + 64 + 32 + 0 + 8 + 4 + 0 + 1 = -19\]</span></p>
+<p><strong>Zakresy U2 na <span class="math inline">\(n\)</span> bitach:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Bity</th>
+<th style="text-align: center;">Zakres</th>
+<th>Typ w C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">−128 … +127</td>
+<td><code>signed char</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">−32 768 … +32 767</td>
+<td><code>short</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">−2 147 483 648 … +2 147 483 647</td>
+<td><code>int</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">−9.2 × 10¹⁸ … +9.2 × 10¹⁸</td>
+<td><code>long long</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dlaczego U2 wygrało?</strong> Geniusz U2 polega na tym, że dla procesora <strong>nie ma różnicy między dodawaniem a odejmowaniem</strong>. Procesor używa tego samego, prostego układu scalonego (sumatora) niezależnie od tego, czy liczby są dodatnie, czy ujemne. Kwestia znaku rozwiązuje się “sama” w bitach — nie potrzeba dodatkowych obwodów.</p>
+<hr>
 </section>
 </section>
-<section id="zjawisko-przepełnienia-overflow" class="level2">
-<h2 class="anchored" data-anchor-id="zjawisko-przepełnienia-overflow">Zjawisko Przepełnienia (Overflow)</h2>
-<p>Jeśli mamy zmienną 8-bitową ze znakiem, największa liczba, jaką zapiszemy, to <code>+127</code> <code>(0111 1111)</code>. &gt; Co się stanie, jeśli dodamy do niej 1? &gt; Otrzymamy <code>1000 0000</code>.</p>
-<p>Najstarszy bit stał się jedynką. Procesor uzna to za liczbę ujemną (dokładnie <code>−128</code>).</p>
-<p>Program nie wyrzuci błędu kompilacji! Po prostu nagle z wartości dodatniej zrobi się ujemna, co w wojskowych lub lotniczych systemach sterowania jest błędem krytycznym. To zjawisko nazywamy <strong>przepełnieniem całkowitoliczbowym</strong> (Integer Overflow) i jako programiści musicie zawsze dobierać odpowiednio duże typy zmiennych do Waszych problemów.</p>
+<section id="zjawisko-przepełnienia-overflow" class="level3">
+<h3 class="anchored" data-anchor-id="zjawisko-przepełnienia-overflow">Zjawisko przepełnienia (Overflow)</h3>
+<p>Jeśli mamy zmienną 8-bitową ze znakiem, największa wartość to <code>+127</code> (<code>0111 1111</code>).</p>
+<blockquote class="blockquote">
+<p>Co się stanie, jeśli dodamy do niej 1?</p>
+</blockquote>
+<pre><code>  0111 1111  (+127)
++ 0000 0001  (+1)
+-----------
+  1000 0000  → MSB = 1, czyli... −128!</code></pre>
+<p>Najstarszy bit stał się jedynką. Procesor uzna to za liczbę <strong>ujemną</strong> (dokładnie <span class="math inline">\(-128\)</span>).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Integer Overflow — cichy zabójca
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Program <strong>nie wyrzuci błędu kompilacji ani wyjątku!</strong> Po prostu nagle z wartości dodatniej zrobi się ujemna. W wojskowych lub lotniczych systemach sterowania jest to <strong>błąd krytyczny</strong>.</p>
+<p>To zjawisko nazywamy <strong>przepełnieniem całkowitoliczbowym</strong> (<em>Integer Overflow</em>) i jako programiści musicie zawsze dobierać odpowiednio duże typy zmiennych do swoich problemów.</p>
+<p>Przykład realny: rakieta <strong>Ariane 5</strong> (1996) — eksplodowała 37 sekund po starcie z powodu przepełnienia zmiennej 16-bitowej, która przechowywała prędkość boczną. Strata: ~370 mln USD.</p>
+</div>
+</div>
+<p>Analogiczne zjawisko dotyczy typu <code>unsigned</code> (bez znaku), tyle że zawinięcie następuje z wartości maksymalnej na 0:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">unsigned</span> <span class="dt">char</span> x <span class="op">=</span> <span class="dv">255</span><span class="op">;</span>  <span class="co">/* 1111 1111 */</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>              <span class="co">/* 0000 0000 → x = 0, nie 256! */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="część-ii-architektura-komputera" class="level2">
+<h2 class="anchored" data-anchor-id="część-ii-architektura-komputera">Część II: Architektura komputera</h2>
+<section id="model-von-neumanna" class="level3">
+<h3 class="anchored" data-anchor-id="model-von-neumanna">Model Von Neumanna</h3>
+<p>W 1945 roku matematyk <strong>John von Neumann</strong> opisał architekturę, która do dziś stanowi fundament niemal wszystkich komputerów. Jej kluczowa innowacja: <strong>program i dane przechowywane są w tej samej pamięci</strong> (wcześniej program był “zaszyty” w sprzęcie).</p>
+<p>Model Von Neumanna składa się z pięciu elementów:</p>
+<pre><code>┌──────────────────────────────────────────────────┐
+│                    PROCESOR (CPU)                  │
+│  ┌──────────────┐  ┌──────────────────────────┐  │
+│  │  Jednostka   │  │   Jednostka Arytmetyczno- │  │
+│  │  Sterująca   │  │   Logiczna (ALU)          │  │
+│  │  (CU)        │  │   + − × ÷ AND OR NOT     │  │
+│  └──────┬───────┘  └──────────┬───────────────┘  │
+│         │      ┌──────────────┘                   │
+│         │      │  ┌──────────────┐                │
+│         │      │  │  Rejestry    │                │
+│         │      │  │  (szybka     │                │
+│         │      │  │   pamięć)    │                │
+│         │      │  └──────────────┘                │
+└─────────┼──────┼─────────────────────────────────┘
+          │      │
+    ══════╪══════╪═══════  MAGISTRALA (BUS)  ═══════
+          │      │
+    ┌─────┴──────┴──────┐    ┌──────────────────┐
+    │   PAMIĘĆ GŁÓWNA   │    │  URZĄDZENIA I/O  │
+    │   (RAM)           │    │  klawiatura,     │
+    │   dane + program  │    │  ekran, dysk,    │
+    │                   │    │  sieć, ...       │
+    └───────────────────┘    └──────────────────┘</code></pre>
+<section id="procesor-cpu-central-processing-unit" class="level4">
+<h4 class="anchored" data-anchor-id="procesor-cpu-central-processing-unit">Procesor (CPU — Central Processing Unit)</h4>
+<p>Procesor to “mózg” komputera. Składa się z:</p>
+<p><strong>Jednostka Sterująca (CU — Control Unit)</strong> — dyrygent orkiestry. Pobiera instrukcje z pamięci, dekoduje je (rozumie, co mają robić) i steruje pozostałymi komponentami, aby instrukcja została wykonana.</p>
+<p><strong>Jednostka Arytmetyczno-Logiczna (ALU — Arithmetic Logic Unit)</strong> — kalkulator procesora. Wykonuje operacje: arytmetyczne (dodawanie, odejmowanie, mnożenie, dzielenie), logiczne (AND, OR, NOT, XOR), porównania i przesunięcia bitowe.</p>
+<p><strong>Rejestry</strong> — ultra-szybka pamięć wewnątrz procesora (kilkadziesiąt zmiennych, każda o rozmiarze 32 lub 64 bity). Rejestry przechowują dane aktualnie przetwarzane przez ALU. Najważniejsze rejestry:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 31%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rejestr</th>
+<th>Nazwa</th>
+<th>Rola</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>PC</strong></td>
+<td>Program Counter</td>
+<td>Adres <strong>następnej</strong> instrukcji do wykonania</td>
+</tr>
+<tr class="even">
+<td><strong>IR</strong></td>
+<td>Instruction Register</td>
+<td>Aktualnie wykonywana instrukcja</td>
+</tr>
+<tr class="odd">
+<td><strong>ACC</strong></td>
+<td>Accumulator</td>
+<td>Wynik ostatniej operacji ALU</td>
+</tr>
+<tr class="even">
+<td><strong>SP</strong></td>
+<td>Stack Pointer</td>
+<td>Adres wierzchołka stosu</td>
+</tr>
+<tr class="odd">
+<td><strong>MAR</strong></td>
+<td>Memory Address Register</td>
+<td>Adres komórki pamięci do odczytu/zapisu</td>
+</tr>
+<tr class="even">
+<td><strong>MDR</strong></td>
+<td>Memory Data Register</td>
+<td>Dane przesyłane do/z pamięci</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pamięć-główna-ram" class="level4">
+<h4 class="anchored" data-anchor-id="pamięć-główna-ram">Pamięć główna (RAM)</h4>
+<p>RAM (<em>Random Access Memory</em>) przechowuje <strong>zarówno program, jak i dane</strong> — to kluczowa cecha architektury Von Neumanna. Każda komórka pamięci ma unikalny <strong>adres</strong> (liczbowy) i przechowuje wartość (bajt).</p>
+<p>RAM jest <strong>ulotna</strong> — po wyłączeniu zasilania traci zawartość. Dlatego programy i dane trwałe przechowuje się na dysku (HDD/SSD).</p>
+</section>
+<section id="magistrala-bus" class="level4">
+<h4 class="anchored" data-anchor-id="magistrala-bus">Magistrala (BUS)</h4>
+<p>Magistrala to “autostrada” łącząca CPU, pamięć i urządzenia I/O. Składa się z trzech części:</p>
+<ul>
+<li><strong>Magistrala danych</strong> — transportuje dane (wartości zmiennych, instrukcje).</li>
+<li><strong>Magistrala adresowa</strong> — transportuje adresy (CPU mówi pamięci: “daj mi komórkę nr 0x1234”).</li>
+<li><strong>Magistrala sterująca</strong> — sygnały kontrolne (read/write, przerwania, zegar).</li>
+</ul>
+</section>
+<section id="urządzenia-wejściawyjścia-io" class="level4">
+<h4 class="anchored" data-anchor-id="urządzenia-wejściawyjścia-io">Urządzenia wejścia/wyjścia (I/O)</h4>
+<p>Klawiatura, mysz, ekran, dysk, karta sieciowa, czujniki… Komunikacja odbywa się przez magistralę, często z wykorzystaniem <strong>przerwań</strong> (sygnał do procesora: “mam dane, obsłuż mnie!”).</p>
+<hr>
+</section>
+</section>
+<section id="cykl-rozkazowy-jak-procesor-wykonuje-program" class="level3">
+<h3 class="anchored" data-anchor-id="cykl-rozkazowy-jak-procesor-wykonuje-program">Cykl rozkazowy — jak procesor wykonuje program</h3>
+<p>Procesor pracuje w niekończącej się pętli zwanej <strong>cyklem pobranie-dekodowanie-wykonanie</strong> (<em>Fetch-Decode-Execute</em>):</p>
+<pre><code>  ┌──────────────────────────────────────────────┐
+  │                                              │
+  ▼                                              │
+┌──────────┐    ┌──────────┐    ┌──────────┐     │
+│ 1. FETCH │───▶│2. DECODE │───▶│3. EXECUTE│─────┘
+│ Pobranie │    │Dekodownie│    │Wykonanie │
+│instrukcji│    │instrukcji│    │ operacji  │
+│ z RAM    │    │ (co ma   │    │ (ALU,    │
+│ (pod PC) │    │  robić?) │    │  pamięć) │
+└──────────┘    └──────────┘    └──────────┘</code></pre>
+<ol type="1">
+<li><p><strong>Fetch (Pobranie):</strong> CU odczytuje z RAM instrukcję spod adresu wskazywanego przez rejestr <strong>PC</strong> (Program Counter). Instrukcja trafia do rejestru <strong>IR</strong>. PC jest zwiększany, by wskazywać na następną instrukcję.</p></li>
+<li><p><strong>Decode (Dekodowanie):</strong> CU analizuje instrukcję w IR — rozpoznaje, jaka to operacja (np. ADD, MOV, JMP) i jakie są jej argumenty (rejestry? adresy? stałe?).</p></li>
+<li><p><strong>Execute (Wykonanie):</strong> ALU wykonuje operację (np. dodaje dwie liczby z rejestrów). Wynik trafia do wskazanego rejestru lub komórki pamięci.</p></li>
+</ol>
+<p><strong>Przykład</strong> — instrukcja <code>b = a + 2</code> w asemblerze i kodzie maszynowym:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 57%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Asembler</th>
+<th style="text-align: center;">Kod maszynowy (przykładowy)</th>
+<th>Znaczenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>MOV a, R1</code></td>
+<td style="text-align: center;"><code>0001 01 00 00000000</code></td>
+<td>Załaduj zmienną <code>a</code> do rejestru R1</td>
+</tr>
+<tr class="even">
+<td><code>ADD #2, R1</code></td>
+<td style="text-align: center;"><code>0011 01 10 00000010</code></td>
+<td>Dodaj stałą 2 do R1</td>
+</tr>
+<tr class="odd">
+<td><code>MOV R1, b</code></td>
+<td style="text-align: center;"><code>0010 01 00 00000100</code></td>
+<td>Zapisz R1 do zmiennej <code>b</code></td>
+</tr>
+</tbody>
+</table>
+<p>Każda z tych instrukcji przechodzi pełny cykl Fetch → Decode → Execute. Współczesne procesory potrafią wykonywać <strong>miliardy</strong> takich cykli na sekundę (częstotliwość zegara: 3–5 GHz).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pipelining — linia montażowa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Współczesne procesory nie czekają, aż jedna instrukcja przejdzie cały cykl. Stosują <strong>pipelining</strong> (potokowanie): podczas gdy instrukcja nr 1 jest wykonywana (Execute), instrukcja nr 2 jest dekodowana (Decode), a instrukcja nr 3 pobierana (Fetch) — jak na taśmie produkcyjnej w fabryce. Dzięki temu procesor może ukończyć jedną instrukcję <strong>w każdym takcie zegara</strong>.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="hierarchia-pamięci" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchia-pamięci">Hierarchia pamięci</h3>
+<p>Nie cała pamięć komputera jest taka sama. Istnieje fundamentalny kompromis: <strong>im szybsza pamięć, tym droższa i mniejsza</strong>.</p>
+<pre><code>                    ▲ Szybkość    ▼ Pojemność
+                    │                │
+              ┌─────┴─────┐          │
+              │ REJESTRY  │  ~1 ns   │  ~ 1 KB
+              │  (w CPU)  │          │
+              ├───────────┤          │
+              │  CACHE L1 │  ~2 ns   │  ~ 64 KB
+              ├───────────┤          │
+              │  CACHE L2 │  ~7 ns   │  ~ 256 KB
+              ├───────────┤          │
+              │  CACHE L3 │  ~20 ns  │  ~ 8 MB
+              ├───────────┤          │
+              │    RAM    │  ~100 ns │  8–64 GB
+              ├───────────┤          │
+              │  SSD/HDD  │  ~μs/ms │  256 GB–TB
+              └───────────┘          ▼</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Poziom</th>
+<th style="text-align: center;">Czas dostępu</th>
+<th style="text-align: center;">Pojemność (typowa)</th>
+<th>Technologia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rejestry</td>
+<td style="text-align: center;">&lt; 1 ns</td>
+<td style="text-align: center;">~ 1 KB</td>
+<td>Flip-flopy w CPU</td>
+</tr>
+<tr class="even">
+<td>Cache L1</td>
+<td style="text-align: center;">~ 1–2 ns</td>
+<td style="text-align: center;">32–64 KB</td>
+<td>SRAM, w CPU</td>
+</tr>
+<tr class="odd">
+<td>Cache L2</td>
+<td style="text-align: center;">~ 5–7 ns</td>
+<td style="text-align: center;">256 KB – 1 MB</td>
+<td>SRAM, w CPU</td>
+</tr>
+<tr class="even">
+<td>Cache L3</td>
+<td style="text-align: center;">~ 15–20 ns</td>
+<td style="text-align: center;">4–32 MB</td>
+<td>SRAM, współdzielona</td>
+</tr>
+<tr class="odd">
+<td>RAM (DDR5)</td>
+<td style="text-align: center;">~ 80–100 ns</td>
+<td style="text-align: center;">8–128 GB</td>
+<td>DRAM</td>
+</tr>
+<tr class="even">
+<td>SSD (NVMe)</td>
+<td style="text-align: center;">~ 25–100 μs</td>
+<td style="text-align: center;">256 GB – 4 TB</td>
+<td>Flash NAND</td>
+</tr>
+<tr class="odd">
+<td>HDD</td>
+<td style="text-align: center;">~ 5–10 ms</td>
+<td style="text-align: center;">1–20 TB</td>
+<td>Talerze magnetyczne</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cache</strong> (pamięć podręczna) to pamięć pośrednia między CPU a RAM. Procesor automatycznie kopiuje do cache dane, do których niedawno sięgał (bo prawdopodobnie sięgnie do nich znowu — <strong>zasada lokalizacji</strong>). Programista w C nie zarządza cache bezpośrednio, ale świadomość jego istnienia pomaga pisać szybki kod (np. iteracja po tablicy wierszami zamiast kolumnami).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Dlaczego to ważne dla programisty C/C++?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dostęp do RAM-u jest ~100× wolniejszy niż do rejestru. Kompilator C/C++ stara się trzymać najczęściej używane zmienne w rejestrach (dlatego istnieje słowo kluczowe <code>register</code>, choć współczesne kompilatory optymalizują to same). Dynamiczna alokacja pamięci (<code>malloc</code>) rezerwuje miejsce na stercie w RAM — jest wolniejsza od zmiennych lokalnych (na stosie), które procesor szybko znajduje w cache.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="układ-pamięci-procesu-jak-program-żyje-w-ram" class="level3">
+<h3 class="anchored" data-anchor-id="układ-pamięci-procesu-jak-program-żyje-w-ram">Układ pamięci procesu — jak program żyje w RAM</h3>
+<p>Gdy uruchamiasz program, system operacyjny tworzy <strong>proces</strong> — “żyjącą” instancję kodu w pamięci. Pamięć procesu jest podzielona na segmenty:</p>
+<pre><code>    Wysokie adresy
+    ┌───────────────────┐
+    │       STOS        │ ← zmienne lokalne, adresy powrotu
+    │      (Stack)      │   (rośnie W DÓŁ ↓)
+    │         ↓         │
+    │                   │
+    │         ↑         │
+    │      (Heap)       │   (rośnie W GÓRĘ ↑)
+    │       STERTA      │ ← malloc / new
+    ├───────────────────┤
+    │  Dane niezainicj. │ ← zmienne globalne = 0
+    │       (BSS)       │
+    ├───────────────────┤
+    │ Dane zainicjaliz. │ ← zmienne globalne z wartością
+    │      (Data)       │
+    ├───────────────────┤
+    │     KOD (Text)    │ ← instrukcje maszynowe (read-only)
+    └───────────────────┘
+    Niskie adresy</code></pre>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 33%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Segment</th>
+<th>Co zawiera</th>
+<th>Przykład w C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Text (Kod)</strong></td>
+<td>Instrukcje maszynowe programu (tylko do odczytu)</td>
+<td>Ciało funkcji <code>main</code>, <code>printf</code></td>
+</tr>
+<tr class="even">
+<td><strong>Data</strong></td>
+<td>Zmienne globalne i statyczne <strong>z wartością początkową</strong></td>
+<td><code>int g = 42;</code> (globalna)</td>
+</tr>
+<tr class="odd">
+<td><strong>BSS</strong></td>
+<td>Zmienne globalne i statyczne <strong>bez wartości</strong> (zerowane)</td>
+<td><code>static int x;</code></td>
+</tr>
+<tr class="even">
+<td><strong>Heap (Sterta)</strong></td>
+<td>Pamięć alokowana dynamicznie</td>
+<td><code>malloc(100)</code>, <code>new int[10]</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Stack (Stos)</strong></td>
+<td>Zmienne lokalne, argumenty funkcji, adresy powrotu</td>
+<td><code>int a = 5;</code> (w funkcji)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stos</strong> rośnie w dół (od wysokich adresów), a <strong>sterta</strong> rośnie w górę. Jeśli się spotkają — program wyczerpał pamięć (<em>stack overflow</em> lub <em>heap overflow</em>).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Stack Overflow — przepełnienie stosu
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Każde wywołanie funkcji odkłada na stos: argumenty, adres powrotu i zmienne lokalne. Jeśli rekurencja jest zbyt głęboka (np. brak warunku stopu), stos się przepełnia — program crashuje z komunikatem <em>“Segmentation fault”</em> lub <em>“Stack overflow”</em>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> nieskonczona<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> tablica<span class="op">[</span><span class="dv">1000</span><span class="op">];</span>     <span class="co">/* 4 KB na stosie przy każdym wywołaniu! */</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    nieskonczona<span class="op">();</span>         <span class="co">/* rekurencja bez warunku stopu */</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">/* → Stack Overflow po kilku tysiącach wywołań */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<hr>
+</section>
+<section id="architektura-von-neumanna-vs-harvard" class="level3">
+<h3 class="anchored" data-anchor-id="architektura-von-neumanna-vs-harvard">Architektura Von Neumanna vs Harvard</h3>
+<p>Model Von Neumanna ma jedną wadę — <strong>wąskie gardło</strong> (<em>Von Neumann bottleneck</em>): procesor musi po kolei pobierać instrukcje i dane z tej samej pamięci przez tę samą magistralę.</p>
+<p><strong>Architektura Harvarda</strong> rozwiązuje to, stosując <strong>oddzielne pamięci</strong> (i magistrale) dla kodu i danych. Dzięki temu procesor może jednocześnie pobierać instrukcję i odczytywać dane.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 44%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cecha</th>
+<th style="text-align: center;">Von Neumann</th>
+<th style="text-align: center;">Harvard</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pamięci</td>
+<td style="text-align: center;">Jedna wspólna</td>
+<td style="text-align: center;">Dwie oddzielne</td>
+</tr>
+<tr class="even">
+<td>Magistrale</td>
+<td style="text-align: center;">Jedna</td>
+<td style="text-align: center;">Dwie</td>
+</tr>
+<tr class="odd">
+<td>Prędkość</td>
+<td style="text-align: center;">Wolniejsza (bottleneck)</td>
+<td style="text-align: center;">Szybsza (równoległy dostęp)</td>
+</tr>
+<tr class="even">
+<td>Gdzie?</td>
+<td style="text-align: center;">Komputery ogólnego przeznaczenia</td>
+<td style="text-align: center;">Mikrokontrolery, DSP, cache w CPU</td>
+</tr>
+</tbody>
+</table>
+<p>W praktyce współczesne procesory stosują <strong>architekturę hybrydową</strong>: na poziomie cache (L1) mają oddzielne pamięci dla kodu i danych (Harvard), ale na poziomie RAM-u — wspólną przestrzeń adresową (Von Neumann).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Kontekst wojskowy (WAT)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Mikrokontrolery stosowane w systemach militarnych (np. rodział STM32 w sterownikach broni, ARM Cortex-M w systemach łączności taktycznej) najczęściej mają architekturę <strong>Harvard-modified</strong> — oddzielne pamięci Flash (kod) i SRAM (dane), z możliwością wykonywania kodu z RAM-u w trybach specjalnych. Zrozumienie tych różnic jest kluczowe przy programowaniu firmware’u.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="podsumowanie" class="level2">
+<h2 class="anchored" data-anchor-id="podsumowanie">Podsumowanie</h2>
+<p>W tym wykładzie poznaliśmy:</p>
+<ol type="1">
+<li><strong>Bit i bajt</strong> — fundamentalne jednostki informacji.</li>
+<li><strong>Systemy liczbowe</strong> — binarny (BIN), szesnastkowy (HEX), ósemkowy (OCT) i konwersje między nimi.</li>
+<li><strong>Kod ASCII</strong> — jak komputer przechowuje tekst.</li>
+<li><strong>Kodowanie liczb ujemnych</strong> — od kodu Znak-Moduł, przez U1, do standardu <strong>U2</strong>.</li>
+<li><strong>Przepełnienie</strong> (<em>overflow</em>) — cichy, krytyczny błąd.</li>
+<li><strong>Model Von Neumanna</strong> — CPU (ALU + CU + rejestry), pamięć, magistrala, I/O.</li>
+<li><strong>Cykl rozkazowy</strong> — Fetch → Decode → Execute.</li>
+<li><strong>Hierarchia pamięci</strong> — rejestry → cache → RAM → dysk.</li>
+<li><strong>Układ pamięci procesu</strong> — stos, sterta, segmenty danych i kodu.</li>
+<li><strong>Von Neumann vs Harvard</strong> — różnice i zastosowania.</li>
+</ol>
+<p>W następnym wykładzie rozpoczniemy programowanie w <strong>języku C</strong> — napiszemy pierwszy program, poznamy zmienne, typy danych i podstawowe wejście/wyjście.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

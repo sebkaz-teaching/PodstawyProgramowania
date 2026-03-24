@@ -1,0 +1,707 @@
+---
+title: "Funkcje i Preprocesor"
+---
+
+Do tej pory nasze programy były liniowe — jeden blok `main()` z instrukcjami wykonywanymi od góry do dołu. W prawdziwym oprogramowaniu (sterowanie lotem, systemy radarowe, bazy danych) kod liczy setki tysięcy linii. Bez **dekompozycji** na mniejsze części byłby niemożliwy do utrzymania.
+
+Funkcje to podstawowe narzędzie tej dekompozycji.
+
+---
+
+## Tworzenie funkcji
+
+Funkcja składa się z czterech elementów:
+
+1. **Typ zwracany** — jaki rodzaj wartości funkcja oddaje wywołującemu.
+2. **Nazwa** — identyfikator, którym wywołujemy funkcję.
+3. **Lista parametrów** — dane wejściowe (mogą być puste).
+4. **Ciało** — blok instrukcji w nawiasach `{ }`.
+
+```c
+typ_zwracany nazwa(typ1 param1, typ2 param2, ...)
+{
+    /* ciało funkcji */
+    return wartość;
+}
+```
+
+Przykład — funkcja obliczająca pole prostokąta:
+
+```c
+double pole_prostokata(double szerokosc, double wysokosc)
+{
+    return szerokosc * wysokosc;
+}
+```
+
+### Procedury — funkcje bez wartości zwracanej
+
+Jeśli funkcja nie zwraca wartości, jej typ zwracany to `void`:
+
+```c
+void powitaj(const char *imie)
+{
+    printf("Witaj, %s!\n", imie);
+    /* brak return lub: return; (bez wartości) */
+}
+```
+
+### Wywoływanie funkcji
+
+```c
+#include <stdio.h>
+
+double pole_prostokata(double szer, double wys)
+{
+    return szer * wys;
+}
+
+void wypisz_pole(double szer, double wys)
+{
+    printf("Pole: %.2f\n", pole_prostokata(szer, wys));
+}
+
+int main(void)
+{
+    double s = 5.0, w = 3.0;
+    double p = pole_prostokata(s, w);   /* wywołanie z przypisaniem wyniku */
+    printf("Pole = %.2f\n", p);         /* Pole = 15.00 */
+
+    wypisz_pole(7.0, 2.5);             /* Pole: 17.50 */
+    return 0;
+}
+```
+
+---
+
+## Deklarowanie funkcji (prototypy)
+
+Kompilator C czyta kod **od góry do dołu**. Jeśli wywołamy funkcję przed jej definicją, kompilator nie będzie jej znał:
+
+```c
+int main(void)
+{
+    printf("%d\n", kwadrat(5));  /* BŁĄD: kompilator nie zna 'kwadrat' */
+    return 0;
+}
+
+int kwadrat(int x)
+{
+    return x * x;
+}
+```
+
+Rozwiązanie — **prototyp** (deklaracja) funkcji umieszczony przed `main`:
+
+```c
+/* Prototyp — informuje kompilator o sygnaturze funkcji */
+int kwadrat(int x);
+
+int main(void)
+{
+    printf("%d\n", kwadrat(5));  /* OK — kompilator zna sygnaturę */
+    return 0;
+}
+
+/* Definicja — pełna implementacja */
+int kwadrat(int x)
+{
+    return x * x;
+}
+```
+
+W prototypie nazwy parametrów są opcjonalne — wystarczą same typy: `int kwadrat(int);`. Jednak podanie nazw poprawia czytelność.
+
+::: {.callout-tip}
+## Pliki nagłówkowe
+
+W dużych projektach prototypy umieszcza się w plikach nagłówkowych (`.h`), a definicje w plikach źródłowych (`.c`):
+
+```c
+/* matematyka.h */
+#ifndef MATEMATYKA_H
+#define MATEMATYKA_H
+double pole_prostokata(double szer, double wys);
+double pole_kola(double r);
+#endif
+```
+
+```c
+/* matematyka.c */
+#include "matematyka.h"
+#include <math.h>
+
+double pole_prostokata(double szer, double wys) { return szer * wys; }
+double pole_kola(double r) { return M_PI * r * r; }
+```
+:::
+
+---
+
+## Przekazywanie argumentów
+
+### Przekazywanie przez wartość (by value)
+
+W C argumenty są **zawsze** przekazywane przez wartość — funkcja otrzymuje **kopię** danych. Modyfikacja parametru wewnątrz funkcji **nie wpływa** na zmienną w kodzie wywołującym:
+
+```c
+void podwoj(int x)
+{
+    x = x * 2;
+    printf("Wewnątrz: %d\n", x);  /* 10 */
+}
+
+int main(void)
+{
+    int a = 5;
+    podwoj(a);
+    printf("Na zewnątrz: %d\n", a);  /* nadal 5! */
+    return 0;
+}
+```
+
+Aby funkcja mogła **zmodyfikować** zmienną wywołującego, trzeba przekazać **wskaźnik** (adres) — poznamy to w Wykładzie 7.
+
+```c
+void podwoj(int *x)    /* przyjmuje wskaźnik (adres) */
+{
+    *x = *x * 2;       /* modyfikuje wartość pod adresem */
+}
+
+int main(void)
+{
+    int a = 5;
+    podwoj(&a);         /* przekazujemy adres zmiennej a */
+    printf("%d\n", a);  /* 10 — zmienna została zmodyfikowana */
+    return 0;
+}
+```
+
+### Jak zwrócić kilka wartości?
+
+Funkcja w C może zwrócić tylko jedną wartość przez `return`. Aby "zwrócić" więcej, stosujemy:
+
+1. **Wskaźniki jako parametry wyjściowe:**
+
+```c
+void podziel(int a, int b, int *iloraz, int *reszta)
+{
+    *iloraz = a / b;
+    *reszta = a % b;
+}
+
+int main(void)
+{
+    int q, r;
+    podziel(17, 5, &q, &r);
+    printf("17 / 5 = %d reszta %d\n", q, r);  /* 3 reszta 2 */
+    return 0;
+}
+```
+
+2. **Struktury** (poznamy je w dalszej części kursu):
+
+```c
+typedef struct {
+    int iloraz;
+    int reszta;
+} WynikDzielenia;
+
+WynikDzielenia podziel(int a, int b)
+{
+    WynikDzielenia w;
+    w.iloraz = a / b;
+    w.reszta = a % b;
+    return w;
+}
+```
+
+---
+
+## Funkcja `main()` — szczegóły
+
+`main()` to punkt wejścia programu. Może przyjmować argumenty linii poleceń:
+
+```c
+int main(int argc, char *argv[])
+{
+    printf("Program: %s\n", argv[0]);
+    printf("Liczba argumentów: %d\n", argc);
+
+    for (int i = 1; i < argc; ++i) {
+        printf("argv[%d] = %s\n", i, argv[i]);
+    }
+    return 0;
+}
+```
+
+Kompilacja i uruchomienie:
+
+```bash
+gcc -o test test.c
+./test alfa beta 42
+```
+
+```
+Program: ./test
+Liczba argumentów: 4
+argv[1] = alfa
+argv[2] = beta
+argv[3] = 42
+```
+
+`argc` to liczba argumentów (łącznie z nazwą programu), a `argv` to tablica wskaźników na łańcuchy znaków.
+
+Wartość zwracana przez `main()` trafia do systemu operacyjnego: `0` (lub `EXIT_SUCCESS`) oznacza sukces, wartość niezerowa (lub `EXIT_FAILURE`) — błąd.
+
+---
+
+## Funkcje rekurencyjne
+
+Funkcja **rekurencyjna** to taka, która wywołuje samą siebie. Każda poprawna rekurencja musi mieć:
+
+1. **Warunek bazowy** (stopu) — kiedy przestać się wywoływać.
+2. **Krok rekurencyjny** — wywołanie z "mniejszym" problemem.
+
+### Silnia
+
+$$n! = \begin{cases} 1 & \text{dla } n = 0 \\ n \cdot (n-1)! & \text{dla } n > 0 \end{cases}$$
+
+```c
+unsigned long silnia(int n)
+{
+    if (n <= 1) return 1;        /* warunek bazowy */
+    return n * silnia(n - 1);    /* krok rekurencyjny */
+}
+```
+
+Ślad wywołań dla `silnia(4)`:
+
+```
+silnia(4) → 4 * silnia(3)
+                 → 3 * silnia(2)
+                          → 2 * silnia(1)
+                                   → 1  (baza)
+                          → 2 * 1 = 2
+                 → 3 * 2 = 6
+          → 4 * 6 = 24
+```
+
+### Ciąg Fibonacciego
+
+$$F(n) = \begin{cases} 0 & \text{dla } n = 0 \\ 1 & \text{dla } n = 1 \\ F(n-1) + F(n-2) & \text{dla } n > 1 \end{cases}$$
+
+```c
+int fib(int n)
+{
+    if (n <= 0) return 0;
+    if (n == 1) return 1;
+    return fib(n - 1) + fib(n - 2);
+}
+```
+
+::: {.callout-warning}
+## Wydajność naiwnej rekurencji
+
+Naiwna implementacja Fibonacciego ma złożoność wykładniczą $O(2^n)$ — `fib(40)` wykonuje setki milionów wywołań! W praktyce stosujemy:
+
+- **iterację** (pętla z dwoma zmiennymi),
+- **memoizację** (zapamiętywanie wyników),
+- **programowanie dynamiczne**.
+
+Rekurencja jest piękna koncepcyjnie, ale nie zawsze efektywna. Wybieraj ją świadomie.
+:::
+
+### Wersja iteracyjna Fibonacciego
+
+```c
+long fib_iter(int n)
+{
+    if (n <= 0) return 0;
+    long prev = 0, curr = 1;
+    for (int i = 2; i <= n; ++i) {
+        long next = prev + curr;
+        prev = curr;
+        curr = next;
+    }
+    return curr;
+}
+```
+
+Ta wersja działa w $O(n)$ — nawet `fib_iter(1000000)` oblicza się w ułamku sekundy (choć przekroczy zakres `long`).
+
+---
+
+## Zmienne `static` w funkcjach
+
+Zmienna lokalna z modyfikatorem `static` **zachowuje swoją wartość** pomiędzy kolejnymi wywołaniami funkcji:
+
+```c
+void licznik(void)
+{
+    static int ile = 0;  /* inicjalizacja TYLKO przy pierwszym wywołaniu */
+    ++ile;
+    printf("Wywołanie nr %d\n", ile);
+}
+
+int main(void)
+{
+    licznik();  /* Wywołanie nr 1 */
+    licznik();  /* Wywołanie nr 2 */
+    licznik();  /* Wywołanie nr 3 */
+    return 0;
+}
+```
+
+Bez `static` zmienna `ile` byłaby zerowana przy każdym wywołaniu i zawsze wypisywałoby się "Wywołanie nr 1".
+
+::: {.callout-note}
+## `static` przy zmiennych globalnych
+
+Zupełnie inne znaczenie ma `static` zastosowane do zmiennej globalnej — ogranicza jej widoczność do **jednego pliku** (jednostki kompilacji). Przydatne przy podziale projektu na moduły.
+:::
+
+---
+
+## Rozszerzenia C++
+
+C++ wprowadza kilka udogodnień w zakresie funkcji, niedostępnych w czystym C.
+
+### Przeciążanie funkcji (function overloading)
+
+W C++ możemy mieć **wiele funkcji o tej samej nazwie**, o ile różnią się **typami lub liczbą parametrów**:
+
+```cpp
+#include <iostream>
+
+int kwadrat(int x)        { return x * x; }
+double kwadrat(double x)  { return x * x; }
+int kwadrat(int x, int y) { return x * x + y * y; }
+
+int main()
+{
+    std::cout << kwadrat(5)      << std::endl;  /* 25 (int) */
+    std::cout << kwadrat(2.5)    << std::endl;  /* 6.25 (double) */
+    std::cout << kwadrat(3, 4)   << std::endl;  /* 25 (int, int) */
+}
+```
+
+Kompilator wybiera odpowiednią wersję na podstawie typów argumentów w wywołaniu.
+
+W C to **niemożliwe** — każda funkcja musi mieć unikalną nazwę (stąd konwencje typu `kwadrat_int`, `kwadrat_double`).
+
+### Domyślne wartości argumentów
+
+```cpp
+void rysuj_ramke(int szer = 40, int wys = 10, char znak = '*')
+{
+    for (int y = 0; y < wys; ++y) {
+        for (int x = 0; x < szer; ++x) {
+            if (y == 0 || y == wys-1 || x == 0 || x == szer-1)
+                std::cout << znak;
+            else
+                std::cout << ' ';
+        }
+        std::cout << '\n';
+    }
+}
+
+int main()
+{
+    rysuj_ramke();           /* 40×10, '*' */
+    rysuj_ramke(20);         /* 20×10, '*' */
+    rysuj_ramke(20, 5, '#'); /* 20×5, '#' */
+}
+```
+
+Argumenty domyślne muszą być podane **od prawej strony** listy parametrów.
+
+### Funkcje `inline`
+
+Słowo kluczowe `inline` sugeruje kompilatorowi, aby **wstawił ciało funkcji** w miejscu wywołania (zamiast normalnego skoku), eliminując narzut wywołania:
+
+```cpp
+inline int max(int a, int b)
+{
+    return (a > b) ? a : b;
+}
+```
+
+Nowoczesne kompilatory same decydują o inliningu — `inline` jest dziś bardziej wskazówką niż nakazem.
+
+---
+
+## Preprocesor
+
+Preprocesor to program uruchamiany **przed właściwą kompilacją**. Przetwarza dyrektywy zaczynające się od `#` — wykonuje tekstowe transformacje kodu źródłowego.
+
+Łańcuch kompilacji:
+
+```
+kod.c → [PREPROCESOR] → kod po rozwinięciu → [KOMPILATOR] → kod obiektowy → [LINKER] → program
+```
+
+Aby zobaczyć wynik preprocesora:
+
+```bash
+gcc -E program.c -o program.i    # wynik preprocesora do pliku
+```
+
+### `#include` — włączanie plików
+
+```c
+#include <stdio.h>       /* szuka w katalogach systemowych */
+#include "moj_plik.h"    /* szuka najpierw w katalogu bieżącym */
+```
+
+Preprocesor **dosłownie wstawia** zawartość wskazanego pliku w miejsce dyrektywy. Dlatego po `#include <stdio.h>` nasz plik "pęcznieje" o tysiące linii deklaracji.
+
+### `#define` — stałe i makra
+
+#### Stałe symboliczne
+
+```c
+#define PI 3.14159265358979
+#define MAX_BUF 1024
+#define WERSJA "2.1.0"
+
+double obwod = 2 * PI * r;
+char bufor[MAX_BUF];
+```
+
+Preprocesor wykonuje **proste podstawienie tekstowe** — wszędzie gdzie widzi `PI`, wstawia `3.14159265358979`.
+
+#### Makra z argumentami
+
+```c
+#define KWADRAT(x) ((x) * (x))
+#define MAX(a, b)  ((a) > (b) ? (a) : (b))
+#define MIN(a, b)  ((a) < (b) ? (a) : (b))
+```
+
+::: {.callout-caution}
+## Pułapki makr — nawiasy są obowiązkowe!
+
+Bez nawiasów makra dają niespodziewane wyniki:
+
+```c
+/* ZŁE makro: */
+#define KWADRAT_ZLE(x) x * x
+
+int a = KWADRAT_ZLE(3 + 1);
+/* Rozwija się do: 3 + 1 * 3 + 1 = 3 + 3 + 1 = 7 (nie 16!) */
+
+/* DOBRE makro: */
+#define KWADRAT(x) ((x) * (x))
+
+int b = KWADRAT(3 + 1);
+/* Rozwija się do: ((3 + 1) * (3 + 1)) = 4 * 4 = 16 ✓ */
+```
+
+Kolejna pułapka — **efekty uboczne**:
+
+```c
+int c = 5;
+int d = KWADRAT(c++);
+/* Rozwija się do: ((c++) * (c++)) — c inkrementowane DWA RAZY! */
+/* Wynik jest NIEZDEFINIOWANY. */
+```
+
+Dlatego dla skomplikowanych wyrażeń lepiej użyć funkcji `inline` (C++) lub zwykłej funkcji.
+:::
+
+#### Makra wieloliniowe
+
+Długie makra rozbijamy znakiem `\` na końcu linii:
+
+```c
+#define SWAP(a, b) do { \
+    typeof(a) _tmp = (a); \
+    (a) = (b);            \
+    (b) = _tmp;           \
+} while(0)
+```
+
+Wzorzec `do { ... } while(0)` gwarantuje, że makro zachowuje się jak pojedyncza instrukcja (bezpieczne w `if`/`else`).
+
+### `#undef` — usunięcie definicji
+
+```c
+#define LIMIT 100
+/* ... kod używający LIMIT ... */
+#undef LIMIT
+/* od tego miejsca LIMIT nie jest zdefiniowane */
+```
+
+### Kompilacja warunkowa
+
+Pozwala **włączać lub wyłączać** fragmenty kodu w zależności od warunków:
+
+```c
+#if warunek
+    /* kod kompilowany gdy warunek prawdziwy */
+#elif inny_warunek
+    /* alternatywa */
+#else
+    /* gdy żaden warunek nie spełniony */
+#endif
+```
+
+```c
+#ifdef NAZWA     /* prawda, jeśli NAZWA jest zdefiniowane */
+#ifndef NAZWA    /* prawda, jeśli NAZWA NIE jest zdefiniowane */
+```
+
+#### Include guards — ochrona przed podwójnym włączeniem
+
+Najważniejsze zastosowanie `#ifndef` — każdy plik nagłówkowy powinien mieć **include guard**:
+
+```c
+/* wektor.h */
+#ifndef WEKTOR_H
+#define WEKTOR_H
+
+typedef struct {
+    double x, y, z;
+} Wektor;
+
+double dlugosc(Wektor v);
+Wektor dodaj(Wektor a, Wektor b);
+
+#endif /* WEKTOR_H */
+```
+
+Bez include guard, wielokrotne `#include "wektor.h"` (pośrednie, przez inne nagłówki) spowoduje błąd "redefinicji" typu.
+
+W C++ i nowoczesnych kompilatorach C alternatywą jest:
+
+```c
+#pragma once   /* niestandardowe, ale obsługiwane przez GCC, Clang, MSVC */
+```
+
+#### Kompilacja warunkowa — tryb debug
+
+```c
+#define DEBUG  /* zakomentuj tę linię w wersji produkcyjnej */
+
+#ifdef DEBUG
+    #define LOG(fmt, ...) fprintf(stderr, "[DEBUG] " fmt "\n", ##__VA_ARGS__)
+#else
+    #define LOG(fmt, ...) /* nic */
+#endif
+```
+
+Alternatywnie, flagi definiuje się z linii poleceń:
+
+```bash
+gcc -DDEBUG -o program program.c     # kompilacja z DEBUG
+gcc -o program program.c              # kompilacja bez DEBUG
+```
+
+### `#error` i `#warning`
+
+```c
+#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+    #error "Ten kod wymaga standardu C99 lub nowszego!"
+#endif
+
+#ifdef _WIN32
+    #warning "Obsługa Windows jest eksperymentalna"
+#endif
+```
+
+### Predefiniowane makra
+
+Standard C gwarantuje istnienie kilku makr, przydatnych do diagnostyki:
+
+| Makro | Wartość | Przykład |
+|-------|---------|---------|
+| `__FILE__` | Nazwa bieżącego pliku | `"main.c"` |
+| `__LINE__` | Numer bieżącej linii | `42` |
+| `__DATE__` | Data kompilacji | `"Mar 24 2026"` |
+| `__TIME__` | Czas kompilacji | `"14:30:05"` |
+| `__func__` | Nazwa bieżącej funkcji (C99) | `"main"` |
+| `__STDC__` | 1 jeśli kompilator zgodny z ISO C | `1` |
+| `__STDC_VERSION__` | Wersja standardu C | `201112L` (C11) |
+
+Praktyczne zastosowanie — makro do raportowania błędów:
+
+```c
+#define ASSERT(cond) do { \
+    if (!(cond)) { \
+        fprintf(stderr, "ASSERT FAILED: %s\n  File: %s, Line: %d, Func: %s\n", \
+                #cond, __FILE__, __LINE__, __func__); \
+        abort(); \
+    } \
+} while(0)
+```
+
+Operator `#` (stringification) zamienia argument makra w łańcuch znaków, a `##` (token pasting) skleja dwa tokeny.
+
+### Operatory `#` i `##`
+
+```c
+#define TO_STRING(x) #x
+printf("%s\n", TO_STRING(3 + 4));  /* wypisze: "3 + 4" */
+
+#define SKLEJ(a, b) a##b
+int SKLEJ(zmienna, 1) = 42;       /* tworzy: int zmienna1 = 42; */
+```
+
+---
+
+## Organizacja kodu w wielu plikach
+
+W realnych projektach kod dzielimy na **moduły** — pary plików `.h` (interfejs) i `.c` (implementacja):
+
+```
+projekt/
+├── main.c
+├── fizyka.h
+├── fizyka.c
+├── grafika.h
+└── grafika.c
+```
+
+Kompilacja wieloplikowa:
+
+```bash
+gcc -c fizyka.c -o fizyka.o        # kompilacja do pliku obiektowego
+gcc -c grafika.c -o grafika.o
+gcc -c main.c -o main.o
+gcc fizyka.o grafika.o main.o -o program   # linkowanie
+```
+
+Lub jednym poleceniem:
+
+```bash
+gcc -o program main.c fizyka.c grafika.c
+```
+
+Słowo kluczowe `extern` deklaruje zmienną globalną zdefiniowaną w **innym pliku**:
+
+```c
+/* config.c */
+int verbosity = 1;              /* definicja */
+
+/* main.c */
+extern int verbosity;           /* deklaracja — kompilator wie, że istnieje */
+printf("Verbosity: %d\n", verbosity);
+```
+
+---
+
+## Podsumowanie
+
+W tym wykładzie poznaliśmy:
+
+1. **Funkcje** — definicja, prototypy, wywoływanie, typ `void`.
+2. **Przekazywanie argumentów** — by value (C), wskaźnik jako "symulacja" by reference.
+3. **Funkcja `main()`** — `argc`/`argv`, wartość zwracana.
+4. **Rekurencja** — warunek bazowy, krok rekurencyjny, porównanie z iteracją.
+5. **Zmienne `static`** — zachowanie wartości między wywołaniami.
+6. **Rozszerzenia C++** — przeciążanie, domyślne argumenty, `inline`.
+7. **Preprocesor** — `#include`, `#define` (stałe i makra z pułapkami), kompilacja warunkowa, include guards, predefiniowane makra.
+8. **Organizacja kodu** — pliki nagłówkowe, kompilacja wieloplikowa, `extern`.
+
+W następnym wykładzie wejdziemy w najważniejszy (i najtrudniejszy) temat języka C — **tablice, wskaźniki i napisy**.

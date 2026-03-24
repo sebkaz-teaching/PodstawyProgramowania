@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Język C – Pierwsze kroki – Podstawy Programowania</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b337f537912f5ab074b938eebad4c5d7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Podstawy Programowania</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../ksiazki.html"> 
+<span class="menu-text">Książki</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad4.html">Język C – Pierwsze kroki</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Informacje ogólne</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Wykłady</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamenty i Logika Programowania</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kompilacja kodu</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reprezentacja informacji i wstęp do architektury komputerów</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Język C – Pierwsze kroki</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operatory i Instrukcje sterujące</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Funkcje i Preprocesor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/wyklad7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablice, Wskaźniki i Napisy</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#historia-języka-c" id="toc-historia-języka-c" class="nav-link active" data-scroll-target="#historia-języka-c">Historia języka C</a>
+  <ul class="collapse">
+  <li><a href="#dlaczego-c-jest-nadal-ważny" id="toc-dlaczego-c-jest-nadal-ważny" class="nav-link" data-scroll-target="#dlaczego-c-jest-nadal-ważny">Dlaczego C jest nadal ważny?</a></li>
+  <li><a href="#standaryzacja-c" id="toc-standaryzacja-c" class="nav-link" data-scroll-target="#standaryzacja-c">Standaryzacja — C++</a></li>
+  </ul></li>
+  <li><a href="#zintegrowane-środowiska-programistyczne-ide" id="toc-zintegrowane-środowiska-programistyczne-ide" class="nav-link" data-scroll-target="#zintegrowane-środowiska-programistyczne-ide">Zintegrowane Środowiska Programistyczne (IDE)</a>
+  <ul class="collapse">
+  <li><a href="#komunikaty-o-błędach" id="toc-komunikaty-o-błędach" class="nav-link" data-scroll-target="#komunikaty-o-błędach">Komunikaty o błędach</a></li>
+  </ul></li>
+  <li><a href="#pierwszy-program-w-c" id="toc-pierwszy-program-w-c" class="nav-link" data-scroll-target="#pierwszy-program-w-c">Pierwszy program w C</a>
+  <ul class="collapse">
+  <li><a href="#kompilacja-i-uruchomienie" id="toc-kompilacja-i-uruchomienie" class="nav-link" data-scroll-target="#kompilacja-i-uruchomienie">Kompilacja i uruchomienie</a></li>
+  <li><a href="#wersja-c" id="toc-wersja-c" class="nav-link" data-scroll-target="#wersja-c">Wersja C++</a></li>
+  </ul></li>
+  <li><a href="#podstawy-języka-c" id="toc-podstawy-języka-c" class="nav-link" data-scroll-target="#podstawy-języka-c">Podstawy języka C</a>
+  <ul class="collapse">
+  <li><a href="#struktura-blokowa" id="toc-struktura-blokowa" class="nav-link" data-scroll-target="#struktura-blokowa">Struktura blokowa</a></li>
+  <li><a href="#komentarze" id="toc-komentarze" class="nav-link" data-scroll-target="#komentarze">Komentarze</a></li>
+  <li><a href="#funkcje" id="toc-funkcje" class="nav-link" data-scroll-target="#funkcje">Funkcje</a></li>
+  <li><a href="#biblioteki-standardowe" id="toc-biblioteki-standardowe" class="nav-link" data-scroll-target="#biblioteki-standardowe">Biblioteki standardowe</a></li>
+  <li><a href="#nazwy-zmiennych-stałych-i-funkcji" id="toc-nazwy-zmiennych-stałych-i-funkcji" class="nav-link" data-scroll-target="#nazwy-zmiennych-stałych-i-funkcji">Nazwy zmiennych, stałych i funkcji</a></li>
+  </ul></li>
+  <li><a href="#zmienne" id="toc-zmienne" class="nav-link" data-scroll-target="#zmienne">Zmienne</a>
+  <ul class="collapse">
+  <li><a href="#deklaracja-i-inicjalizacja" id="toc-deklaracja-i-inicjalizacja" class="nav-link" data-scroll-target="#deklaracja-i-inicjalizacja">Deklaracja i inicjalizacja</a></li>
+  <li><a href="#zasięg-zmiennych" id="toc-zasięg-zmiennych" class="nav-link" data-scroll-target="#zasięg-zmiennych">Zasięg zmiennych</a></li>
+  <li><a href="#stałe" id="toc-stałe" class="nav-link" data-scroll-target="#stałe">Stałe</a></li>
+  </ul></li>
+  <li><a href="#typy-danych" id="toc-typy-danych" class="nav-link" data-scroll-target="#typy-danych">Typy danych</a>
+  <ul class="collapse">
+  <li><a href="#podstawowe-typy-w-c" id="toc-podstawowe-typy-w-c" class="nav-link" data-scroll-target="#podstawowe-typy-w-c">Podstawowe typy w C</a></li>
+  <li><a href="#typ-int-liczby-całkowite" id="toc-typ-int-liczby-całkowite" class="nav-link" data-scroll-target="#typ-int-liczby-całkowite">Typ <code>int</code> — liczby całkowite</a></li>
+  <li><a href="#typ-float-i-double-liczby-zmiennoprzecinkowe" id="toc-typ-float-i-double-liczby-zmiennoprzecinkowe" class="nav-link" data-scroll-target="#typ-float-i-double-liczby-zmiennoprzecinkowe">Typ <code>float</code> i <code>double</code> — liczby zmiennoprzecinkowe</a></li>
+  <li><a href="#typ-char-znaki" id="toc-typ-char-znaki" class="nav-link" data-scroll-target="#typ-char-znaki">Typ <code>char</code> — znaki</a></li>
+  <li><a href="#typ-void" id="toc-typ-void" class="nav-link" data-scroll-target="#typ-void">Typ <code>void</code></a></li>
+  <li><a href="#specyfikatory-signed-unsigned-short-long" id="toc-specyfikatory-signed-unsigned-short-long" class="nav-link" data-scroll-target="#specyfikatory-signed-unsigned-short-long">Specyfikatory: <code>signed</code>, <code>unsigned</code>, <code>short</code>, <code>long</code></a></li>
+  </ul></li>
+  <li><a href="#funkcja-printf-formatowane-wyjście" id="toc-funkcja-printf-formatowane-wyjście" class="nav-link" data-scroll-target="#funkcja-printf-formatowane-wyjście">Funkcja <code>printf</code> — formatowane wyjście</a></li>
+  <li><a href="#funkcja-scanf-formatowane-wejście" id="toc-funkcja-scanf-formatowane-wejście" class="nav-link" data-scroll-target="#funkcja-scanf-formatowane-wejście">Funkcja <code>scanf</code> — formatowane wejście</a></li>
+  <li><a href="#podsumowanie" id="toc-podsumowanie" class="nav-link" data-scroll-target="#podsumowanie">Podsumowanie</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/wyklad1.html">Wykłady</a></li><li class="breadcrumb-item"><a href="../lectures/wyklad4.html">Język C – Pierwsze kroki</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Język C – Pierwsze kroki</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="historia-języka-c" class="level2">
+<h2 class="anchored" data-anchor-id="historia-języka-c">Historia języka C</h2>
+<p>Zanim napiszemy pierwszą linijkę kodu, warto zrozumieć skąd wziął się język, którego będziemy się uczyć. Nazwa <strong>C</strong> to po prostu kolejna litera po <strong>B</strong> — języku, który był jego bezpośrednim poprzednikiem.</p>
+<p>Oto kluczowe momenty na osi czasu:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Rok</th>
+<th>Wydarzenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1954</td>
+<td><strong>Fortran</strong> — pierwszy język wysokiego poziomu</td>
+</tr>
+<tr class="even">
+<td>1958</td>
+<td><strong>Algol 58</strong> (Algorithmic Language)</td>
+</tr>
+<tr class="odd">
+<td>1963</td>
+<td><strong>CPL</strong> — Combined Programming Language</td>
+</tr>
+<tr class="even">
+<td>1967</td>
+<td><strong>BCPL</strong> — Basic CPL</td>
+</tr>
+<tr class="odd">
+<td>1969</td>
+<td><strong>B</strong> — stworzony przez Kena Thompsona (Bell Labs)</td>
+</tr>
+<tr class="even">
+<td>~1972</td>
+<td><strong>C</strong> — Dennis Ritchie rozwija B → NB → C</td>
+</tr>
+<tr class="odd">
+<td>1978</td>
+<td>Pierwsza książka “The C Programming Language” (K&amp;R)</td>
+</tr>
+<tr class="even">
+<td>1989</td>
+<td>Standard <strong>C89</strong> (ANSI C)</td>
+</tr>
+<tr class="odd">
+<td>1999</td>
+<td>Standard <strong>C99</strong></td>
+</tr>
+<tr class="even">
+<td>2011</td>
+<td>Standard <strong>C11</strong> (ISO/IEC 9899:2011)</td>
+</tr>
+<tr class="odd">
+<td>2018</td>
+<td>Standard <strong>C17</strong></td>
+</tr>
+<tr class="even">
+<td>2024</td>
+<td>Standard <strong>C23</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>B</strong> był językiem interpretowanym, używanym w wewnętrznych wersjach systemu UNIX. Thompson i Ritchie rozwinęli go w NB, a następnie w C — język <strong>kompilowany</strong>. Większość UNIX-a została ponownie napisana w C, co uczyniło system przenośnym pomiędzy różnymi komputerami. To właśnie ta przenośność napędzała początkową popularność zarówno UNIX-a, jak i C.</p>
+<p>Kilka obecnie powszechnie stosowanych systemów operacyjnych, takich jak <strong>Linux</strong> czy jądro <strong>Windows</strong>, zostało napisanych w języku C.</p>
+<section id="dlaczego-c-jest-nadal-ważny" class="level3">
+<h3 class="anchored" data-anchor-id="dlaczego-c-jest-nadal-ważny">Dlaczego C jest nadal ważny?</h3>
+<p>C jest językiem <strong>szybkim</strong> — znacznie szybszym od języków interpretowanych (Python, Perl) czy uruchamianych w maszynach wirtualnych (Java, C#). Dzieje się tak, ponieważ składnia C została zaprojektowana tak, aby łatwo przekładała się na kod maszynowy.</p>
+<p>C jest wszechobecny w:</p>
+<ul>
+<li>systemach operacyjnych (Linux, jądro Windows),</li>
+<li>systemach wbudowanych i mikrokontrolerach,</li>
+<li>sterownikach urządzeń,</li>
+<li>silnikach gier,</li>
+<li>bazach danych (SQLite, PostgreSQL).</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Uwaga wojskowa:</strong> W systemach czasu rzeczywistego (np. sterowanie lotem, systemy radarowe) C jest standardem z uwagi na deterministyczne zarządzanie pamięcią i minimalny narzut.</p>
+</blockquote>
+<p>Składnia C stała się fundamentem dla: <strong>C++</strong>, <strong>C#</strong>, <strong>Java</strong>, <strong>JavaScript</strong>, <strong>Rust</strong> (częściowo), <strong>Go</strong>.</p>
+</section>
+<section id="standaryzacja-c" class="level3">
+<h3 class="anchored" data-anchor-id="standaryzacja-c">Standaryzacja — C++</h3>
+<p>Równolegle do rozwoju C, <strong>Bjarne Stroustrup</strong> w Bell Labs (1979–1983) rozszerzył C o programowanie obiektowe, tworząc język <strong>C++</strong> (początkowo nazywany “C with Classes”).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Standard</th>
+<th>Rok</th>
+<th>Kluczowe nowości</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>C++98</td>
+<td>1998</td>
+<td>STL, szablony, wyjątki</td>
+</tr>
+<tr class="even">
+<td>C++11</td>
+<td>2011</td>
+<td><code>auto</code>, lambdy, <code>nullptr</code>, move semantics</td>
+</tr>
+<tr class="odd">
+<td>C++14</td>
+<td>2014</td>
+<td>Generyczne lambdy</td>
+</tr>
+<tr class="even">
+<td>C++17</td>
+<td>2017</td>
+<td><code>std::optional</code>, structured bindings</td>
+</tr>
+<tr class="odd">
+<td>C++20</td>
+<td>2020</td>
+<td>Koncepty, moduły, korutyny</td>
+</tr>
+<tr class="even">
+<td>C++23</td>
+<td>2023</td>
+<td><code>std::print</code>, <code>std::expected</code></td>
+</tr>
+</tbody>
+</table>
+<p>Na tym kursie <strong>zaczniemy od C</strong>, a następnie pokażemy rozszerzenia wprowadzone przez C++.</p>
+</section>
+</section>
+<section id="zintegrowane-środowiska-programistyczne-ide" class="level2">
+<h2 class="anchored" data-anchor-id="zintegrowane-środowiska-programistyczne-ide">Zintegrowane Środowiska Programistyczne (IDE)</h2>
+<p>Zamiast osobno korzystać z edytora tekstu i kompilatora, programiści używają <strong>IDE</strong> (Integrated Development Environment), które łączą w sobie: edytor kodu, kompilator, linker i debugger.</p>
+<p>Popularne IDE i kompilatory:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 30%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Narzędzie</th>
+<th>System</th>
+<th>Uwagi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Visual Studio</strong></td>
+<td>Windows</td>
+<td>Potężne IDE, darmowa wersja Community</td>
+</tr>
+<tr class="even">
+<td><strong>Visual Studio Code</strong> + rozszerzenia C/C++</td>
+<td>Wieloplatformowy</td>
+<td>Lekki edytor + kompilator GCC/Clang</td>
+</tr>
+<tr class="odd">
+<td><strong>CLion</strong> (JetBrains)</td>
+<td>Wieloplatformowy</td>
+<td>Profesjonalne IDE, płatne (darmowe dla studentów)</td>
+</tr>
+<tr class="even">
+<td><strong>Code::Blocks</strong></td>
+<td>Windows/Linux</td>
+<td>Darmowe, lekkie</td>
+</tr>
+<tr class="odd">
+<td><strong>GCC</strong> (<code>gcc</code>/<code>g++</code>)</td>
+<td>Linux/macOS/Windows (MinGW)</td>
+<td>Kompilator linii poleceń, standard w świecie UNIX</td>
+</tr>
+<tr class="even">
+<td><strong>Clang</strong></td>
+<td>Wieloplatformowy</td>
+<td>Nowoczesny kompilator, świetne komunikaty o błędach</td>
+</tr>
+</tbody>
+</table>
+<p>Na zajęciach laboratoryjnych będziemy kompilować programy z linii poleceń:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kompilacja programu w C</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-o</span> program program.c</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Kompilacja programu w C++</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">g++</span> <span class="at">-o</span> program program.cpp</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Uruchomienie</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">./program</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="komunikaty-o-błędach" class="level3">
+<h3 class="anchored" data-anchor-id="komunikaty-o-błędach">Komunikaty o błędach</h3>
+<p>Jedną z najważniejszych umiejętności początkującego programisty jest czytanie komunikatów kompilatora. Jeśli napiszemy <code>intr</code> zamiast <code>int</code>, kompilator powie nam:</p>
+<pre><code>error: unknown type name 'intr'</code></pre>
+<p>Kompilator jest Twoim sprzymierzeńcem — czytaj jego komunikaty od <strong>góry do dołu</strong>, bo często pierwszy błąd generuje kaskadę kolejnych.</p>
+<hr>
+</section>
+</section>
+<section id="pierwszy-program-w-c" class="level2">
+<h2 class="anchored" data-anchor-id="pierwszy-program-w-c">Pierwszy program w C</h2>
+<p>Tradycją jest, że pierwszy program w każdym języku wyświetla tekst “Hello, World!”:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"Hello, World!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Przeanalizujmy każdą linijkę:</p>
+<p><strong><code>#include &lt;stdio.h&gt;</code></strong> — dyrektywa preprocesora, która włącza plik nagłówkowy biblioteki standardowego wejścia/wyjścia. Dzięki niemu możemy korzystać z funkcji <code>printf</code>. Nawiasy kątowe <code>&lt; &gt;</code> oznaczają, że szukamy pliku w katalogach systemowych. Dla własnych plików nagłówkowych używamy cudzysłowów: <code>#include "moj_plik.h"</code>.</p>
+<p><strong><code>int main(void)</code></strong> — definicja <strong>funkcji głównej</strong>. Każdy program w C musi posiadać funkcję <code>main</code> — to od niej zaczyna się wykonanie programu. <code>int</code> oznacza, że funkcja zwraca liczbę całkowitą. <code>void</code> w nawiasach mówi, że funkcja nie przyjmuje żadnych argumentów.</p>
+<p><strong><code>{ ... }</code></strong> — nawiasy klamrowe wyznaczają <strong>blok</strong> (ciało funkcji).</p>
+<p><strong><code>printf("Hello, World!\n");</code></strong> — wywołanie funkcji <code>printf</code> z biblioteki standardowej, która wypisuje tekst na ekran. <code>\n</code> to <strong>znak nowej linii</strong> (Enter). Każda instrukcja kończy się <strong>średnikiem</strong> <code>;</code>.</p>
+<p><strong><code>return 0;</code></strong> — zwraca wartość <code>0</code> do systemu operacyjnego, co oznacza: “program zakończył się poprawnie”. Wartość różna od zera sygnalizuje błąd.</p>
+<section id="kompilacja-i-uruchomienie" class="level3">
+<h3 class="anchored" data-anchor-id="kompilacja-i-uruchomienie">Kompilacja i uruchomienie</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-o</span> hello hello.c</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./hello</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>Hello, World!</code></pre>
+</section>
+<section id="wersja-c" class="level3">
+<h3 class="anchored" data-anchor-id="wersja-c">Wersja C++</h3>
+<p>Ten sam program w C++ wygląda niemal identycznie, ale możemy użyć strumienia wyjścia:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Hello, World!"</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Zamiast <code>printf</code> korzystamy z obiektu <code>std::cout</code> i operatora <code>&lt;&lt;</code>. Zamiast <code>\n</code> możemy użyć <code>std::endl</code>, który dodatkowo wymusza opróżnienie bufora wyjściowego.</p>
+<hr>
+</section>
+</section>
+<section id="podstawy-języka-c" class="level2">
+<h2 class="anchored" data-anchor-id="podstawy-języka-c">Podstawy języka C</h2>
+<section id="struktura-blokowa" class="level3">
+<h3 class="anchored" data-anchor-id="struktura-blokowa">Struktura blokowa</h3>
+<p>C jest językiem <strong>strukturalnym</strong> o budowie blokowej. Blok to grupa instrukcji zamkniętych w nawiasy klamrowe <code>{ }</code>, traktowanych jako jedna całość. Bloki mogą być zagnieżdżone — blok wewnątrz bloku.</p>
+<p>Instrukcje kończą się <strong>średnikiem</strong> <code>;</code>. Dla kompilatora spacje, tabulacje i nowe linie mają identyczne znaczenie — są po prostu separatorami. Te trzy zapisy są równoważne:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Hello"</span><span class="op">);</span> <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Hello"</span><span class="op">);</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Hello"</span><span class="op">);</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Wyjątek: <strong>stałe tekstowe</strong> muszą zaczynać się i kończyć w tej samej linii:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Hello</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>world<span class="st">");  /* BŁĄD! */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="komentarze" class="level3">
+<h3 class="anchored" data-anchor-id="komentarze">Komentarze</h3>
+<p>Komentarze to tekst ignorowany przez kompilator, służący dokumentacji kodu:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* To jest komentarz wieloliniowy</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">   w stylu C — od /* do */</span> <span class="op">*/</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">// To jest komentarz jednoliniowy w stylu C++</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">// (akceptowany też w nowoczesnym C)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Zasada:</strong> Komentuj <em>dlaczego</em>, nie <em>co</em>. Kod powinien być na tyle czytelny, by mówił <em>co</em> robi sam z siebie.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* ŹLE: */</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> <span class="co">/* zwiększamy i o 1 */</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">/* DOBRZE: */</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> <span class="co">/* przeskakujemy element separatora w nagłówku pakietu */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="funkcje" class="level3">
+<h3 class="anchored" data-anchor-id="funkcje">Funkcje</h3>
+<p>Funkcja to blok instrukcji wykonywany za pomocą jednego wywołania. Każda funkcja ma:</p>
+<ul>
+<li><strong>nazwę</strong> — za pomocą której jest wywoływana,</li>
+<li><strong>typ zwracany</strong> — rodzaj wartości, którą zwraca,</li>
+<li><strong>listę argumentów</strong> — dane wejściowe,</li>
+<li><strong>ciało</strong> — blok instrukcji do wykonania.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dodaj<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> wynik <span class="op">=</span> dodaj<span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">7</span><span class="op">);</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"Suma: </span><span class="sc">%d\n</span><span class="st">"</span><span class="op">,</span> wynik<span class="op">);</span> <span class="co">/* wypisze: Suma: 10 */</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Funkcja <code>main()</code> ma szczególne znaczenie — jest <strong>punktem wejścia</strong> programu i musi istnieć w każdym programie C.</p>
+</section>
+<section id="biblioteki-standardowe" class="level3">
+<h3 class="anchored" data-anchor-id="biblioteki-standardowe">Biblioteki standardowe</h3>
+<p>Język C <strong>nie posiada</strong> wbudowanych instrukcji wejścia/wyjścia — ta prostota składni jest źródłem jego szybkości. Wszelkie operacje I/O, matematyczne, na napisach itp. realizowane są przez <strong>Bibliotekę Standardową</strong> (libc).</p>
+<p>Najważniejsze pliki nagłówkowe:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Nagłówek</th>
+<th>Zawartość</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;stdio.h&gt;</code></td>
+<td>Wejście/wyjście: <code>printf</code>, <code>scanf</code>, <code>fopen</code></td>
+</tr>
+<tr class="even">
+<td><code>&lt;stdlib.h&gt;</code></td>
+<td>Narzędzia ogólne: <code>malloc</code>, <code>free</code>, <code>atoi</code>, <code>exit</code></td>
+</tr>
+<tr class="odd">
+<td><code>&lt;string.h&gt;</code></td>
+<td>Operacje na napisach: <code>strlen</code>, <code>strcpy</code>, <code>strcmp</code></td>
+</tr>
+<tr class="even">
+<td><code>&lt;math.h&gt;</code></td>
+<td>Funkcje matematyczne: <code>sin</code>, <code>cos</code>, <code>sqrt</code>, <code>pow</code></td>
+</tr>
+<tr class="odd">
+<td><code>&lt;ctype.h&gt;</code></td>
+<td>Klasyfikacja znaków: <code>isdigit</code>, <code>isalpha</code>, <code>toupper</code></td>
+</tr>
+<tr class="even">
+<td><code>&lt;stdbool.h&gt;</code></td>
+<td>Typ <code>bool</code> (od C99)</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;stdint.h&gt;</code></td>
+<td>Typy o ustalonej szerokości: <code>int32_t</code>, <code>uint8_t</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nazwy-zmiennych-stałych-i-funkcji" class="level3">
+<h3 class="anchored" data-anchor-id="nazwy-zmiennych-stałych-i-funkcji">Nazwy zmiennych, stałych i funkcji</h3>
+<p><strong>Identyfikatory</strong> mogą składać się z liter (bez polskich znaków!), cyfr i znaku podkreślenia <code>_</code>, ale <strong>nie mogą</strong> zaczynać się od cyfry ani być słowem kluczowym języka.</p>
+<p>Przykłady <strong>poprawnych</strong> nazw: <code>liczba</code>, <code>_temp</code>, <code>wartosc_max</code>, <code>x1</code></p>
+<p>Przykłady <strong>błędnych</strong> nazw: <code>2liczba</code> (zaczyna się od cyfry), <code>moja funkcja</code> (spacja), <code>$x</code> (niedozwolony znak), <code>if</code> (słowo kluczowe)</p>
+<p>Konwencja nazewnictwa w C:</p>
+<ul>
+<li>zmienne i funkcje: <code>małe_litery_z_podkreśleniami</code></li>
+<li>stałe <code>#define</code>: <code>WIELKIE_LITERY</code></li>
+<li>typy własne: <code>PascalCase</code> lub <code>typ_t</code></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="zmienne" class="level2">
+<h2 class="anchored" data-anchor-id="zmienne">Zmienne</h2>
+<p>Procesor operuje na danych w pamięci. <strong>Zmienna</strong> to nazwany fragment pamięci o ustalonym rozmiarze, przechowujący pewną wartość. Dzięki zmiennym programista nie musi operować fizycznymi adresami (np. <code>0x7FFE1234</code>), lecz prostymi nazwami.</p>
+<section id="deklaracja-i-inicjalizacja" class="level3">
+<h3 class="anchored" data-anchor-id="deklaracja-i-inicjalizacja">Deklaracja i inicjalizacja</h3>
+<p>Zmienną deklarujemy podając <strong>typ</strong> i <strong>nazwę</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> wiek<span class="op">;</span>           <span class="co">/* deklaracja — zmienna istnieje, ale ma nieokreśloną wartość */</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> wiek <span class="op">=</span> <span class="dv">21</span><span class="op">;</span>      <span class="co">/* deklaracja z inicjalizacją — od razu przypisujemy wartość */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Niezainicjalizowane zmienne lokalne
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>W C zmienne lokalne <strong>nie są</strong> automatycznie zerowane! Zawierają “śmieci” — cokolwiek znajdowało się wcześniej w tym fragmencie pamięci. Zawsze inicjalizuj zmienne przy deklaracji.</p>
+</div>
+</div>
+<p>Można deklarować kilka zmiennych tego samego typu w jednej linii:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c <span class="op">=</span> <span class="dv">5</span><span class="op">;</span>  <span class="co">/* uwaga: tylko c jest zainicjalizowane na 5! */</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="co">/* obie zainicjalizowane */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="zasięg-zmiennych" class="level3">
+<h3 class="anchored" data-anchor-id="zasięg-zmiennych">Zasięg zmiennych</h3>
+<p>Zmienne w C dzielą się na <strong>globalne</strong> i <strong>lokalne</strong>:</p>
+<ul>
+<li><strong>Zmienne globalne</strong> — deklarowane poza funkcjami, dostępne w całym programie. Automatycznie inicjalizowane na <code>0</code>.</li>
+<li><strong>Zmienne lokalne</strong> — deklarowane wewnątrz bloku <code>{ }</code>, dostępne tylko w tym bloku. <strong>Nie</strong> są automatycznie inicjalizowane.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> globalna <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">/* zmienna globalna */</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lokalna <span class="op">=</span> <span class="dv">42</span><span class="op">;</span>  <span class="co">/* zmienna lokalna */</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> blokowa <span class="op">=</span> <span class="dv">7</span><span class="op">;</span>  <span class="co">/* dostępna tylko w tym bloku */</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st"> </span><span class="sc">%d</span><span class="st"> </span><span class="sc">%d\n</span><span class="st">"</span><span class="op">,</span> globalna<span class="op">,</span> lokalna<span class="op">,</span> blokowa<span class="op">);</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* printf("%d", blokowa);  BŁĄD — blokowa już nie istnieje! */</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Jeśli zmienna lokalna ma tę samą nazwę co globalna, <strong>przesłania</strong> ją wewnątrz swojego bloku:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">/* globalna */</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">/* lokalna — przesłania globalną */</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"</span><span class="sc">%d\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">);</span>  <span class="co">/* wypisze 2, nie 1 */</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="stałe" class="level3">
+<h3 class="anchored" data-anchor-id="stałe">Stałe</h3>
+<p>Stała to zmienna, której wartości <strong>nie można zmienić</strong> po zadeklarowaniu:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">double</span> PI <span class="op">=</span> <span class="fl">3.14159265358979</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">int</span> MAX_STUDENTOW <span class="op">=</span> <span class="dv">150</span><span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>PI <span class="op">=</span> <span class="fl">3.14</span><span class="op">;</span>  <span class="co">/* BŁĄD kompilacji! */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Alternatywnie, stałe definiuje się za pomocą dyrektywy preprocesora:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define PI </span><span class="fl">3.14159265358979</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MAX_STUDENTOW </span><span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Różnica: <code>const</code> tworzy zmienną w pamięci (pilnowaną przez kompilator), a <code>#define</code> to proste podstawienie tekstowe w fazie preprocesji.</p>
+<hr>
+</section>
+</section>
+<section id="typy-danych" class="level2">
+<h2 class="anchored" data-anchor-id="typy-danych">Typy danych</h2>
+<p>Każda zmienna musi mieć <strong>typ</strong>, który określa: ile pamięci zajmuje i jak interpretować zawarte w niej bity.</p>
+<section id="podstawowe-typy-w-c" class="level3">
+<h3 class="anchored" data-anchor-id="podstawowe-typy-w-c">Podstawowe typy w C</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 29%">
+<col style="width: 18%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Typ</th>
+<th style="text-align: center;">Rozmiar (typowy)</th>
+<th style="text-align: center;">Zakres (typowy)</th>
+<th>Przeznaczenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>char</code></td>
+<td style="text-align: center;">1 B</td>
+<td style="text-align: center;">−128 … 127</td>
+<td>Znak ASCII / mała liczba całkowita</td>
+</tr>
+<tr class="even">
+<td><code>short</code></td>
+<td style="text-align: center;">2 B</td>
+<td style="text-align: center;">−32 768 … 32 767</td>
+<td>Mała liczba całkowita</td>
+</tr>
+<tr class="odd">
+<td><code>int</code></td>
+<td style="text-align: center;">4 B</td>
+<td style="text-align: center;">−2 147 483 648 … 2 147 483 647</td>
+<td>Standardowa liczba całkowita</td>
+</tr>
+<tr class="even">
+<td><code>long</code></td>
+<td style="text-align: center;">4 lub 8 B</td>
+<td style="text-align: center;">≥ 32 bity</td>
+<td>Duża liczba całkowita</td>
+</tr>
+<tr class="odd">
+<td><code>long long</code></td>
+<td style="text-align: center;">8 B</td>
+<td style="text-align: center;">≥ 64 bity</td>
+<td>Bardzo duża liczba całkowita</td>
+</tr>
+<tr class="even">
+<td><code>float</code></td>
+<td style="text-align: center;">4 B</td>
+<td style="text-align: center;">±3.4 × 10³⁸ (~7 cyfr)</td>
+<td>Liczba zmiennoprzecinkowa</td>
+</tr>
+<tr class="odd">
+<td><code>double</code></td>
+<td style="text-align: center;">8 B</td>
+<td style="text-align: center;">±1.7 × 10³⁰⁸ (~15 cyfr)</td>
+<td>Liczba zmiennoprzecinkowa podwójnej precyzji</td>
+</tr>
+<tr class="even">
+<td><code>void</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td>“Brak typu” (funkcje, wskaźniki)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Operator <code>sizeof</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Aby sprawdzić faktyczny rozmiar typu na danej platformie, używamy operatora <code>sizeof</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"int: </span><span class="sc">%zu</span><span class="st"> bajtów</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">));</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"double: </span><span class="sc">%zu</span><span class="st"> bajtów</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">double</span><span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="typ-int-liczby-całkowite" class="level3">
+<h3 class="anchored" data-anchor-id="typ-int-liczby-całkowite">Typ <code>int</code> — liczby całkowite</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">42</span><span class="op">;</span>           <span class="co">/* system dziesiętny */</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b <span class="op">=</span> <span class="bn">052</span><span class="op">;</span>          <span class="co">/* system ósemkowy (zaczyna się od 0) → 42 */</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> c <span class="op">=</span> <span class="bn">0x2A</span><span class="op">;</span>         <span class="co">/* system szesnastkowy (0x) → 42 */</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> d <span class="op">=</span> <span class="bn">0b00101010</span><span class="op">;</span>   <span class="co">/* system binarny (0b, od C23/rozszerzenie GCC) → 42 */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Wynik operacji na dwóch wartościach typu <code>int</code> jest <strong>zawsze typu <code>int</code></strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> wynik <span class="op">=</span> <span class="dv">7</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span>          <span class="co">/* wynik = 3.0, NIE 3.5! */</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> poprawnie <span class="op">=</span> <span class="fl">7.0</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span>    <span class="co">/* wynik = 3.5 — jeden argument jest double */</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> tez_ok <span class="op">=</span> <span class="op">(</span><span class="dt">float</span><span class="op">)</span><span class="dv">7</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">/* rzutowanie wymusza dzielenie rzeczywiste */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="typ-float-i-double-liczby-zmiennoprzecinkowe" class="level3">
+<h3 class="anchored" data-anchor-id="typ-float-i-double-liczby-zmiennoprzecinkowe">Typ <code>float</code> i <code>double</code> — liczby zmiennoprzecinkowe</h3>
+<p>Jak wiemy z Wykładu 3, liczby zmiennoprzecinkowe są zapisywane zgodnie z normą <strong>IEEE 754</strong>. <code>float</code> zajmuje 32 bity (1 bit znaku + 8 bitów cechy + 23 bity mantysy), a <code>double</code> — 64 bity (1 + 11 + 52).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> f <span class="op">=</span> <span class="fl">3.14</span><span class="bu">f</span><span class="op">;</span>       <span class="co">/* literka 'f' oznacza float */</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> d <span class="op">=</span> <span class="fl">3.14</span><span class="op">;</span>       <span class="co">/* domyślnie literały rzeczywiste są typu double */</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> e <span class="op">=</span> <span class="fl">6.022e23</span><span class="op">;</span>   <span class="co">/* notacja naukowa: 6.022 × 10²³ */</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> m <span class="op">=</span> <span class="fl">1.6e-19</span><span class="op">;</span>    <span class="co">/* 1.6 × 10⁻¹⁹ */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Porównywanie liczb zmiennoprzecinkowych
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nigdy nie porównuj liczb <code>float</code>/<code>double</code> za pomocą <code>==</code>! Z powodu ograniczonej precyzji, dwie pozornie identyczne wartości mogą się różnić:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> a <span class="op">=</span> <span class="fl">1e10</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> b <span class="op">=</span> <span class="fl">1e-10</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> c <span class="op">=</span> b <span class="op">+</span> a <span class="op">-</span> a<span class="op">;</span>    <span class="co">/* teoretycznie c == b */</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"</span><span class="sc">%d\n</span><span class="st">"</span><span class="op">,</span> c <span class="op">==</span> b<span class="op">);</span> <span class="co">/* wypisze 0 (fałsz)! */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Zamiast tego stosujemy porównanie z tolerancją (epsilon):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;math.h&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>fabs<span class="op">(</span>a <span class="op">-</span> b<span class="op">)</span> <span class="op">&lt;</span> <span class="fl">1e-6</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* "równe" z dokładnością do epsilon */</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="typ-char-znaki" class="level3">
+<h3 class="anchored" data-anchor-id="typ-char-znaki">Typ <code>char</code> — znaki</h3>
+<p>Typ <code>char</code> przechowuje <strong>jeden bajt</strong> — może być traktowany jako znak ASCII lub mała liczba całkowita:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> litera <span class="op">=</span> <span class="ch">'A'</span><span class="op">;</span>       <span class="co">/* znak — wartość 65 (ASCII) */</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> cyfra <span class="op">=</span> <span class="ch">'7'</span><span class="op">;</span>         <span class="co">/* uwaga: to nie jest liczba 7, lecz kod ASCII 55 */</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> nastepna <span class="op">=</span> <span class="ch">'A'</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">/* = 'B', bo 65 + 1 = 66 */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Znaki specjalne (sekwencje ucieczki):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Zapis</th>
+<th>Znaczenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>\n</code></td>
+<td>Nowa linia</td>
+</tr>
+<tr class="even">
+<td><code>\t</code></td>
+<td>Tabulacja pozioma</td>
+</tr>
+<tr class="odd">
+<td><code>\\</code></td>
+<td>Backslash</td>
+</tr>
+<tr class="even">
+<td><code>\'</code></td>
+<td>Apostrof</td>
+</tr>
+<tr class="odd">
+<td><code>\"</code></td>
+<td>Cudzysłów</td>
+</tr>
+<tr class="even">
+<td><code>\0</code></td>
+<td>Null — terminator łańcucha</td>
+</tr>
+<tr class="odd">
+<td><code>\a</code></td>
+<td>Sygnał dźwiękowy</td>
+</tr>
+<tr class="even">
+<td><code>\b</code></td>
+<td>Backspace</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="typ-void" class="level3">
+<h3 class="anchored" data-anchor-id="typ-void">Typ <code>void</code></h3>
+<p><code>void</code> to „typ pusty” — nie można utworzyć zmiennej tego typu. Używa się go do oznaczenia, że funkcja <strong>nie zwraca</strong> wartości lub <strong>nie przyjmuje</strong> argumentów:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> powitaj<span class="op">(</span><span class="dt">void</span><span class="op">)</span>  <span class="co">/* nie zwraca i nie przyjmuje niczego */</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"Cześć!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="specyfikatory-signed-unsigned-short-long" class="level3">
+<h3 class="anchored" data-anchor-id="specyfikatory-signed-unsigned-short-long">Specyfikatory: <code>signed</code>, <code>unsigned</code>, <code>short</code>, <code>long</code></h3>
+<p>Specyfikatory modyfikują zakres i rozmiar typów całkowitych:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dt">unsigned</span> <span class="dt">int</span> u <span class="op">=</span> <span class="dv">4000000000</span><span class="bu">U</span><span class="op">;</span>  <span class="co">/* bez znaku: 0 … ~4.29 mld */</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="dt">signed</span> <span class="dt">int</span> s <span class="op">=</span> <span class="op">-</span><span class="dv">100</span><span class="op">;</span>            <span class="co">/* ze znakiem (domyślne) */</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="dt">short</span> <span class="dt">int</span> mala <span class="op">=</span> <span class="dv">30000</span><span class="op">;</span>         <span class="co">/* ≥ 16 bitów */</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> <span class="dt">int</span> duza <span class="op">=</span> <span class="dv">2000000000</span><span class="bu">L</span><span class="op">;</span>    <span class="co">/* ≥ 32 bity */</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> <span class="dt">long</span> <span class="dt">int</span> ogromna <span class="op">=</span> <span class="dv">9000000000000000000</span><span class="bu">LL</span><span class="op">;</span> <span class="co">/* ≥ 64 bity */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Specyfikator</th>
+<th>Efekt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>unsigned</code></td>
+<td>Tylko wartości nieujemne — podwaja zakres dodatni</td>
+</tr>
+<tr class="even">
+<td><code>signed</code></td>
+<td>Wartości ujemne i dodatnie (domyślne dla <code>int</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>short</code></td>
+<td>Mniejszy rozmiar (≥ 16 bitów)</td>
+</tr>
+<tr class="even">
+<td><code>long</code></td>
+<td>Większy rozmiar (≥ 32 bity)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Pułapka <code>unsigned</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uwaga na odejmowanie z <code>unsigned</code>! Zejście poniżej zera powoduje “zawinięcie” na koniec zakresu:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">unsigned</span> <span class="dt">char</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x <span class="op">-</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">/* x = 255, nie -1! */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To <strong>nie</strong> jest błąd kompilacji — program działa “normalnie”, ale wynik jest nieintuicyjny.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="funkcja-printf-formatowane-wyjście" class="level2">
+<h2 class="anchored" data-anchor-id="funkcja-printf-formatowane-wyjście">Funkcja <code>printf</code> — formatowane wyjście</h2>
+<p><code>printf</code> to najpowszechniej używana funkcja wyjścia w C. Przyjmuje <strong>format string</strong> z kodami formatującymi:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> b <span class="op">=</span> <span class="fl">3.14</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> c <span class="op">=</span> <span class="ch">'X'</span><span class="op">;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Liczba: </span><span class="sc">%d\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">);</span>         <span class="co">/* %d — int */</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Zmiennoprzecinkowa: </span><span class="sc">%f\n</span><span class="st">"</span><span class="op">,</span> b<span class="op">);</span> <span class="co">/* %f — float/double */</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Znak: </span><span class="sc">%c\n</span><span class="st">"</span><span class="op">,</span> c<span class="op">);</span>            <span class="co">/* %c — char jako znak */</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Szesnastkowo: </span><span class="sc">%x\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">);</span>    <span class="co">/* %x — int jako hex */</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Ósemkowo: </span><span class="sc">%o\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">);</span>        <span class="co">/* %o — int jako octal */</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Naukowa: </span><span class="sc">%e\n</span><span class="st">"</span><span class="op">,</span> <span class="fl">6.022e23</span><span class="op">);</span>  <span class="co">/* %e — notacja naukowa */</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Najważniejsze kody formatujące:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Kod</th>
+<th>Typ</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>%d</code> / <code>%i</code></td>
+<td><code>int</code></td>
+<td>Liczba całkowita ze znakiem</td>
+</tr>
+<tr class="even">
+<td><code>%u</code></td>
+<td><code>unsigned int</code></td>
+<td>Liczba całkowita bez znaku</td>
+</tr>
+<tr class="odd">
+<td><code>%f</code></td>
+<td><code>float</code>/<code>double</code></td>
+<td>Zmiennoprzecinkowa (domyślnie 6 miejsc)</td>
+</tr>
+<tr class="even">
+<td><code>%e</code></td>
+<td><code>float</code>/<code>double</code></td>
+<td>Notacja naukowa</td>
+</tr>
+<tr class="odd">
+<td><code>%c</code></td>
+<td><code>char</code></td>
+<td>Pojedynczy znak</td>
+</tr>
+<tr class="even">
+<td><code>%s</code></td>
+<td><code>char*</code></td>
+<td>Łańcuch znaków</td>
+</tr>
+<tr class="odd">
+<td><code>%x</code> / <code>%X</code></td>
+<td><code>int</code></td>
+<td>Szesnastkowo (małe/wielkie litery)</td>
+</tr>
+<tr class="even">
+<td><code>%o</code></td>
+<td><code>int</code></td>
+<td>Ósemkowo</td>
+</tr>
+<tr class="odd">
+<td><code>%p</code></td>
+<td>wskaźnik</td>
+<td>Adres w pamięci</td>
+</tr>
+<tr class="even">
+<td><code>%%</code></td>
+<td>—</td>
+<td>Literalny znak <code>%</code></td>
+</tr>
+</tbody>
+</table>
+<p>Można kontrolować szerokość i precyzję: <code>%8.2f</code> oznacza “minimum 8 znaków, 2 po przecinku”.</p>
+</section>
+<section id="funkcja-scanf-formatowane-wejście" class="level2">
+<h2 class="anchored" data-anchor-id="funkcja-scanf-formatowane-wejście">Funkcja <code>scanf</code> — formatowane wejście</h2>
+<p><code>scanf</code> wczytuje dane od użytkownika. <strong>Uwaga:</strong> przed nazwą zmiennej stawia się operator <code>&amp;</code> (adres zmiennej):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> wiek<span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Podaj wiek: "</span><span class="op">);</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>scanf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st">"</span><span class="op">,</span> <span class="op">&amp;</span>wiek<span class="op">);</span>  <span class="co">/* &amp; jest obowiązkowy! */</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">"Masz </span><span class="sc">%d</span><span class="st"> lat.</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> wiek<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="podsumowanie" class="level2">
+<h2 class="anchored" data-anchor-id="podsumowanie">Podsumowanie</h2>
+<p>W tym wykładzie poznaliśmy:</p>
+<ol type="1">
+<li><strong>Historię</strong> i motywację stojącą za językiem C.</li>
+<li>Strukturę <strong>pierwszego programu</strong> — <code>#include</code>, <code>main</code>, <code>printf</code>, <code>return</code>.</li>
+<li><strong>Budowę blokową</strong> programu, komentarze, funkcje.</li>
+<li><strong>Zmienne</strong> — deklarację, inicjalizację, zasięg, czas życia.</li>
+<li><strong>Typy danych</strong> — <code>int</code>, <code>float</code>, <code>double</code>, <code>char</code>, <code>void</code> oraz specyfikatory <code>signed</code>/<code>unsigned</code>/<code>short</code>/<code>long</code>.</li>
+<li>Podstawowe <strong>formatowane wejście/wyjście</strong> — <code>printf</code> i <code>scanf</code>.</li>
+</ol>
+<p>W następnym wykładzie poznamy <strong>operatory</strong> (arytmetyczne, bitowe, logiczne, porównania) oraz <strong>instrukcje sterujące</strong> (<code>if</code>, <code>switch</code>, <code>while</code>, <code>for</code>, <code>do-while</code>).</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

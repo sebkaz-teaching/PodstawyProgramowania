@@ -1,0 +1,521 @@
+---
+title: "Reprezentacja informacji i wstęp do architektury komputerów"
+---
+
+# Reprezentacja informacji i wstęp do architektury komputerów
+
+Zanim napiszemy pierwszą linijkę kodu w C/C++, musimy zrozumieć dwie rzeczy: **jak komputer przechowuje informację** (bo mamy do dyspozycji wyłącznie zera i jedynki) oraz **jak zbudowana jest maszyna**, na której nasz kod będzie działał.
+
+---
+
+## Część I: Reprezentacja informacji
+
+### Bit — atom informacji
+
+Komputer to urządzenie elektroniczne, a jego "mózg" (procesor) składa się z miliardów mikroskopijnych przełączników — **tranzystorów**. Tranzystor działa jak włącznik światła i ma tylko dwa stany fizyczne:
+
+1. **Brak napięcia** (wyłączony) — w logice zapisujemy jako `0`.
+2. **Jest napięcie** (włączony) — w logice zapisujemy jako `1`.
+
+Pojedyncze zero lub jedynka to **bit** (ang. *binary digit*) — najmniejsza możliwa porcja informacji.
+
+Jeden bit to za mało, by przekazać sensowną informację, dlatego komputery grupują bity w paczki. Standardową paczką jest **bajt** (*byte*), który składa się z **8 bitów**.
+
+Jeden bajt pozwala na zapisanie $2^8 = 256$ unikalnych kombinacji (od `0000 0000` do `1111 1111`).
+
+Większe jednostki:
+
+| Jednostka | Rozmiar | Ile wartości? |
+|-----------|---------|:------------:|
+| 1 bit | — | 2 |
+| 1 bajt (B) | 8 bitów | 256 |
+| 1 kilobajt (KB) | 1 024 B | — |
+| 1 megabajt (MB) | 1 024 KB | — |
+| 1 gigabajt (GB) | 1 024 MB | — |
+
+::: {.callout-note}
+## Kilo = 1024, nie 1000
+W informatyce stosujemy potęgi dwójki: $1 \text{ KB} = 2^{10} = 1024$ bajtów. Aby uniknąć niejednoznaczności, IEC wprowadził przedrostki binarne: **KiB** (kibibajt), **MiB** (mebibajt), **GiB** (gibibajt). W praktyce oba systemy są używane zamiennie.
+:::
+
+---
+
+### Systemy liczbowe w informatyce
+
+My, ludzie, używamy systemu **dziesiętnego** (DEC), bo mamy 10 palców. Komputery używają systemu **dwójkowego** (BIN).
+
+#### System binarny (dwójkowy)
+
+Każda pozycja w liczbie binarnej to kolejna potęga liczby 2 (zaczynając od prawej strony, od $2^0$).
+
+**Przykład:** Jak komputer widzi liczbę 13?
+
+W systemie binarnym to `1101`. Dlaczego?
+
+$$
+\underbrace{1}_{2^3} \cdot 8 + \underbrace{1}_{2^2} \cdot 4 + \underbrace{0}_{2^1} \cdot 0 + \underbrace{1}_{2^0} \cdot 1 = 8 + 4 + 0 + 1 = 13
+$$
+
+**Konwersja DEC → BIN** — metoda dzielenia przez 2:
+
+```
+13 ÷ 2 = 6  reszta 1  ↑
+ 6 ÷ 2 = 3  reszta 0  |  Czytamy reszty
+ 3 ÷ 2 = 1  reszta 1  |  od dołu do góry
+ 1 ÷ 2 = 0  reszta 1  |
+                       → 1101₂
+```
+
+**Konwersja BIN → DEC** — sumowanie potęg:
+
+$$1101_2 = 1 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 8 + 4 + 0 + 1 = 13_{10}$$
+
+#### Dodawanie binarne
+
+Działa identycznie jak dodawanie dziesiętne, tyle że "przenosimy" jedynkę już przy sumie 2 (bo $10_2 = 2_{10}$):
+
+```
+  Przeniesienia:  1 1 1
+                  0 1 1 0 1   (13)
+                + 0 1 0 1 1   (11)
+                -----------
+                  1 1 0 0 0   (24) ✓
+```
+
+#### System heksadecymalny (szesnastkowy — HEX)
+
+Zapisywanie długich ciągów zer i jedynek jest niewygodne i łatwo o błąd. Dlatego inżynierowie wymyślili system szesnastkowy.
+
+Dlaczego akurat 16? Ponieważ $16 = 2^4$, co oznacza, że dokładnie **4 bity** (pół bajta, tzw. *nibble*) odpowiadają jednemu znakowi HEX. To idealny kompromis między maszyną a człowiekiem.
+
+Do zapisu używamy cyfr `0-9` oraz liter `A-F` (gdzie A=10, B=11, ..., F=15).
+
+| DEC | BIN | HEX | | DEC | BIN | HEX |
+|:---:|:---:|:---:|---|:---:|:---:|:---:|
+| 0 | 0000 | 0 | | 8 | 1000 | 8 |
+| 1 | 0001 | 1 | | 9 | 1001 | 9 |
+| 2 | 0010 | 2 | | 10 | 1010 | A |
+| 3 | 0011 | 3 | | 11 | 1011 | B |
+| 4 | 0100 | 4 | | 12 | 1100 | C |
+| 5 | 0101 | 5 | | 13 | 1101 | D |
+| 6 | 0110 | 6 | | 14 | 1110 | E |
+| 7 | 0111 | 7 | | 15 | 1111 | F |
+
+**Przykład konwersji BIN → HEX:**
+
+Binarnie: `1010 1111` (8 bitów)
+
+Dzielimy na nibble'y: `1010` (dziesiętne 10, czyli **A**) oraz `1111` (dziesiętne 15, czyli **F**).
+
+Zapis HEX: **`AF`** lub **`0xAF`** (w C/C++ przedrostek `0x` oznacza system szesnastkowy).
+
+**Przykłady zastosowań HEX:**
+
+- Kolory w HTML/CSS: `#FF8800` = R=255, G=136, B=0
+- Adresy pamięci: `0x7FFE1234`
+- Kody ASCII: litera `A` = `0x41`
+- Adresy MAC: `AA:BB:CC:DD:EE:FF`
+
+#### System ósemkowy (oktalny — OCT)
+
+Mniej popularny, ale wciąż spotykany w UNIX-ach (np. uprawnienia plików `chmod 755`). Podstawa 8 = $2^3$, więc **3 bity** = 1 cyfra ósemkowa. W C/C++ literały ósemkowe zaczynają się od `0`:
+
+```c
+int a = 010;  /* ósemkowo → 8 dziesiętnie! Częsty błąd. */
+int b = 0x10; /* szesnastkowo → 16 dziesiętnie */
+int c = 10;   /* dziesiętnie → 10 */
+```
+
+---
+
+### Jak komputer zapisuje tekst? (Kod ASCII)
+
+Komputer nie "widzi" liter — zna tylko liczby. Aby wyświetlić tekst, inżynierowie stworzyli **tabelę kodową**, swego rodzaju słownik. Najbardziej podstawowym standardem jest **ASCII** (*American Standard Code for Information Interchange*), definiujący 128 znaków (7 bitów):
+
+| Zakres | Zawartość |
+|--------|-----------|
+| 0–31 | Znaki sterujące (niewidzialne): `\n` (10), `\t` (9), `\0` (0) |
+| 32–47 | Spacja (32), znaki specjalne: `!`, `"`, `#`, `$`, ... |
+| 48–57 | Cyfry: `'0'`=48, `'1'`=49, ..., `'9'`=57 |
+| 65–90 | Wielkie litery: `'A'`=65, `'B'`=66, ..., `'Z'`=90 |
+| 97–122 | Małe litery: `'a'`=97, `'b'`=98, ..., `'z'`=122 |
+
+**Wskazówka inżynierska:** W języku C litera to pod spodem po prostu liczba (typ `char` to w rzeczywistości mała liczba całkowita). Możemy więc wykonać operacje arytmetyczne:
+
+```c
+char c = 'A';       /* c = 65 */
+char d = c + 1;     /* d = 66, czyli 'B' */
+char e = 'a' - 'A'; /* e = 32 (różnica między małą a wielką literą) */
+```
+
+::: {.callout-tip}
+## Przydatne zależności ASCII
+- Różnica między małą a wielką literą: `'a' - 'A' = 32`
+- Cyfra → wartość liczbowa: `'7' - '0' = 7`
+- Sprawdzenie, czy wielka litera: `c >= 'A' && c <= 'Z'`
+:::
+
+ASCII pokrywa tylko alfabet łaciński (128 znaków). Dla polskich znaków i innych alfabetów stosuje się rozszerzenia, z których najważniejszy jest **Unicode** (standard obejmujący ponad 150 000 znaków) z kodowaniem **UTF-8** (zmiennodługościowe, 1–4 bajty na znak, wstecznie kompatybilne z ASCII).
+
+---
+
+### Problem liczb ujemnych: Jak zapisać minus?
+
+Zapisywanie liczb dodatnich jest proste. Ale co z ujemnymi? Komputer nie ma fizycznego znaku "−" w pamięci RAM — ma tylko zera i jedynki.
+
+Inżynierowie opracowali trzy podejścia, z których jedno zdominowało świat.
+
+#### Krok 1: Kod Znak-Moduł (ZM)
+
+Najprostszy pomysł: zarezerwujmy **najstarszy bit** (MSB — *Most Significant Bit*) jako znak: `0` = plus, `1` = minus.
+
+```
+0000 0101 = +5
+1000 0101 = −5
+```
+
+**Problem z ZM:** Mamy dwie reprezentacje zera (`0000 0000` = +0 oraz `1000 0000` = −0). Dla procesora to koszmar logiczny — musiałby sprawdzać znak każdego argumentu osobno przed wykonaniem dodawania, co wymaga skomplikowanych i wolnych obwodów.
+
+#### Krok 2: Kod U1 (uzupełnień do jedności)
+
+Aby uzyskać liczbę ujemną, **negujemy wszystkie bity** (zamieniamy 1→0, 0→1):
+
+```
++5:  0000 0101
+−5:  1111 1010  (negacja bitowa)
+```
+
+Lepszy matematycznie, ale nadal miał problem "podwójnego zera" (`0000 0000` ≠ `1111 1111`, a oba oznaczają zero) i wymagał korekcji przeniesienia przy dodawaniu.
+
+#### Krok 3: Kod U2 (uzupełnień do dwóch) — standard
+
+To system, którego używają **absolutnie wszystkie współczesne procesory** (i z którego będziecie korzystać w C/C++).
+
+Aby uzyskać ujemną reprezentację liczby w U2:
+
+1. Weź liczbę dodatnią w postaci binarnej.
+2. Zaneguj wszystkie bity (jak w U1).
+3. **Dodaj 1** do wyniku.
+
+*Przykład* — kodowanie $-5$ na 8 bitach:
+
+```
++5:        0000 0101
+Negacja:   1111 1010
+Dodaj 1:   1111 1011  → To jest −5 w U2!
+```
+
+**Sprawdzenie:** $-5 + 5$ powinno dać $0$:
+
+```
+  1111 1011  (−5)
++ 0000 0101  (+5)
+-----------
+ 10000 0000  → przepełnienie 9. bitu, 8 bitów = 0000 0000 = 0 ✓
+```
+
+**Zapis formalny:** W kodzie U2 najstarszy bit ma **wagę ujemną**. Wartość liczby $X$ na $n$ bitach:
+
+$$
+X_{(U2)} = -x_{n-1} \cdot 2^{n-1} + \sum_{i=0}^{n-2} x_i \cdot 2^i
+$$
+
+**Przykład:** `1110 1101` na 8 bitach:
+
+$$-1 \cdot 2^7 + 1 \cdot 2^6 + 1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0$$
+$$= -128 + 64 + 32 + 0 + 8 + 4 + 0 + 1 = -19$$
+
+**Zakresy U2 na $n$ bitach:**
+
+| Bity | Zakres | Typ w C |
+|:----:|:------:|---------|
+| 8 | −128 … +127 | `signed char` |
+| 16 | −32 768 … +32 767 | `short` |
+| 32 | −2 147 483 648 … +2 147 483 647 | `int` |
+| 64 | −9.2 × 10¹⁸ … +9.2 × 10¹⁸ | `long long` |
+
+**Dlaczego U2 wygrało?** Geniusz U2 polega na tym, że dla procesora **nie ma różnicy między dodawaniem a odejmowaniem**. Procesor używa tego samego, prostego układu scalonego (sumatora) niezależnie od tego, czy liczby są dodatnie, czy ujemne. Kwestia znaku rozwiązuje się "sama" w bitach — nie potrzeba dodatkowych obwodów.
+
+---
+
+### Zjawisko przepełnienia (Overflow)
+
+Jeśli mamy zmienną 8-bitową ze znakiem, największa wartość to `+127` (`0111 1111`).
+
+> Co się stanie, jeśli dodamy do niej 1?
+
+```
+  0111 1111  (+127)
++ 0000 0001  (+1)
+-----------
+  1000 0000  → MSB = 1, czyli... −128!
+```
+
+Najstarszy bit stał się jedynką. Procesor uzna to za liczbę **ujemną** (dokładnie $-128$).
+
+::: {.callout-warning}
+## Integer Overflow — cichy zabójca
+
+Program **nie wyrzuci błędu kompilacji ani wyjątku!** Po prostu nagle z wartości dodatniej zrobi się ujemna. W wojskowych lub lotniczych systemach sterowania jest to **błąd krytyczny**.
+
+To zjawisko nazywamy **przepełnieniem całkowitoliczbowym** (*Integer Overflow*) i jako programiści musicie zawsze dobierać odpowiednio duże typy zmiennych do swoich problemów.
+
+Przykład realny: rakieta **Ariane 5** (1996) — eksplodowała 37 sekund po starcie z powodu przepełnienia zmiennej 16-bitowej, która przechowywała prędkość boczną. Strata: ~370 mln USD.
+:::
+
+Analogiczne zjawisko dotyczy typu `unsigned` (bez znaku), tyle że zawinięcie następuje z wartości maksymalnej na 0:
+
+```c
+unsigned char x = 255;  /* 1111 1111 */
+x = x + 1;              /* 0000 0000 → x = 0, nie 256! */
+```
+
+---
+
+## Część II: Architektura komputera
+
+### Model Von Neumanna
+
+W 1945 roku matematyk **John von Neumann** opisał architekturę, która do dziś stanowi fundament niemal wszystkich komputerów. Jej kluczowa innowacja: **program i dane przechowywane są w tej samej pamięci** (wcześniej program był "zaszyty" w sprzęcie).
+
+Model Von Neumanna składa się z pięciu elementów:
+
+```
+┌──────────────────────────────────────────────────┐
+│                    PROCESOR (CPU)                  │
+│  ┌──────────────┐  ┌──────────────────────────┐  │
+│  │  Jednostka   │  │   Jednostka Arytmetyczno- │  │
+│  │  Sterująca   │  │   Logiczna (ALU)          │  │
+│  │  (CU)        │  │   + − × ÷ AND OR NOT     │  │
+│  └──────┬───────┘  └──────────┬───────────────┘  │
+│         │      ┌──────────────┘                   │
+│         │      │  ┌──────────────┐                │
+│         │      │  │  Rejestry    │                │
+│         │      │  │  (szybka     │                │
+│         │      │  │   pamięć)    │                │
+│         │      │  └──────────────┘                │
+└─────────┼──────┼─────────────────────────────────┘
+          │      │
+    ══════╪══════╪═══════  MAGISTRALA (BUS)  ═══════
+          │      │
+    ┌─────┴──────┴──────┐    ┌──────────────────┐
+    │   PAMIĘĆ GŁÓWNA   │    │  URZĄDZENIA I/O  │
+    │   (RAM)           │    │  klawiatura,     │
+    │   dane + program  │    │  ekran, dysk,    │
+    │                   │    │  sieć, ...       │
+    └───────────────────┘    └──────────────────┘
+```
+
+#### Procesor (CPU — Central Processing Unit)
+
+Procesor to "mózg" komputera. Składa się z:
+
+**Jednostka Sterująca (CU — Control Unit)** — dyrygent orkiestry. Pobiera instrukcje z pamięci, dekoduje je (rozumie, co mają robić) i steruje pozostałymi komponentami, aby instrukcja została wykonana.
+
+**Jednostka Arytmetyczno-Logiczna (ALU — Arithmetic Logic Unit)** — kalkulator procesora. Wykonuje operacje: arytmetyczne (dodawanie, odejmowanie, mnożenie, dzielenie), logiczne (AND, OR, NOT, XOR), porównania i przesunięcia bitowe.
+
+**Rejestry** — ultra-szybka pamięć wewnątrz procesora (kilkadziesiąt zmiennych, każda o rozmiarze 32 lub 64 bity). Rejestry przechowują dane aktualnie przetwarzane przez ALU. Najważniejsze rejestry:
+
+| Rejestr | Nazwa | Rola |
+|---------|-------|------|
+| **PC** | Program Counter | Adres **następnej** instrukcji do wykonania |
+| **IR** | Instruction Register | Aktualnie wykonywana instrukcja |
+| **ACC** | Accumulator | Wynik ostatniej operacji ALU |
+| **SP** | Stack Pointer | Adres wierzchołka stosu |
+| **MAR** | Memory Address Register | Adres komórki pamięci do odczytu/zapisu |
+| **MDR** | Memory Data Register | Dane przesyłane do/z pamięci |
+
+#### Pamięć główna (RAM)
+
+RAM (*Random Access Memory*) przechowuje **zarówno program, jak i dane** — to kluczowa cecha architektury Von Neumanna. Każda komórka pamięci ma unikalny **adres** (liczbowy) i przechowuje wartość (bajt).
+
+RAM jest **ulotna** — po wyłączeniu zasilania traci zawartość. Dlatego programy i dane trwałe przechowuje się na dysku (HDD/SSD).
+
+#### Magistrala (BUS)
+
+Magistrala to "autostrada" łącząca CPU, pamięć i urządzenia I/O. Składa się z trzech części:
+
+- **Magistrala danych** — transportuje dane (wartości zmiennych, instrukcje).
+- **Magistrala adresowa** — transportuje adresy (CPU mówi pamięci: "daj mi komórkę nr 0x1234").
+- **Magistrala sterująca** — sygnały kontrolne (read/write, przerwania, zegar).
+
+#### Urządzenia wejścia/wyjścia (I/O)
+
+Klawiatura, mysz, ekran, dysk, karta sieciowa, czujniki... Komunikacja odbywa się przez magistralę, często z wykorzystaniem **przerwań** (sygnał do procesora: "mam dane, obsłuż mnie!").
+
+---
+
+### Cykl rozkazowy — jak procesor wykonuje program
+
+Procesor pracuje w niekończącej się pętli zwanej **cyklem pobranie-dekodowanie-wykonanie** (*Fetch-Decode-Execute*):
+
+```
+  ┌──────────────────────────────────────────────┐
+  │                                              │
+  ▼                                              │
+┌──────────┐    ┌──────────┐    ┌──────────┐     │
+│ 1. FETCH │───▶│2. DECODE │───▶│3. EXECUTE│─────┘
+│ Pobranie │    │Dekodownie│    │Wykonanie │
+│instrukcji│    │instrukcji│    │ operacji  │
+│ z RAM    │    │ (co ma   │    │ (ALU,    │
+│ (pod PC) │    │  robić?) │    │  pamięć) │
+└──────────┘    └──────────┘    └──────────┘
+```
+
+1. **Fetch (Pobranie):** CU odczytuje z RAM instrukcję spod adresu wskazywanego przez rejestr **PC** (Program Counter). Instrukcja trafia do rejestru **IR**. PC jest zwiększany, by wskazywać na następną instrukcję.
+
+2. **Decode (Dekodowanie):** CU analizuje instrukcję w IR — rozpoznaje, jaka to operacja (np. ADD, MOV, JMP) i jakie są jej argumenty (rejestry? adresy? stałe?).
+
+3. **Execute (Wykonanie):** ALU wykonuje operację (np. dodaje dwie liczby z rejestrów). Wynik trafia do wskazanego rejestru lub komórki pamięci.
+
+**Przykład** — instrukcja `b = a + 2` w asemblerze i kodzie maszynowym:
+
+| Asembler | Kod maszynowy (przykładowy) | Znaczenie |
+|----------|:--------------------------:|-----------|
+| `MOV a, R1` | `0001 01 00 00000000` | Załaduj zmienną `a` do rejestru R1 |
+| `ADD #2, R1` | `0011 01 10 00000010` | Dodaj stałą 2 do R1 |
+| `MOV R1, b` | `0010 01 00 00000100` | Zapisz R1 do zmiennej `b` |
+
+Każda z tych instrukcji przechodzi pełny cykl Fetch → Decode → Execute. Współczesne procesory potrafią wykonywać **miliardy** takich cykli na sekundę (częstotliwość zegara: 3–5 GHz).
+
+::: {.callout-note}
+## Pipelining — linia montażowa
+
+Współczesne procesory nie czekają, aż jedna instrukcja przejdzie cały cykl. Stosują **pipelining** (potokowanie): podczas gdy instrukcja nr 1 jest wykonywana (Execute), instrukcja nr 2 jest dekodowana (Decode), a instrukcja nr 3 pobierana (Fetch) — jak na taśmie produkcyjnej w fabryce. Dzięki temu procesor może ukończyć jedną instrukcję **w każdym takcie zegara**.
+:::
+
+---
+
+### Hierarchia pamięci
+
+Nie cała pamięć komputera jest taka sama. Istnieje fundamentalny kompromis: **im szybsza pamięć, tym droższa i mniejsza**.
+
+```
+                    ▲ Szybkość    ▼ Pojemność
+                    │                │
+              ┌─────┴─────┐          │
+              │ REJESTRY  │  ~1 ns   │  ~ 1 KB
+              │  (w CPU)  │          │
+              ├───────────┤          │
+              │  CACHE L1 │  ~2 ns   │  ~ 64 KB
+              ├───────────┤          │
+              │  CACHE L2 │  ~7 ns   │  ~ 256 KB
+              ├───────────┤          │
+              │  CACHE L3 │  ~20 ns  │  ~ 8 MB
+              ├───────────┤          │
+              │    RAM    │  ~100 ns │  8–64 GB
+              ├───────────┤          │
+              │  SSD/HDD  │  ~μs/ms │  256 GB–TB
+              └───────────┘          ▼
+```
+
+| Poziom | Czas dostępu | Pojemność (typowa) | Technologia |
+|--------|:----------:|:---------:|-------------|
+| Rejestry | < 1 ns | ~ 1 KB | Flip-flopy w CPU |
+| Cache L1 | ~ 1–2 ns | 32–64 KB | SRAM, w CPU |
+| Cache L2 | ~ 5–7 ns | 256 KB – 1 MB | SRAM, w CPU |
+| Cache L3 | ~ 15–20 ns | 4–32 MB | SRAM, współdzielona |
+| RAM (DDR5) | ~ 80–100 ns | 8–128 GB | DRAM |
+| SSD (NVMe) | ~ 25–100 μs | 256 GB – 4 TB | Flash NAND |
+| HDD | ~ 5–10 ms | 1–20 TB | Talerze magnetyczne |
+
+**Cache** (pamięć podręczna) to pamięć pośrednia między CPU a RAM. Procesor automatycznie kopiuje do cache dane, do których niedawno sięgał (bo prawdopodobnie sięgnie do nich znowu — **zasada lokalizacji**). Programista w C nie zarządza cache bezpośrednio, ale świadomość jego istnienia pomaga pisać szybki kod (np. iteracja po tablicy wierszami zamiast kolumnami).
+
+::: {.callout-tip}
+## Dlaczego to ważne dla programisty C/C++?
+
+Dostęp do RAM-u jest ~100× wolniejszy niż do rejestru. Kompilator C/C++ stara się trzymać najczęściej używane zmienne w rejestrach (dlatego istnieje słowo kluczowe `register`, choć współczesne kompilatory optymalizują to same). Dynamiczna alokacja pamięci (`malloc`) rezerwuje miejsce na stercie w RAM — jest wolniejsza od zmiennych lokalnych (na stosie), które procesor szybko znajduje w cache.
+:::
+
+---
+
+### Układ pamięci procesu — jak program żyje w RAM
+
+Gdy uruchamiasz program, system operacyjny tworzy **proces** — "żyjącą" instancję kodu w pamięci. Pamięć procesu jest podzielona na segmenty:
+
+```
+    Wysokie adresy
+    ┌───────────────────┐
+    │       STOS        │ ← zmienne lokalne, adresy powrotu
+    │      (Stack)      │   (rośnie W DÓŁ ↓)
+    │         ↓         │
+    │                   │
+    │         ↑         │
+    │      (Heap)       │   (rośnie W GÓRĘ ↑)
+    │       STERTA      │ ← malloc / new
+    ├───────────────────┤
+    │  Dane niezainicj. │ ← zmienne globalne = 0
+    │       (BSS)       │
+    ├───────────────────┤
+    │ Dane zainicjaliz. │ ← zmienne globalne z wartością
+    │      (Data)       │
+    ├───────────────────┤
+    │     KOD (Text)    │ ← instrukcje maszynowe (read-only)
+    └───────────────────┘
+    Niskie adresy
+```
+
+| Segment | Co zawiera | Przykład w C |
+|---------|-----------|-------------|
+| **Text (Kod)** | Instrukcje maszynowe programu (tylko do odczytu) | Ciało funkcji `main`, `printf` |
+| **Data** | Zmienne globalne i statyczne **z wartością początkową** | `int g = 42;` (globalna) |
+| **BSS** | Zmienne globalne i statyczne **bez wartości** (zerowane) | `static int x;` |
+| **Heap (Sterta)** | Pamięć alokowana dynamicznie | `malloc(100)`, `new int[10]` |
+| **Stack (Stos)** | Zmienne lokalne, argumenty funkcji, adresy powrotu | `int a = 5;` (w funkcji) |
+
+**Stos** rośnie w dół (od wysokich adresów), a **sterta** rośnie w górę. Jeśli się spotkają — program wyczerpał pamięć (*stack overflow* lub *heap overflow*).
+
+::: {.callout-important}
+## Stack Overflow — przepełnienie stosu
+
+Każde wywołanie funkcji odkłada na stos: argumenty, adres powrotu i zmienne lokalne. Jeśli rekurencja jest zbyt głęboka (np. brak warunku stopu), stos się przepełnia — program crashuje z komunikatem *"Segmentation fault"* lub *"Stack overflow"*.
+
+```c
+void nieskonczona(void) {
+    int tablica[1000];     /* 4 KB na stosie przy każdym wywołaniu! */
+    nieskonczona();         /* rekurencja bez warunku stopu */
+}
+/* → Stack Overflow po kilku tysiącach wywołań */
+```
+:::
+
+---
+
+### Architektura Von Neumanna vs Harvard
+
+Model Von Neumanna ma jedną wadę — **wąskie gardło** (*Von Neumann bottleneck*): procesor musi po kolei pobierać instrukcje i dane z tej samej pamięci przez tę samą magistralę.
+
+**Architektura Harvarda** rozwiązuje to, stosując **oddzielne pamięci** (i magistrale) dla kodu i danych. Dzięki temu procesor może jednocześnie pobierać instrukcję i odczytywać dane.
+
+| Cecha | Von Neumann | Harvard |
+|-------|:-----------:|:-------:|
+| Pamięci | Jedna wspólna | Dwie oddzielne |
+| Magistrale | Jedna | Dwie |
+| Prędkość | Wolniejsza (bottleneck) | Szybsza (równoległy dostęp) |
+| Gdzie? | Komputery ogólnego przeznaczenia | Mikrokontrolery, DSP, cache w CPU |
+
+W praktyce współczesne procesory stosują **architekturę hybrydową**: na poziomie cache (L1) mają oddzielne pamięci dla kodu i danych (Harvard), ale na poziomie RAM-u — wspólną przestrzeń adresową (Von Neumann).
+
+::: {.callout-note}
+## Kontekst wojskowy (WAT)
+Mikrokontrolery stosowane w systemach militarnych (np. rodział STM32 w sterownikach broni, ARM Cortex-M w systemach łączności taktycznej) najczęściej mają architekturę **Harvard-modified** — oddzielne pamięci Flash (kod) i SRAM (dane), z możliwością wykonywania kodu z RAM-u w trybach specjalnych. Zrozumienie tych różnic jest kluczowe przy programowaniu firmware'u.
+:::
+
+---
+
+## Podsumowanie
+
+W tym wykładzie poznaliśmy:
+
+1. **Bit i bajt** — fundamentalne jednostki informacji.
+2. **Systemy liczbowe** — binarny (BIN), szesnastkowy (HEX), ósemkowy (OCT) i konwersje między nimi.
+3. **Kod ASCII** — jak komputer przechowuje tekst.
+4. **Kodowanie liczb ujemnych** — od kodu Znak-Moduł, przez U1, do standardu **U2**.
+5. **Przepełnienie** (*overflow*) — cichy, krytyczny błąd.
+6. **Model Von Neumanna** — CPU (ALU + CU + rejestry), pamięć, magistrala, I/O.
+7. **Cykl rozkazowy** — Fetch → Decode → Execute.
+8. **Hierarchia pamięci** — rejestry → cache → RAM → dysk.
+9. **Układ pamięci procesu** — stos, sterta, segmenty danych i kodu.
+10. **Von Neumann vs Harvard** — różnice i zastosowania.
+
+W następnym wykładzie rozpoczniemy programowanie w **języku C** — napiszemy pierwszy program, poznamy zmienne, typy danych i podstawowe wejście/wyjście.

@@ -1,0 +1,696 @@
+---
+title: "Operatory i Instrukcje sterujące"
+---
+
+## Operatory
+
+Operatory w C to symbole nakazujące procesorowi wykonanie określonej operacji na jednym, dwóch lub trzech argumentach. Dzielą się na kilka kategorii, z których każda ma swój priorytet i łączność.
+
+### Operator przypisania
+
+Operator `=` przypisuje wartość prawego argumentu do lewego:
+
+```c
+int a = 5, b;
+b = a;
+printf("%d\n", b);  /* wypisze 5 */
+```
+
+Przypisanie ma **łączność prawostronną** i **zwraca przypisaną wartość**, co pozwala na zapis kaskadowy:
+
+```c
+int a, b, c;
+a = b = c = 42;  /* c=42, potem b=42, potem a=42 */
+```
+
+#### Skrócony zapis przypisania
+
+C pozwala na skrócenie wyrażeń postaci `a = a ⊕ b` do `a ⊕= b`:
+
+```c
+int a = 10;
+a += 5;      /* a = a + 5;   → a = 15 */
+a -= 3;      /* a = a - 3;   → a = 12 */
+a *= 2;      /* a = a * 2;   → a = 24 */
+a /= 4;      /* a = a / 4;   → a = 6  */
+a %= 4;      /* a = a % 4;   → a = 2  */
+a <<= 1;     /* a = a << 1;  → a = 4  */
+a &= 0xFF;   /* a = a & 0xFF */
+```
+
+::: {.callout-important}
+## Typowy błąd: `=` vs `==`
+Nigdy nie myl operatora **przypisania** `=` z operatorem **porównania** `==`:
+
+```c
+if (a = 5)   /* BŁĄD LOGICZNY: przypisze 5 do a, warunek zawsze prawdziwy! */
+if (a == 5)  /* POPRAWNIE: sprawdza, czy a jest równe 5 */
+```
+
+Sztuczka obronna — pisz stałą po lewej stronie: `if (5 == a)` — wtedy literówka `5 = a` wywoła błąd kompilacji.
+:::
+
+---
+
+### Operatory arytmetyczne
+
+| Operator | Działanie | Przykład |
+|:--------:|-----------|----------|
+| `+` | Dodawanie | `5 + 3` → `8` |
+| `-` | Odejmowanie | `5 - 3` → `2` |
+| `*` | Mnożenie | `5 * 3` → `15` |
+| `/` | Dzielenie | `7 / 2` → `3` (całkowite!), `7.0 / 2` → `3.5` |
+| `%` | Reszta z dzielenia (modulo) | `7 % 3` → `1` |
+
+::: {.callout-warning}
+## Dzielenie całkowite
+
+Wynik operacji na dwóch argumentach `int` jest **zawsze** typu `int` — część ułamkowa jest obcinana:
+
+```c
+printf("%d\n", 7 / 2);       /* wypisze 3, nie 3.5! */
+printf("%f\n", 7.0 / 2);     /* wypisze 3.500000 */
+printf("%f\n", (float)7 / 2); /* rzutowanie — też 3.500000 */
+```
+:::
+
+**Brak prawa łączności w arytmetyce komputerowej:** Z powodu ograniczonego rozmiaru zmiennych, wyrażenie `(65530 + 10) - 20` może dać inny wynik niż `65530 + (10 - 20)` (przepełnienie w pierwszym przypadku). Programista musi o tym pamiętać!
+
+### Inkrementacja i dekrementacja
+
+Operatory `++` i `--` zwiększają/zmniejszają wartość o 1 i występują w dwóch wariantach:
+
+| Wariant | Zapis | Działanie | Zwracana wartość |
+|---------|:-----:|-----------|:----------------:|
+| Pre-inkrementacja | `++i` | Najpierw zwiększ, potem zwróć | **nowa** |
+| Post-inkrementacja | `i++` | Najpierw zwróć, potem zwiększ | **stara** |
+| Pre-dekrementacja | `--i` | Najpierw zmniejsz, potem zwróć | **nowa** |
+| Post-dekrementacja | `i--` | Najpierw zwróć, potem zmniejsz | **stara** |
+
+```c
+int a = 3, b, c;
+b = a--;   /* b = 3, a = 2  (post: najpierw przypisz, potem zmniejsz) */
+c = --b;   /* b = 2, c = 2  (pre: najpierw zmniejsz, potem przypisz) */
+```
+
+::: {.callout-tip}
+## Dobra praktyka: `++i` zamiast `i++`
+W pętlach `for` preferuj pre-inkrementację `++i` — nie tworzy kopii tymczasowej. W C różnica jest minimalna, ale w C++ (gdzie `++i` unika kopiowania obiektów) ma realne znaczenie wydajnościowe.
+:::
+
+::: {.callout-caution}
+## Niezdefiniowane zachowanie (Undefined Behavior)
+Nigdy nie modyfikuj tej samej zmiennej więcej niż raz w jednym wyrażeniu:
+
+```c
+int a = 1;
+a = a++;         /* NIEZDEFINIOWANE! */
+a = ++a + a++;   /* NIEZDEFINIOWANE! */
+```
+
+Kompilator może wygenerować dowolny wynik — różne kompilatory dadzą różne wartości.
+:::
+
+---
+
+### Operacje bitowe
+
+Operatory bitowe działają na **poszczególnych bitach** liczb całkowitych:
+
+| Operator | Nazwa | Opis |
+|:--------:|-------|------|
+| `~` | Negacja bitowa (NOT) | Odwraca każdy bit |
+| `&` | Koniunkcja bitowa (AND) | 1 tylko gdy oba bity = 1 |
+| `\|` | Alternatywa bitowa (OR) | 1 gdy co najmniej jeden bit = 1 |
+| `^` | Alternatywa rozłączna (XOR) | 1 gdy bity są różne |
+| `<<` | Przesunięcie w lewo | Mnoży przez 2^n |
+| `>>` | Przesunięcie w prawo | Dzieli przez 2^n |
+
+Tabliczka prawdy:
+
+| a | b | `a & b` | `a \| b` | `a ^ b` | `~a` |
+|:-:|:-:|:-------:|:--------:|:-------:|:----:|
+| 0 | 0 | 0 | 0 | 0 | 1 |
+| 0 | 1 | 0 | 1 | 1 | 1 |
+| 1 | 0 | 0 | 1 | 1 | 0 |
+| 1 | 1 | 1 | 1 | 0 | 0 |
+
+Przykład praktyczny:
+
+```c
+int a = 0b0101;  /* 5 */
+int b = 0b0011;  /* 3 */
+
+printf("a & b = %d\n", a & b);   /* 0001 → 1 */
+printf("a | b = %d\n", a | b);   /* 0111 → 7 */
+printf("a ^ b = %d\n", a ^ b);   /* 0110 → 6 */
+printf("~a    = %d\n", ~a);      /* ...1010 (zależne od rozmiaru int) */
+```
+
+**Przesunięcia bitowe** — mnożenie/dzielenie przez potęgi 2:
+
+```c
+int x = 6;
+printf("6 << 2 = %d\n", x << 2);  /* 6 * 4 = 24 */
+printf("6 >> 1 = %d\n", x >> 1);  /* 6 / 2 = 3  */
+```
+
+Ciekawostka: `a ^ b ^ b` daje z powrotem `a` — ta właściwość XOR jest wykorzystywana w algorytmach szyfrowania (np. szyfr strumieniowy) i funkcjach haszujących.
+
+::: {.callout-note}
+## Zastosowania bitowe w praktyce
+
+W programowaniu niskopoziomowym (mikrokontrolery, sterowniki) operacje bitowe są niezbędne — służą do ustawiania, czyszczenia i sprawdzania poszczególnych bitów w rejestrach sprzętowych:
+
+```c
+/* Ustaw bit 3 */
+rejest |= (1 << 3);
+
+/* Wyczyść bit 3 */
+rejestr &= ~(1 << 3);
+
+/* Sprawdź bit 3 */
+if (rejestr & (1 << 3)) { /* bit jest ustawiony */ }
+```
+:::
+
+---
+
+### Operatory porównania
+
+| Operator | Znaczenie | Przykład |
+|:--------:|-----------|----------|
+| `==` | Równe | `a == b` |
+| `!=` | Różne | `a != b` |
+| `<` | Mniejsze | `a < b` |
+| `>` | Większe | `a > b` |
+| `<=` | Mniejsze lub równe | `a <= b` |
+| `>=` | Większe lub równe | `a >= b` |
+
+Wynik porównania to **1** (prawda) lub **0** (fałsz):
+
+```c
+printf("%d\n", 5 > 3);   /* 1 */
+printf("%d\n", 5 == 3);  /* 0 */
+```
+
+### Operatory logiczne
+
+| Operator | Nazwa | Opis |
+|:--------:|-------|------|
+| `!` | Negacja logiczna (NOT) | `!0` → `1`, `!5` → `0` |
+| `&&` | Koniunkcja logiczna (AND) | Prawda gdy **oba** argumenty prawdziwe |
+| `\|\|` | Alternatywa logiczna (OR) | Prawda gdy **co najmniej jeden** prawdziwy |
+
+W C **każda wartość różna od zera jest prawdą**, a **zero jest fałszem**:
+
+```c
+printf("%d\n", 18 && 19);   /* 1 (oba niezerowe → prawda) */
+printf("%d\n", 0 || 42);    /* 1 (42 jest niezerowe → prawda) */
+printf("%d\n", !20);        /* 0 (20 jest prawdziwe, negacja → fałsz) */
+```
+
+**Skrócone obliczanie** (*short-circuit evaluation*): C oblicza wyrażenia logiczne od lewej do prawej i **przerywa, gdy zna wynik**:
+
+- `A && B` — jeśli `A` jest fałszywe, `B` **nie zostanie obliczone** (bo fałsz ∧ cokolwiek = fałsz).
+- `A || B` — jeśli `A` jest prawdziwe, `B` **nie zostanie obliczone** (bo prawda ∨ cokolwiek = prawda).
+
+```c
+int x = 0;
+if (x != 0 && 10/x > 2) { /* bezpieczne — 10/x nie wykona się gdy x==0 */ }
+```
+
+### Operator wyrażenia warunkowego (ternary)
+
+Jedyny operator trójargumentowy w C:
+
+```c
+warunek ? wartość_gdy_prawda : wartość_gdy_fałsz
+```
+
+```c
+int a = 5, b = 3;
+int max = (a >= b) ? a : b;        /* max = 5 */
+int modul = (a < 0) ? -a : a;      /* wartość bezwzględna */
+```
+
+### Operator `sizeof`
+
+Zwraca rozmiar (w bajtach) typu lub wyrażenia:
+
+```c
+printf("char:   %zu B\n", sizeof(char));     /* 1 */
+printf("int:    %zu B\n", sizeof(int));      /* zazwyczaj 4 */
+printf("double: %zu B\n", sizeof(double));   /* zazwyczaj 8 */
+```
+
+### Rzutowanie typów
+
+**Rzutowanie** (casting) to jawna konwersja wartości z jednego typu na inny:
+
+```c
+double d = 3.14;
+int pi = (int)d;         /* C-style cast: pi = 3 (obcięcie części ułamkowej) */
+int pi2 = int(d);        /* C++ functional-style cast (tylko w C++) */
+float wynik = (float)7 / 2;  /* wymusza dzielenie rzeczywiste → 3.5 */
+```
+
+::: {.callout-warning}
+Niejawna konwersja (automatyczna) może prowadzić do utraty danych:
+
+```c
+int i = 42.7;  /* i = 42 — utrata .7 bez ostrzeżenia! */
+```
+:::
+
+---
+
+### Priorytety operatorów
+
+Operatory mają ustaloną **kolejność wykonywania** (priorytet) i **łączność** (kierunek):
+
+| Priorytet | Operatory | Łączność |
+|:---------:|-----------|:--------:|
+| 1 (najwyższy) | `()` `[]` `.` `->` postfix `++` `--` | → |
+| 2 | prefix `++` `--` `!` `~` `+` `-` `*` `&` `sizeof` cast | ← |
+| 3 | `*` `/` `%` | → |
+| 4 | `+` `-` | → |
+| 5 | `<<` `>>` | → |
+| 6 | `<` `<=` `>` `>=` | → |
+| 7 | `==` `!=` | → |
+| 8 | `&` | → |
+| 9 | `^` | → |
+| 10 | `\|` | → |
+| 11 | `&&` | → |
+| 12 | `\|\|` | → |
+| 13 | `?:` | ← |
+| 14 | `=` `+=` `-=` `*=` ... | ← |
+| 15 (najniższy) | `,` | → |
+
+**Zasada:** Gdy masz wątpliwości co do priorytetu — **użyj nawiasów**. Kod `(a + b) * c` jest czytelniejszy niż poleganie na pamięciowej tabeli priorytetów.
+
+---
+
+## Instrukcje sterujące
+
+C jest językiem **imperatywnym** — instrukcje wykonują się sekwencyjnie. Aby zmienić przepływ sterowania, potrzebujemy instrukcji warunkowych i pętli.
+
+Przypomnienie: w C **wyrażenie jest prawdziwe, gdy jest różne od zera**, a fałszywe, gdy jest równe zeru.
+
+### Instrukcja `if`
+
+```c
+if (warunek) {
+    /* wykonaj, gdy warunek prawdziwy */
+}
+```
+
+Z blokiem `else`:
+
+```c
+if (warunek) {
+    /* gdy prawdziwy */
+} else {
+    /* gdy fałszywy */
+}
+```
+
+Łańcuch `else if`:
+
+```c
+if (ocena >= 90) {
+    printf("Bardzo dobry\n");
+} else if (ocena >= 75) {
+    printf("Dobry\n");
+} else if (ocena >= 60) {
+    printf("Dostateczny\n");
+} else {
+    printf("Niedostateczny\n");
+}
+```
+
+Skrócony zapis warunków logicznych:
+
+```c
+/* Zamiast: */
+if (a != 0) { ... }
+/* Można napisać: */
+if (a) { ... }
+
+/* Zamiast: */
+if (a == 0) { ... }
+/* Można napisać: */
+if (!a) { ... }
+```
+
+### Instrukcja `switch`
+
+Gdy porównujemy jedną zmienną z wieloma stałymi wartościami, `switch` jest czytelniejszy niż łańcuch `if-else`:
+
+```c
+switch (wyrażenie) {
+    case wartość1:
+        /* instrukcje */
+        break;
+    case wartość2:
+        /* instrukcje */
+        break;
+    case wartość3:
+    case wartość4:
+        /* wspólne instrukcje dla 3 i 4 (tzw. "fall-through") */
+        break;
+    default:
+        /* gdy żaden case nie pasuje */
+        break;
+}
+```
+
+::: {.callout-important}
+## Nie zapomnij `break`!
+Bez `break` wykonanie "przelatuje" (*falls through*) do następnego `case`:
+
+```c
+int x = 1;
+switch (x) {
+    case 1: printf("jeden\n");   /* brak break! */
+    case 2: printf("dwa\n");     /* wykona się też! */
+    case 3: printf("trzy\n");    /* i to też! */
+}
+/* Wypisze: jeden dwa trzy */
+```
+:::
+
+Pełny przykład — kalkulator ulgi podatkowej:
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    unsigned int dzieci = 3;
+    unsigned int podatek = 1000;
+
+    switch (dzieci) {
+        case 0:
+            break;  /* brak ulgi */
+        case 1:
+            podatek -= podatek * 2 / 100;   /* ulga 2% */
+            break;
+        case 2:
+            podatek -= podatek * 5 / 100;   /* ulga 5% */
+            break;
+        default:
+            podatek -= podatek * 10 / 100;  /* ulga 10% */
+            break;
+    }
+
+    printf("Do zapłaty: %u\n", podatek);
+    return 0;
+}
+```
+
+---
+
+### Pętla `while`
+
+Wykonuje blok instrukcji **dopóki warunek jest prawdziwy**. Warunek sprawdzany jest **przed** każdym przebiegiem:
+
+```c
+while (warunek) {
+    /* instrukcje */
+}
+```
+
+Przykład — kwadraty liczb od 1 do 10:
+
+```c
+int a = 1;
+while (a <= 10) {
+    printf("%d² = %d\n", a, a * a);
+    ++a;
+}
+```
+
+::: {.callout-warning}
+Pominięcie `++a` spowodowałoby **pętlę nieskończoną** — warunek `a <= 10` byłby wiecznie prawdziwy.
+:::
+
+### Pętla `for`
+
+Najbardziej zwarta forma pętli — w jednej linii definiujemy: inicjalizację, warunek i krok:
+
+```c
+for (inicjalizacja; warunek; krok) {
+    /* instrukcje */
+}
+```
+
+Jest to równoważne z:
+
+```c
+inicjalizacja;
+while (warunek) {
+    /* instrukcje */
+    krok;
+}
+```
+
+Przykład — ten sam wynik co wyżej, ale znacznie zwięźlej:
+
+```c
+for (int a = 1; a <= 10; ++a) {
+    printf("%d² = %d\n", a, a * a);
+}
+```
+
+Odliczanie w dwie strony:
+
+```c
+int i;
+for (i = 1; i <= 5; ++i) {
+    printf("%d ", i);
+}
+for ( ; i >= 1; --i) {  /* i startuje od 6 (po pętli wyżej) */
+    printf("%d ", i);
+}
+/* Wynik: 1 2 3 4 5 6 5 4 3 2 1 */
+```
+
+::: {.callout-note}
+## Deklaracja zmiennej w nagłówku `for`
+
+W C99 i C++ możemy deklarować zmienną bezpośrednio w pętli:
+
+```c
+for (int i = 0; i < 10; ++i) { ... }
+/* zmienna i istnieje TYLKO wewnątrz pętli */
+```
+
+W starszym standardzie C89 zmienną trzeba zadeklarować przed pętlą.
+:::
+
+### Pętla `do...while`
+
+Jak `while`, ale warunek sprawdzany jest **po** wykonaniu bloku — gwarantuje **co najmniej jeden** przebieg:
+
+```c
+do {
+    /* instrukcje */
+} while (warunek);
+```
+
+Klasyczne zastosowanie — walidacja danych wejściowych:
+
+```c
+int n;
+do {
+    printf("Podaj liczbę dodatnią: ");
+    scanf("%d", &n);
+} while (n <= 0);  /* powtarzaj, dopóki dane niepoprawne */
+
+printf("Wpisano: %d\n", n);
+```
+
+### Porównanie pętli
+
+| Cecha | `while` | `for` | `do...while` |
+|-------|:-------:|:-----:|:------------:|
+| Sprawdzenie warunku | Przed | Przed | **Po** |
+| Minimalna liczba przebiegów | 0 | 0 | **1** |
+| Kiedy stosować? | Nieznana liczba iteracji | Znany zakres / licznik | Walidacja / menu |
+
+---
+
+### `break` i `continue`
+
+**`break`** — natychmiast **wychodzi** z najbliższej otaczającej pętli (lub `switch`):
+
+```c
+for (int i = 1; i < 100; ++i) {
+    if (i == 5) break;
+    printf("%d ", i);
+}
+/* Wynik: 1 2 3 4 */
+```
+
+**`continue`** — **przeskakuje** resztę bieżącej iteracji i wraca do warunku:
+
+```c
+for (int i = 1; i <= 10; ++i) {
+    if (i % 3 == 0) continue;  /* pomiń wielokrotności 3 */
+    printf("%d ", i);
+}
+/* Wynik: 1 2 4 5 7 8 10 */
+```
+
+### Pętle nieskończone
+
+Wszystkie poniższe zapisy tworzą pętlę nieskończoną:
+
+```c
+while (1) { ... }
+for (;;) { ... }
+do { ... } while (1);
+```
+
+Przerywa się je za pomocą `break`, `return` lub wywołania `exit()`.
+
+```c
+/* Typowy wzorzec — pętla główna programu */
+for (;;) {
+    printf("Podaj komendę (q = wyjście): ");
+    char cmd;
+    scanf(" %c", &cmd);
+    if (cmd == 'q') break;
+    /* ... obsługa komendy ... */
+}
+```
+
+### Instrukcja `goto`
+
+`goto` pozwala na bezwarunkowy skok do etykiety:
+
+```c
+    goto koniec;
+    printf("To się nigdy nie wykona\n");
+koniec:
+    printf("Skok!\n");
+```
+
+::: {.callout-caution}
+## Unikaj `goto`
+
+Użycie `goto` sprawia, że kod staje się trudny do śledzenia i debugowania ("spaghetti code"). W niemal każdym przypadku lepiej użyć pętli, `break` lub `return`. Jedynym powszechnie akceptowanym wyjątkiem jest wyjście z **zagnieżdżonych pętli** lub obsługa błędów w C (cleanup pattern):
+
+```c
+int przetwarzaj(void)
+{
+    FILE *f = fopen("dane.txt", "r");
+    if (!f) goto blad;
+
+    int *buf = malloc(1024);
+    if (!buf) goto zamknij_plik;
+
+    /* ... normalna praca ... */
+    free(buf);
+    fclose(f);
+    return 0;
+
+zamknij_plik:
+    fclose(f);
+blad:
+    return -1;
+}
+```
+:::
+
+### Natychmiastowe zakończenie programu — `exit()`
+
+Funkcja `exit()` z `<stdlib.h>` kończy program **natychmiast**, z dowolnego miejsca:
+
+```c
+#include <stdlib.h>
+
+if (blad_krytyczny) {
+    fprintf(stderr, "Błąd krytyczny!\n");
+    exit(EXIT_FAILURE);  /* EXIT_FAILURE = 1, EXIT_SUCCESS = 0 */
+}
+```
+
+---
+
+## Kompletny przykład: Mini-kalkulator
+
+Łączymy wszystko, czego się dotąd nauczyliśmy:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    double a, b;
+    char op;
+
+    printf("=== Mini-kalkulator ===\n");
+
+    for (;;) {
+        printf("\nWpisz działanie (np. 12.5 + 3) lub 'q' by wyjść: ");
+
+        /* Sprawdzamy, czy użytkownik wpisał 'q' */
+        char buf;
+        if (scanf(" %c", &buf) == 1 && buf == 'q') {
+            break;
+        }
+        /* Cofamy przeczytany znak i parsujemy wyrażenie */
+        ungetc(buf, stdin);
+
+        if (scanf("%lf %c %lf", &a, &op, &b) != 3) {
+            printf("Błędny format!\n");
+            while (getchar() != '\n');  /* czyścimy bufor */
+            continue;
+        }
+
+        switch (op) {
+            case '+': printf("= %g\n", a + b); break;
+            case '-': printf("= %g\n", a - b); break;
+            case '*': printf("= %g\n", a * b); break;
+            case '/':
+                if (b == 0) {
+                    printf("Błąd: dzielenie przez zero!\n");
+                } else {
+                    printf("= %g\n", a / b);
+                }
+                break;
+            case '%':
+                if ((int)b == 0) {
+                    printf("Błąd: modulo przez zero!\n");
+                } else {
+                    printf("= %d\n", (int)a % (int)b);
+                }
+                break;
+            default:
+                printf("Nieznany operator: '%c'\n", op);
+                break;
+        }
+    }
+
+    printf("Do widzenia!\n");
+    return 0;
+}
+```
+
+---
+
+## Podsumowanie
+
+W tym wykładzie poznaliśmy:
+
+1. **Operatory**: przypisania (`=`, `+=`, ...), arytmetyczne (`+`, `-`, `*`, `/`, `%`), inkrementacji/dekrementacji (`++`, `--`), bitowe (`&`, `|`, `^`, `~`, `<<`, `>>`), porównania (`==`, `!=`, `<`, `>`, `<=`, `>=`), logiczne (`!`, `&&`, `||`), warunkowy (`?:`), sizeof, rzutowanie.
+2. **Priorytety i łączność** operatorów — gdy mamy wątpliwości, używamy nawiasów.
+3. **Instrukcje warunkowe**: `if`/`else`, `switch`/`case`.
+4. **Pętle**: `while`, `for`, `do...while` — z `break` i `continue`.
+5. **`goto`** — unikamy (z wyjątkiem cleanup pattern w C).
+6. Kompletny przykład łączący wszystkie elementy.
+
+W następnych wykładach poznamy **funkcje** w C/C++ (deklaracja, definicja, rekurencja, przekazywanie argumentów) oraz **tablice i wskaźniki** — kluczowe koncepcje niskopoziomowego programowania.

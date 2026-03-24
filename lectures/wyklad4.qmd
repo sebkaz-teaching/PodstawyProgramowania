@@ -1,0 +1,553 @@
+---
+title: "Język C – Pierwsze kroki"
+---
+
+## Historia języka C
+
+Zanim napiszemy pierwszą linijkę kodu, warto zrozumieć skąd wziął się język, którego będziemy się uczyć. Nazwa **C** to po prostu kolejna litera po **B** — języku, który był jego bezpośrednim poprzednikiem.
+
+Oto kluczowe momenty na osi czasu:
+
+| Rok | Wydarzenie |
+|------|-----------|
+| 1954 | **Fortran** — pierwszy język wysokiego poziomu |
+| 1958 | **Algol 58** (Algorithmic Language) |
+| 1963 | **CPL** — Combined Programming Language |
+| 1967 | **BCPL** — Basic CPL |
+| 1969 | **B** — stworzony przez Kena Thompsona (Bell Labs) |
+| ~1972 | **C** — Dennis Ritchie rozwija B → NB → C |
+| 1978 | Pierwsza książka "The C Programming Language" (K&R) |
+| 1989 | Standard **C89** (ANSI C) |
+| 1999 | Standard **C99** |
+| 2011 | Standard **C11** (ISO/IEC 9899:2011) |
+| 2018 | Standard **C17** |
+| 2024 | Standard **C23** |
+
+**B** był językiem interpretowanym, używanym w wewnętrznych wersjach systemu UNIX. Thompson i Ritchie rozwinęli go w NB, a następnie w C — język **kompilowany**. Większość UNIX-a została ponownie napisana w C, co uczyniło system przenośnym pomiędzy różnymi komputerami. To właśnie ta przenośność napędzała początkową popularność zarówno UNIX-a, jak i C.
+
+Kilka obecnie powszechnie stosowanych systemów operacyjnych, takich jak **Linux** czy jądro **Windows**, zostało napisanych w języku C.
+
+### Dlaczego C jest nadal ważny?
+
+C jest językiem **szybkim** — znacznie szybszym od języków interpretowanych (Python, Perl) czy uruchamianych w maszynach wirtualnych (Java, C#). Dzieje się tak, ponieważ składnia C została zaprojektowana tak, aby łatwo przekładała się na kod maszynowy.
+
+C jest wszechobecny w:
+
+- systemach operacyjnych (Linux, jądro Windows),
+- systemach wbudowanych i mikrokontrolerach,
+- sterownikach urządzeń,
+- silnikach gier,
+- bazach danych (SQLite, PostgreSQL).
+
+> **Uwaga wojskowa:** W systemach czasu rzeczywistego (np. sterowanie lotem, systemy radarowe) C jest standardem z uwagi na deterministyczne zarządzanie pamięcią i minimalny narzut.
+
+Składnia C stała się fundamentem dla: **C++**, **C#**, **Java**, **JavaScript**, **Rust** (częściowo), **Go**.
+
+### Standaryzacja — C++ 
+
+Równolegle do rozwoju C, **Bjarne Stroustrup** w Bell Labs (1979–1983) rozszerzył C o programowanie obiektowe, tworząc język **C++** (początkowo nazywany "C with Classes").
+
+| Standard | Rok | Kluczowe nowości |
+|----------|-----|-----------------|
+| C++98 | 1998 | STL, szablony, wyjątki |
+| C++11 | 2011 | `auto`, lambdy, `nullptr`, move semantics |
+| C++14 | 2014 | Generyczne lambdy |
+| C++17 | 2017 | `std::optional`, structured bindings |
+| C++20 | 2020 | Koncepty, moduły, korutyny |
+| C++23 | 2023 | `std::print`, `std::expected` |
+
+Na tym kursie **zaczniemy od C**, a następnie pokażemy rozszerzenia wprowadzone przez C++.
+
+## Zintegrowane Środowiska Programistyczne (IDE)
+
+Zamiast osobno korzystać z edytora tekstu i kompilatora, programiści używają **IDE** (Integrated Development Environment), które łączą w sobie: edytor kodu, kompilator, linker i debugger.
+
+Popularne IDE i kompilatory:
+
+| Narzędzie | System | Uwagi |
+|-----------|--------|-------|
+| **Visual Studio** | Windows | Potężne IDE, darmowa wersja Community |
+| **Visual Studio Code** + rozszerzenia C/C++ | Wieloplatformowy | Lekki edytor + kompilator GCC/Clang |
+| **CLion** (JetBrains) | Wieloplatformowy | Profesjonalne IDE, płatne (darmowe dla studentów) |
+| **Code::Blocks** | Windows/Linux | Darmowe, lekkie |
+| **GCC** (`gcc`/`g++`) | Linux/macOS/Windows (MinGW) | Kompilator linii poleceń, standard w świecie UNIX |
+| **Clang** | Wieloplatformowy | Nowoczesny kompilator, świetne komunikaty o błędach |
+
+Na zajęciach laboratoryjnych będziemy kompilować programy z linii poleceń:
+
+```bash
+# Kompilacja programu w C
+gcc -o program program.c
+
+# Kompilacja programu w C++
+g++ -o program program.cpp
+
+# Uruchomienie
+./program
+```
+
+### Komunikaty o błędach
+
+Jedną z najważniejszych umiejętności początkującego programisty jest czytanie komunikatów kompilatora. Jeśli napiszemy `intr` zamiast `int`, kompilator powie nam:
+
+```
+error: unknown type name 'intr'
+```
+
+Kompilator jest Twoim sprzymierzeńcem — czytaj jego komunikaty od **góry do dołu**, bo często pierwszy błąd generuje kaskadę kolejnych.
+
+---
+
+## Pierwszy program w C
+
+Tradycją jest, że pierwszy program w każdym języku wyświetla tekst "Hello, World!":
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hello, World!\n");
+    return 0;
+}
+```
+
+Przeanalizujmy każdą linijkę:
+
+**`#include <stdio.h>`** — dyrektywa preprocesora, która włącza plik nagłówkowy biblioteki standardowego wejścia/wyjścia. Dzięki niemu możemy korzystać z funkcji `printf`. Nawiasy kątowe `< >` oznaczają, że szukamy pliku w katalogach systemowych. Dla własnych plików nagłówkowych używamy cudzysłowów: `#include "moj_plik.h"`.
+
+**`int main(void)`** — definicja **funkcji głównej**. Każdy program w C musi posiadać funkcję `main` — to od niej zaczyna się wykonanie programu. `int` oznacza, że funkcja zwraca liczbę całkowitą. `void` w nawiasach mówi, że funkcja nie przyjmuje żadnych argumentów.
+
+**`{ ... }`** — nawiasy klamrowe wyznaczają **blok** (ciało funkcji).
+
+**`printf("Hello, World!\n");`** — wywołanie funkcji `printf` z biblioteki standardowej, która wypisuje tekst na ekran. `\n` to **znak nowej linii** (Enter). Każda instrukcja kończy się **średnikiem** `;`.
+
+**`return 0;`** — zwraca wartość `0` do systemu operacyjnego, co oznacza: "program zakończył się poprawnie". Wartość różna od zera sygnalizuje błąd.
+
+### Kompilacja i uruchomienie
+
+```bash
+gcc -o hello hello.c
+./hello
+```
+
+```
+Hello, World!
+```
+
+### Wersja C++
+
+Ten sam program w C++ wygląda niemal identycznie, ale możemy użyć strumienia wyjścia:
+
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+```
+
+Zamiast `printf` korzystamy z obiektu `std::cout` i operatora `<<`. Zamiast `\n` możemy użyć `std::endl`, który dodatkowo wymusza opróżnienie bufora wyjściowego.
+
+---
+
+## Podstawy języka C
+
+### Struktura blokowa
+
+C jest językiem **strukturalnym** o budowie blokowej. Blok to grupa instrukcji zamkniętych w nawiasy klamrowe `{ }`, traktowanych jako jedna całość. Bloki mogą być zagnieżdżone — blok wewnątrz bloku.
+
+Instrukcje kończą się **średnikiem** `;`. Dla kompilatora spacje, tabulacje i nowe linie mają identyczne znaczenie — są po prostu separatorami. Te trzy zapisy są równoważne:
+
+```c
+printf("Hello"); return 0;
+```
+
+```c
+printf("Hello");
+return 0;
+```
+
+```c
+printf("Hello");
+
+    return 0;
+```
+
+Wyjątek: **stałe tekstowe** muszą zaczynać się i kończyć w tej samej linii:
+
+```c
+printf("Hello
+world");  /* BŁĄD! */
+```
+
+### Komentarze
+
+Komentarze to tekst ignorowany przez kompilator, służący dokumentacji kodu:
+
+```c
+/* To jest komentarz wieloliniowy
+   w stylu C — od /* do */ */
+
+// To jest komentarz jednoliniowy w stylu C++
+// (akceptowany też w nowoczesnym C)
+```
+
+**Zasada:** Komentuj *dlaczego*, nie *co*. Kod powinien być na tyle czytelny, by mówił *co* robi sam z siebie.
+
+```c
+/* ŹLE: */
+i = i + 1; /* zwiększamy i o 1 */
+
+/* DOBRZE: */
+i = i + 1; /* przeskakujemy element separatora w nagłówku pakietu */
+```
+
+### Funkcje
+
+Funkcja to blok instrukcji wykonywany za pomocą jednego wywołania. Każda funkcja ma:
+
+- **nazwę** — za pomocą której jest wywoływana,
+- **typ zwracany** — rodzaj wartości, którą zwraca,
+- **listę argumentów** — dane wejściowe,
+- **ciało** — blok instrukcji do wykonania.
+
+```c
+int dodaj(int a, int b)
+{
+    return a + b;
+}
+
+int main(void)
+{
+    int wynik = dodaj(3, 7);
+    printf("Suma: %d\n", wynik); /* wypisze: Suma: 10 */
+    return 0;
+}
+```
+
+Funkcja `main()` ma szczególne znaczenie — jest **punktem wejścia** programu i musi istnieć w każdym programie C.
+
+### Biblioteki standardowe
+
+Język C **nie posiada** wbudowanych instrukcji wejścia/wyjścia — ta prostota składni jest źródłem jego szybkości. Wszelkie operacje I/O, matematyczne, na napisach itp. realizowane są przez **Bibliotekę Standardową** (libc).
+
+Najważniejsze pliki nagłówkowe:
+
+| Nagłówek | Zawartość |
+|----------|----------|
+| `<stdio.h>` | Wejście/wyjście: `printf`, `scanf`, `fopen` |
+| `<stdlib.h>` | Narzędzia ogólne: `malloc`, `free`, `atoi`, `exit` |
+| `<string.h>` | Operacje na napisach: `strlen`, `strcpy`, `strcmp` |
+| `<math.h>` | Funkcje matematyczne: `sin`, `cos`, `sqrt`, `pow` |
+| `<ctype.h>` | Klasyfikacja znaków: `isdigit`, `isalpha`, `toupper` |
+| `<stdbool.h>` | Typ `bool` (od C99) |
+| `<stdint.h>` | Typy o ustalonej szerokości: `int32_t`, `uint8_t` |
+
+### Nazwy zmiennych, stałych i funkcji
+
+**Identyfikatory** mogą składać się z liter (bez polskich znaków!), cyfr i znaku podkreślenia `_`, ale **nie mogą** zaczynać się od cyfry ani być słowem kluczowym języka.
+
+Przykłady **poprawnych** nazw: `liczba`, `_temp`, `wartosc_max`, `x1`
+
+Przykłady **błędnych** nazw: `2liczba` (zaczyna się od cyfry), `moja funkcja` (spacja), `$x` (niedozwolony znak), `if` (słowo kluczowe)
+
+Konwencja nazewnictwa w C:
+
+- zmienne i funkcje: `małe_litery_z_podkreśleniami`
+- stałe `#define`: `WIELKIE_LITERY`
+- typy własne: `PascalCase` lub `typ_t`
+
+---
+
+## Zmienne
+
+Procesor operuje na danych w pamięci. **Zmienna** to nazwany fragment pamięci o ustalonym rozmiarze, przechowujący pewną wartość. Dzięki zmiennym programista nie musi operować fizycznymi adresami (np. `0x7FFE1234`), lecz prostymi nazwami.
+
+### Deklaracja i inicjalizacja
+
+Zmienną deklarujemy podając **typ** i **nazwę**:
+
+```c
+int wiek;           /* deklaracja — zmienna istnieje, ale ma nieokreśloną wartość */
+int wiek = 21;      /* deklaracja z inicjalizacją — od razu przypisujemy wartość */
+```
+
+::: {.callout-warning}
+## Niezainicjalizowane zmienne lokalne
+
+W C zmienne lokalne **nie są** automatycznie zerowane! Zawierają "śmieci" — cokolwiek znajdowało się wcześniej w tym fragmencie pamięci. Zawsze inicjalizuj zmienne przy deklaracji.
+:::
+
+Można deklarować kilka zmiennych tego samego typu w jednej linii:
+
+```c
+int a, b, c = 5;  /* uwaga: tylko c jest zainicjalizowane na 5! */
+int x = 0, y = 0; /* obie zainicjalizowane */
+```
+
+### Zasięg zmiennych
+
+Zmienne w C dzielą się na **globalne** i **lokalne**:
+
+- **Zmienne globalne** — deklarowane poza funkcjami, dostępne w całym programie. Automatycznie inicjalizowane na `0`.
+- **Zmienne lokalne** — deklarowane wewnątrz bloku `{ }`, dostępne tylko w tym bloku. **Nie** są automatycznie inicjalizowane.
+
+```c
+#include <stdio.h>
+
+int globalna = 100;  /* zmienna globalna */
+
+int main(void)
+{
+    int lokalna = 42;  /* zmienna lokalna */
+    {
+        int blokowa = 7;  /* dostępna tylko w tym bloku */
+        printf("%d %d %d\n", globalna, lokalna, blokowa);
+    }
+    /* printf("%d", blokowa);  BŁĄD — blokowa już nie istnieje! */
+    return 0;
+}
+```
+
+Jeśli zmienna lokalna ma tę samą nazwę co globalna, **przesłania** ją wewnątrz swojego bloku:
+
+```c
+int a = 1;  /* globalna */
+
+int main(void)
+{
+    int a = 2;  /* lokalna — przesłania globalną */
+    printf("%d\n", a);  /* wypisze 2, nie 1 */
+    return 0;
+}
+```
+
+### Stałe
+
+Stała to zmienna, której wartości **nie można zmienić** po zadeklarowaniu:
+
+```c
+const double PI = 3.14159265358979;
+const int MAX_STUDENTOW = 150;
+
+PI = 3.14;  /* BŁĄD kompilacji! */
+```
+
+Alternatywnie, stałe definiuje się za pomocą dyrektywy preprocesora:
+
+```c
+#define PI 3.14159265358979
+#define MAX_STUDENTOW 150
+```
+
+Różnica: `const` tworzy zmienną w pamięci (pilnowaną przez kompilator), a `#define` to proste podstawienie tekstowe w fazie preprocesji.
+
+---
+
+## Typy danych
+
+Każda zmienna musi mieć **typ**, który określa: ile pamięci zajmuje i jak interpretować zawarte w niej bity.
+
+### Podstawowe typy w C
+
+| Typ | Rozmiar (typowy) | Zakres (typowy) | Przeznaczenie |
+|-----|:---------:|:-----:|--------------|
+| `char` | 1 B | −128 … 127 | Znak ASCII / mała liczba całkowita |
+| `short` | 2 B | −32 768 … 32 767 | Mała liczba całkowita |
+| `int` | 4 B | −2 147 483 648 … 2 147 483 647 | Standardowa liczba całkowita |
+| `long` | 4 lub 8 B | ≥ 32 bity | Duża liczba całkowita |
+| `long long` | 8 B | ≥ 64 bity | Bardzo duża liczba całkowita |
+| `float` | 4 B | ±3.4 × 10³⁸ (~7 cyfr) | Liczba zmiennoprzecinkowa |
+| `double` | 8 B | ±1.7 × 10³⁰⁸ (~15 cyfr) | Liczba zmiennoprzecinkowa podwójnej precyzji |
+| `void` | — | — | "Brak typu" (funkcje, wskaźniki) |
+
+::: {.callout-tip}
+## Operator `sizeof`
+Aby sprawdzić faktyczny rozmiar typu na danej platformie, używamy operatora `sizeof`:
+
+```c
+printf("int: %zu bajtów\n", sizeof(int));
+printf("double: %zu bajtów\n", sizeof(double));
+```
+:::
+
+### Typ `int` — liczby całkowite
+
+```c
+int a = 42;           /* system dziesiętny */
+int b = 052;          /* system ósemkowy (zaczyna się od 0) → 42 */
+int c = 0x2A;         /* system szesnastkowy (0x) → 42 */
+int d = 0b00101010;   /* system binarny (0b, od C23/rozszerzenie GCC) → 42 */
+```
+
+Wynik operacji na dwóch wartościach typu `int` jest **zawsze typu `int`**:
+
+```c
+float wynik = 7 / 2;          /* wynik = 3.0, NIE 3.5! */
+float poprawnie = 7.0 / 2;    /* wynik = 3.5 — jeden argument jest double */
+float tez_ok = (float)7 / 2;  /* rzutowanie wymusza dzielenie rzeczywiste */
+```
+
+### Typ `float` i `double` — liczby zmiennoprzecinkowe
+
+Jak wiemy z Wykładu 3, liczby zmiennoprzecinkowe są zapisywane zgodnie z normą **IEEE 754**. `float` zajmuje 32 bity (1 bit znaku + 8 bitów cechy + 23 bity mantysy), a `double` — 64 bity (1 + 11 + 52).
+
+```c
+float f = 3.14f;       /* literka 'f' oznacza float */
+double d = 3.14;       /* domyślnie literały rzeczywiste są typu double */
+double e = 6.022e23;   /* notacja naukowa: 6.022 × 10²³ */
+double m = 1.6e-19;    /* 1.6 × 10⁻¹⁹ */
+```
+
+::: {.callout-warning}
+## Porównywanie liczb zmiennoprzecinkowych
+
+Nigdy nie porównuj liczb `float`/`double` za pomocą `==`! Z powodu ograniczonej precyzji, dwie pozornie identyczne wartości mogą się różnić:
+
+```c
+float a = 1e10f;
+float b = 1e-10f;
+float c = b + a - a;    /* teoretycznie c == b */
+printf("%d\n", c == b); /* wypisze 0 (fałsz)! */
+```
+
+Zamiast tego stosujemy porównanie z tolerancją (epsilon):
+
+```c
+#include <math.h>
+if (fabs(a - b) < 1e-6) {
+    /* "równe" z dokładnością do epsilon */
+}
+```
+:::
+
+### Typ `char` — znaki
+
+Typ `char` przechowuje **jeden bajt** — może być traktowany jako znak ASCII lub mała liczba całkowita:
+
+```c
+char litera = 'A';       /* znak — wartość 65 (ASCII) */
+char cyfra = '7';         /* uwaga: to nie jest liczba 7, lecz kod ASCII 55 */
+char nastepna = 'A' + 1;  /* = 'B', bo 65 + 1 = 66 */
+```
+
+Znaki specjalne (sekwencje ucieczki):
+
+| Zapis | Znaczenie |
+|-------|-----------|
+| `\n` | Nowa linia |
+| `\t` | Tabulacja pozioma |
+| `\\` | Backslash |
+| `\'` | Apostrof |
+| `\"` | Cudzysłów |
+| `\0` | Null — terminator łańcucha |
+| `\a` | Sygnał dźwiękowy |
+| `\b` | Backspace |
+
+### Typ `void`
+
+`void` to „typ pusty" — nie można utworzyć zmiennej tego typu. Używa się go do oznaczenia, że funkcja **nie zwraca** wartości lub **nie przyjmuje** argumentów:
+
+```c
+void powitaj(void)  /* nie zwraca i nie przyjmuje niczego */
+{
+    printf("Cześć!\n");
+}
+```
+
+### Specyfikatory: `signed`, `unsigned`, `short`, `long`
+
+Specyfikatory modyfikują zakres i rozmiar typów całkowitych:
+
+```c
+unsigned int u = 4000000000U;  /* bez znaku: 0 … ~4.29 mld */
+signed int s = -100;            /* ze znakiem (domyślne) */
+short int mala = 30000;         /* ≥ 16 bitów */
+long int duza = 2000000000L;    /* ≥ 32 bity */
+long long int ogromna = 9000000000000000000LL; /* ≥ 64 bity */
+```
+
+| Specyfikator | Efekt |
+|-------------|-------|
+| `unsigned` | Tylko wartości nieujemne — podwaja zakres dodatni |
+| `signed` | Wartości ujemne i dodatnie (domyślne dla `int`) |
+| `short` | Mniejszy rozmiar (≥ 16 bitów) |
+| `long` | Większy rozmiar (≥ 32 bity) |
+
+::: {.callout-caution}
+## Pułapka `unsigned`
+
+Uwaga na odejmowanie z `unsigned`! Zejście poniżej zera powoduje "zawinięcie" na koniec zakresu:
+
+```c
+unsigned char x = 0;
+x = x - 1;  /* x = 255, nie -1! */
+```
+
+To **nie** jest błąd kompilacji — program działa "normalnie", ale wynik jest nieintuicyjny.
+:::
+
+---
+
+## Funkcja `printf` — formatowane wyjście
+
+`printf` to najpowszechniej używana funkcja wyjścia w C. Przyjmuje **format string** z kodami formatującymi:
+
+```c
+int a = 42;
+float b = 3.14f;
+char c = 'X';
+
+printf("Liczba: %d\n", a);         /* %d — int */
+printf("Zmiennoprzecinkowa: %f\n", b); /* %f — float/double */
+printf("Znak: %c\n", c);            /* %c — char jako znak */
+printf("Szesnastkowo: %x\n", a);    /* %x — int jako hex */
+printf("Ósemkowo: %o\n", a);        /* %o — int jako octal */
+printf("Naukowa: %e\n", 6.022e23);  /* %e — notacja naukowa */
+```
+
+Najważniejsze kody formatujące:
+
+| Kod | Typ | Opis |
+|-----|-----|------|
+| `%d` / `%i` | `int` | Liczba całkowita ze znakiem |
+| `%u` | `unsigned int` | Liczba całkowita bez znaku |
+| `%f` | `float`/`double` | Zmiennoprzecinkowa (domyślnie 6 miejsc) |
+| `%e` | `float`/`double` | Notacja naukowa |
+| `%c` | `char` | Pojedynczy znak |
+| `%s` | `char*` | Łańcuch znaków |
+| `%x` / `%X` | `int` | Szesnastkowo (małe/wielkie litery) |
+| `%o` | `int` | Ósemkowo |
+| `%p` | wskaźnik | Adres w pamięci |
+| `%%` | — | Literalny znak `%` |
+
+Można kontrolować szerokość i precyzję: `%8.2f` oznacza "minimum 8 znaków, 2 po przecinku".
+
+## Funkcja `scanf` — formatowane wejście
+
+`scanf` wczytuje dane od użytkownika. **Uwaga:** przed nazwą zmiennej stawia się operator `&` (adres zmiennej):
+
+```c
+int wiek;
+printf("Podaj wiek: ");
+scanf("%d", &wiek);  /* & jest obowiązkowy! */
+printf("Masz %d lat.\n", wiek);
+```
+
+---
+
+## Podsumowanie
+
+W tym wykładzie poznaliśmy:
+
+1. **Historię** i motywację stojącą za językiem C.
+2. Strukturę **pierwszego programu** — `#include`, `main`, `printf`, `return`.
+3. **Budowę blokową** programu, komentarze, funkcje.
+4. **Zmienne** — deklarację, inicjalizację, zasięg, czas życia.
+5. **Typy danych** — `int`, `float`, `double`, `char`, `void` oraz specyfikatory `signed`/`unsigned`/`short`/`long`.
+6. Podstawowe **formatowane wejście/wyjście** — `printf` i `scanf`.
+
+W następnym wykładzie poznamy **operatory** (arytmetyczne, bitowe, logiczne, porównania) oraz **instrukcje sterujące** (`if`, `switch`, `while`, `for`, `do-while`).
